@@ -18,8 +18,12 @@ tar -czvf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
+sudo apt-get install unzip
 unzip nginx-opencart-setup.zip | xargs -d $'\n' sh -c 'for arg do chmod 0644 "$arg"; sed -i "s/example.com/${mydomain}/g" "$arg"; done' _
 rm nginx-opencart-setup.zip
+
+
+ln -s /sites-available/example.com.conf /sites-enabled/$mydomain.conf
 
 # Make scripts executable
 #chmod a+x ./ssl-init.sh
