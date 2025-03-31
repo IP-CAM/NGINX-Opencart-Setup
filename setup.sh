@@ -19,9 +19,11 @@ curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencar
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
 sudo apt-get install unzip
+sudo apt-get install bsdtar 
+bsdtar --strip-components=1 -xvf nginx-opencart-setup.zip
 # unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //'
 echo "mydomain is set to $mydomain"
-unzip -d .. -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' | sed 's/^[ ]*//;s/[ ]*$//' | xargs -d $'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
+unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' | sed 's/^[ ]*//;s/[ ]*$//' | xargs -d $'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
 rm nginx-opencart-setup.zip
 
 
