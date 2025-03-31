@@ -11,8 +11,8 @@ if [ -z ${mydomain+x} ]; then echo "mydomain is unset and will be set to test123
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
 # Create a backup of your current NGINX configuration:
-tar -czvf --exclude=nginx*.tar.gz nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
-tar -czvf --exclude=nginx*.tar.gz nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
+tar -czvf --exclude='nginx*.tar.gz' nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
+tar -czvf --exclude='nginx*.tar.gz' nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
 
 curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
