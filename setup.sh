@@ -26,6 +26,6 @@ rm nginx-opencart-setup.zip
 ln -s /sites-available/example.com.conf /sites-enabled/$mydomain.conf
 
 # Make scripts executable
-#chmod a+x ./ssl-init.sh
-#chmod a+x ./certbot.sh
+# chmod a+x ./ssl-init.sh
+# chmod a+x ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
