@@ -1,0 +1,1 @@
+https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true&global.app.lang=ru
