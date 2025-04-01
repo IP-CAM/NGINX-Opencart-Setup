@@ -29,7 +29,7 @@ tar --exclude='/etc/nginx/backups/'  -czf /etc/nginx/backups/$mydomain/nginx_all
 
 
 printf "${INFO}Downloading nginx-opencart-setup.zip${NC}"
-curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
+curl -s -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
 sudo apt-get install unzip
