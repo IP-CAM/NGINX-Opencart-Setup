@@ -22,5 +22,4 @@ rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
 
 mkdir -p /var/www/$mydomain
 mv ./under-construction.html /var/www/$mydomain/index.html
-
 printf "${OK} Check-conf script ended without errors${NC}"
