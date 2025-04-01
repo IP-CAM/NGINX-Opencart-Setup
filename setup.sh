@@ -29,7 +29,7 @@ cd /etc/nginx
 mkdir -p /etc/nginx/backups/$mydomain
 printf "${INFO}Creating a backup of your current NGINX configurations${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
-tar --exclude='/etc/nginx/backups/*'  -czf /etc/nginx/backups/$mydomain/nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
+tar --exclude='/etc/nginx/backups/*.*'  -czf /etc/nginx/backups/$mydomain/nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
 rm -f ./sites-enabled/default
 
