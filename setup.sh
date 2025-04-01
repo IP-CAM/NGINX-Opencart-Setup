@@ -1,11 +1,11 @@
 #!/bin/bash
 
  
-OK=$(tput setaf 2) # green
-ERR=$(tput setaf 1) # red
-WARN=$(tput setaf 3) # yellow
+OK="\n"$(tput setaf 2) # green
+ERR="\n"$(tput setaf 1) # red
+WARN="\n"$(tput setaf 3) # yellow
 INFO="\n"$(tput setaf 4) # blue
-NC=$(tput sgr0)  # unset
+NC="\n"$(tput sgr0)  # unset
 BELL=$(tput bel)  # Play a bell
 
 # example of using arguments to a script
@@ -47,7 +47,7 @@ ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 
 #  RENAMED mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
-echo "${INFO}Running all steps${NC}" 
+printf "${INFO}Running all steps${NC}" 
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
