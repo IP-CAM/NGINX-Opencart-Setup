@@ -33,7 +33,7 @@ rm -r ./nginx-opencart-setup-main
 #rmdir ./nginx-opencart-setup-main
 
 mv ./sites-available/example.com.conf ./sites-available/$mydomain.conf
-ln -sf ./sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
+ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 
 # Make scripts executable
 # chmod a+x ./ssl-init.sh
