@@ -4,9 +4,9 @@ set -e
 
 mydomain=$1
  
-OK="\n 👌: "$(tput setaf 2) 	# green
+OK=$(tput setaf 2)"\n 👌: " 	# green
 ERR=$(tput setaf 1)"\n 💩: " 	# red
-WARN="\n ⚠️: "$(tput setaf 3) 	# yellow
+WARN=$(tput setaf 3)"\n ⚠️: " 	# yellow
 INFO=$(tput setaf 4)"\n 👣: " 	# blue
 NC=$(tput sgr0)"\n"  		# unset
 BELL=$(tput bel)  				# play a bell
@@ -26,7 +26,7 @@ printf "${INFO}Creating a backup of your current NGINX configuration${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
 tar --exclude='nginx*.tar.gz'  -czf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
-
+printf "${INFO}Downloading nginx-opencart-setup.zip${NC}"
 curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
