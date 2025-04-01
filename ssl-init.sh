@@ -1,5 +1,7 @@
 #!/bin/bash
  
+   
+mydomain=$1
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
