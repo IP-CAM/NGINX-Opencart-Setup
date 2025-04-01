@@ -44,6 +44,9 @@ ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
 # Run steps  
+for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
+for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
 chmod a+x ./certbot.sh && source ./certbot.sh
+for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
 chmod a+x ./check-conf.sh && source ./check-conf.sh
