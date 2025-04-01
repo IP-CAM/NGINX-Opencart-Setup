@@ -11,13 +11,13 @@ printf "${INFO}Commenting out SSL related directives in the configuration
  that SSL directives are not active. 
  This may cause NGINX to emit a warning, which is safe to ignore. 
  The directive will be removed once Certbot is configured.${NC}"
-sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#aaa\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
+sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
 cat /etc/nginx/sites-available/example.com.conf
 
 
 printf "${INFO}Starting your NGINX server to be able issue certificate
  (need to see http://example.com/.well-known/acme-challenge/  to validate domain)${NC}"
-sudo nginx -t && sudo systemctl reload nginx
+sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
 sudo snap install --classic certbot
 
