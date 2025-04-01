@@ -15,15 +15,15 @@ sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted
 # This may cause NGINX to emit a warning, which is safe to ignore. 
 # The directive will be removed once Certbot is configured.
 
-# echo "Reloading your NGINX server"
-
-# sudo nginx -t && sudo systemctl reload nginx
+echo "Starting your NGINX server to be able issue certificate (need to see http://example.com/.well-known/acme-challenge/)"
+sudo nginx -t && sudo systemctl reload nginx
 
 sudo snap install --classic certbot
 
 echo "Obtaining SSL certificates from Let's Encrypt using Certbot"
 
-certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --pre-hook "service nginx stop" --post-hook "service nginx start"
+certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
+# --pre-hook "service nginx stop" --post-hook "service nginx start"
 
 echo "Uncommenting SSL related directives in the configuration"
 
