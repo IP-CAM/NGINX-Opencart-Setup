@@ -2,11 +2,11 @@
 
 mydomain=$1
  #👌
-OK=  "\n 🤔: "$(tput setaf 2) 	# green
-ERR= "\n 💩: "$(tput setaf 1) 	# red
+OK="\n 🤔: "$(tput setaf 2) 	# green
+ERR="\n 💩: "$(tput setaf 1) 	# red
 WARN="\n 🤔: "$(tput setaf 3) 	# yellow
 INFO="\n 👣: "$(tput setaf 4) 	# blue
-NC=  "\n"$(tput sgr0)  			# unset
+NC="\n"$(tput sgr0)  			# unset
 BELL=$(tput bel)  				# play a bell
 
 # example of using arguments to a script
