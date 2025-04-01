@@ -19,9 +19,11 @@ sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted
 
 # sudo nginx -t && sudo systemctl reload nginx
 
+sudo snap install --classic certbot
+
 # Obtain SSL certificates from Let's Encrypt using Certbot:
 
-certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal
+certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --pre-hook "service nginx stop" --post-hook "service nginx start"
 
 # Uncomment SSL related directives in the configuration:
 
