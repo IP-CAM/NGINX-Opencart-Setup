@@ -7,13 +7,14 @@ echo "Total number of arguments is $#"
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
-echo "${INFO}Commenting out SSL related directives in the configuration${NC}"
+printf "${INFO}Commenting out SSL related directives in the configuration.
+\nAdding a temporary ssl off directive to ensure 
+\nthat SSL directives are not active. 
+\nThis may cause NGINX to emit a warning, which is safe to ignore. 
+\nThe directive will be removed once Certbot is configured.${NC}"
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#aaa\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
 cat /etc/nginx/sites-available/example.com.conf
-# The above command will add a temporary ssl off directive to ensure 
-# that SSL directives are not active. 
-# This may cause NGINX to emit a warning, which is safe to ignore. 
-# The directive will be removed once Certbot is configured.
+
 
 printf "${INFO}Starting your NGINX server to be able issue certificate"
 echo "(need to see http://example.com/.well-known/acme-challenge/  to validate domain)${NC}"
