@@ -17,7 +17,7 @@ sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted
 
 # Reload your NGINX server:
 
-sudo nginx -t && sudo systemctl reload nginx
+# sudo nginx -t && sudo systemctl reload nginx
 
 # Obtain SSL certificates from Let's Encrypt using Certbot:
 
