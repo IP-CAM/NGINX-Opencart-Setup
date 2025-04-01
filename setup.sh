@@ -10,7 +10,7 @@ NC=$(tput sgr0)  # unset
 echo "Fist arg is $1" && mydomain=$1
 # echo "Second arg is $2"
 echo "Total number of arguments is $#" 
-if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else echo "${OK}mydomain is set to '$mydomain'${OK}"; fi
+if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else echo "${OK}mydomain is set to '$mydomain'${NC}"; fi
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
@@ -45,5 +45,5 @@ mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
 # Run steps  
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
-# chmod a+x ./certbot.sh
+chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
