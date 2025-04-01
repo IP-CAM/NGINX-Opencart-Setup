@@ -19,7 +19,7 @@ else
 fi
  
  if  [ $# -gt 1 ] && [ "$2" !=  "--dryrun" ] ; then 
-  printf "${ERR}Only --dryrun is allowed as second argument not $2. Exiting..${NC}" && exit 1 
+  printf "${ERR}Only --dryrun is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
  fi
  
 # Further accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
