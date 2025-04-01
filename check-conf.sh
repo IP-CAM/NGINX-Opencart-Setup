@@ -19,5 +19,5 @@ printf "\n\n\n"
 printf "${INFO} Creating base html directory /var/www/$mydomain/public ${NC}"
 mkdir -p /var/www/$mydomain/public
 printf "${INFO} Coping under-construction.html into base html directory${NC}"
-mv ./under-construction.html /var/www/$mydomain/public/index.html
+mv ./under-construction.html /var/www/$mydomain/public/under-construction.html
 printf "${OK} Check-conf script ended without errors${NC}"
