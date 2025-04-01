@@ -21,7 +21,7 @@ mkdir /var/www/$mydomain
 rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
 
 printf "${INFO} Creating base html directory /var/www/$mydomain ${NC}"
-mkdir -p /var/www/$mydomain
+sudo mkdir -p /var/www/$mydomain
 printf "${INFO} Coping under-construction.html into base html directory${NC}"
 mv ./under-construction.html /var/www/$mydomain/index.html
 printf "${OK} Check-conf script ended without errors${NC}"
