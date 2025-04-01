@@ -25,7 +25,7 @@ echo "mydomain is set to $mydomain"
 unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' | sed 's/^[ ]*//;s/[ ]*$//' | xargs -d $'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
 rm nginx-opencart-setup.zip
 
-# rsync -a backup/ backupArchives/ 
+
 (cd ./nginx-opencart-setup-main && tar c .) | (cd .. && tar xf -)
 
  
