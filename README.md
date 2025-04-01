@@ -12,7 +12,7 @@ Tested on Ubuntu 20.4
 To install just run in terminal 
 ```shell
 curl https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
-| bash -s -- mylovelyopencart.site
+| bash -s -- MyLovelyOpencart.site
 ```
 with your own domain
 

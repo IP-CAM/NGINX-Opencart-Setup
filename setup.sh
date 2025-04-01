@@ -3,7 +3,7 @@
 set -e
 
 mydomain=$1
-
+ 
 OK="\n 👌: "$(tput setaf 2) 	# green
 ERR="\n 💩: "$(tput setaf 1) 	# red
 WARN="\n ⚠️: "$(tput setaf 3) 	# yellow
@@ -11,12 +11,13 @@ INFO="\n 👣: "$(tput setaf 4) 	# blue
 NC=$(tput sgr0)"\n"  		# unset
 BELL=$(tput bel)  				# play a bell
 
-# example of using arguments to a script
-##echo "Fist arg is $1" && mydomain=$1
-# echo "Second arg is $2"
-##echo "Total number of arguments is $#" 
-if [ -z ${mydomain+x} ]; then printf "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else printf "${OK}mydomain is set to '$mydomain'${NC}"; fi
-
+ 
+if [ -z ${mydomain+x} ] || [ "$mydomain" = "MyLovelyOpencart.site" ] ; then 
+ printf "${ERR}Script will terminate, because you need to set YOUR domain as parameter ${NC}" || exit 1 
+else 
+  printf "${OK}Domain is set to '$mydomain'${NC}"
+fi
+ 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
 # Navigate to your NGINX configuration directory on your server:
