@@ -9,7 +9,7 @@ mydomain=$1
 printf "${INFO}Commenting out SSL related directives in the configuration
  and adding a temporary 'ssl off;' directive to ensure 
  that SSL directives are not active. ${NC}"
-printf "${WARN}This may cause NGINX to emit a warning, which is safe to ignore.${NC}"
+printf "${WARN}This may cause NGINX to emit several warnings below, which are safe to ignore.${NC}"
 printf "${INFO}The directive 'ssl off;' will be removed once Certbot is configured.${NC}"
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
 # cat /etc/nginx/sites-available/example.com.conf

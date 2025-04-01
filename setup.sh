@@ -6,7 +6,7 @@ mydomain=$1
 
 OK="\n 👌: "$(tput setaf 2) 	# green
 ERR="\n 💩: "$(tput setaf 1) 	# red
-WARN="\n 🤔: "$(tput setaf 3) 	# yellow
+WARN="\n ⚠️: "$(tput setaf 3) 	# yellow
 INFO="\n 👣: "$(tput setaf 4) 	# blue
 NC=$(tput sgr0)"\n"  		# unset
 BELL=$(tput bel)  				# play a bell
@@ -55,4 +55,4 @@ chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
 
-printf "${OK} Setup script ended without errors${NC}"
+printf "${OK} All Setup scripts ended without errors${NC}"
