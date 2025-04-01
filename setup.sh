@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mydomain=$1
  #👌
 OK=  "\n 🤔: "$(tput setaf 2) 	# green
 ERR= "\n 💩: "$(tput setaf 1) 	# red
