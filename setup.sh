@@ -49,5 +49,5 @@ for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
 chmod a+x ./certbot.sh && source ./certbot.sh
-for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
+for (( i = 0; i < 17; i++ )); do echo "$(tput setaf $i)This is ($i) $(tput sgr0)"; done
 chmod a+x ./check-conf.sh && source ./check-conf.sh
