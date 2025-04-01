@@ -9,10 +9,10 @@ NC="\n"$(tput sgr0)  # unset
 BELL=$(tput bel)  # Play a bell
 
 # example of using arguments to a script
-echo "Fist arg is $1" && mydomain=$1
+##echo "Fist arg is $1" && mydomain=$1
 # echo "Second arg is $2"
-echo "Total number of arguments is $#" 
-if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else echo "${OK}mydomain is set to '$mydomain'${NC}"; fi
+##echo "Total number of arguments is $#" 
+if [ -z ${mydomain+x} ]; then printf "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else printf "${OK}mydomain is set to '$mydomain'${NC}"; fi
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
