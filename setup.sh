@@ -17,8 +17,8 @@ if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to 
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
-# Create a backup of your current NGINX configuration:
-tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
+echo "Creating a backup of your current NGINX configuration"
+# tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
 tar --exclude='nginx*.tar.gz'  -czf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
 
@@ -46,7 +46,7 @@ ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 
 #  RENAMED mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
-# Run steps  
+echo "Running all steps" 
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
