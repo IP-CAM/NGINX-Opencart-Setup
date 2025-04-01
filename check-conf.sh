@@ -16,4 +16,10 @@ fi
 printf "\n\n\n"
 # if out=$(sudo nginx -t 2>&1); then echo "Configuration was successful" | sudo systemctl reload nginx; else echo "Configuration failure, because: $out"; fi
 
+mkdir /var/www/$mydomain
+
+rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
+
+mv ./under-construction.html /var/www/$mydomain/index.html
+
 printf "${OK} Check-conf script ended without errors${NC}"

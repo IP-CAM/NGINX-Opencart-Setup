@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Website under construction - ready to install opencart site.">
+    <title>Opencart site under construction</title>
+<style type="text/css">
+
+* {
+    box-sizing: border-box;
+    text-align: center;
+    margin: auto;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.c1 {
+    width: 100%;
+}
+
+.c2 {
+    width: 66.67%;
+}
+
+:root {
+    --accent: #fecc2d;
+    --background: #1d1d1d;
+    --panel-bg: #232323;
+    --borders: #313131;
+    --text-darkBG: #b5b5b5;
+    --text-lightBG: #232323;
+
+    background-color: var(--background);
+    cursor: not-allowed;
+
+    font-family: Helvetica Neue, Helvetica, Roboto, Calibri, Arial, sans-serif;
+    line-height: 1.4em;
+    color: var(--text-darkBG);
+
+}
+
+::-moz-selection {
+    color: var(--text-lightBG);
+    background: var(--accent);
+}
+
+::selection {
+    color: var(--text-lightBG);
+    background: var(--accent);
+}
+
+main {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--borders);
+    box-shadow: 0 0 20px 20px #111111;
+    transition: all ease-in-out 1s;
+}
+
+section {
+    padding: 30px;
+    height: 100%;
+}
+
+section:not(:last-of-type) {
+    border-bottom: 1px solid var(--borders);
+}
+
+@media screen and (max-width: 800px) {
+    main {
+        min-width: 100%;
+        height: 100%;
+    }
+}
+
+main:hover {
+    border: 1px solid var(--accent);
+}
+ 
+
+h1, .accent {
+    color: var(--accent);
+}
+ 
+h2 {
+    margin-bottom: 10px;
+}
+
+h32 {
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+h2:before {
+    content: "> ";
+    color: var(--accent);
+} 
+</style>
+
+</head>
+
+<body class="container">
+    <main class="container c2">
+        <section class="c1">
+            <h1>This Opencart website is under construction</h1>
+            <p>Hope be installed soon!</p>
+        </section>
+		    <section class="c1">
+            <h2>Running on Nginx</h2>
+            <p>Enjoy!</p>
+        </section>
+    </main>
+</body>
+
+</html>
