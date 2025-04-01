@@ -1,7 +1,7 @@
 #!/bin/bash
 
- 
-OK=  "\n 👌: "$(tput setaf 2) 	# green
+ #👌
+OK=  "\n 🤔: "$(tput setaf 2) 	# green
 ERR= "\n 💩: "$(tput setaf 1) 	# red
 WARN="\n 🤔: "$(tput setaf 3) 	# yellow
 INFO="\n 👣: "$(tput setaf 4) 	# blue
