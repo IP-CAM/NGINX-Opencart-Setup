@@ -3,6 +3,7 @@
 set -e
    
 mydomain=$1
+#dryrun=$2
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
@@ -21,10 +22,19 @@ sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
 sudo snap install --classic certbot
 
-printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
-certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
+if  [ "$2" = "--dryrun" ] ; then 
+ printf "${INFO}Dryrun for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
+ certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dryrun
+ mkdir -p  /etc/letsencrypt/live/$mydomain
+ if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then echo "1234567890" > /etc/letsencrypt/live/$mydomain/fullchain.pem; else printf "${INFO}some fullchain.pem already exists${NC}"; fi
+ if [ ! -f /etc/letsencrypt/live/$mydomain/privkey.pem ];   then echo "1234567890" > /etc/letsencrypt/live/$mydomain/privkey.pem;   else printf "${INFO}some privkey.pem   already exists${NC}"; fi
+ if [ ! -f /etc/letsencrypt/live/$mydomain/chain.pem ];     then echo "1234567890" > /etc/letsencrypt/live/$mydomain/chain.pem; else printf "${INFO}some chain.pem     already exists${NC}"; fi
+else
+ printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
+ certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
 # --pre-hook "service nginx stop" --post-hook "service nginx start"
-
+fi
+ 
 printf "${INFO}Uncommenting SSL related directives in the configuration back${NC}"
 
 sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/example.com.conf

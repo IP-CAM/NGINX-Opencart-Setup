@@ -13,12 +13,16 @@ BELL=$(tput bel)  				# play a bell
 
  
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "MyLovelyOpencart.site" ] ; then 
- printf "${ERR}Script will terminate, because you need to set YOUR own domain as parameter ${NC}" && exit 1 
+ printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
 else 
   printf "${OK}Domain is set to '$mydomain'${NC}"
 fi
  
-# accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
+ if  [ $# -gt 1 ] || [ "$2" !=  "--dryrun" ] ; then 
+  printf "${ERR}Only --dryrun is allowed as second argument. Exiting..${NC}" && exit 1 
+ fi
+ 
+# Further accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
