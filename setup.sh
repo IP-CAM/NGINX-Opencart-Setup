@@ -5,9 +5,9 @@ set -e
 mydomain=$1
  
 OK="\n 👌: "$(tput setaf 2) 	# green
-ERR="\n 💩: "$(tput setaf 1) 	# red
+ERR=$(tput setaf 1)"\n 💩: " 	# red
 WARN="\n ⚠️: "$(tput setaf 3) 	# yellow
-INFO="\n 👣: "$(tput setaf 4) 	# blue
+INFO=$(tput setaf 4)"\n 👣: " 	# blue
 NC=$(tput sgr0)"\n"  		# unset
 BELL=$(tput bel)  				# play a bell
 
