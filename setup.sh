@@ -22,9 +22,11 @@ fi
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
-printf "${INFO}Creating a backup of your current NGINX configuration${NC}"
+mkdir -p /etc/nginx/backups/$mydomain
+printf "${INFO}Creating a backup of your current NGINX configurations${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
-tar --exclude='nginx*.tar.gz'  -czf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
+tar --exclude='/etc/nginx/backups/'  -czf /etc/nginx/backups/$mydomain/nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
+
 
 printf "${INFO}Downloading nginx-opencart-setup.zip${NC}"
 curl -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
