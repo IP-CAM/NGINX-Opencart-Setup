@@ -4,6 +4,7 @@
 OK=$(tput setaf 2) # green
 ERR=$(tput setaf 1) # red
 WARN=$(tput setaf 3) # yellow
+INFO=$(tput setaf 4) # blue
 NC=$(tput sgr0)  # unset
 BELL=$(tput bel)  # Play a bell
 
@@ -17,7 +18,7 @@ if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to 
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
-echo "Creating a backup of your current NGINX configuration"
+echo "${INFO}Creating a backup of your current NGINX configuration${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
 tar --exclude='nginx*.tar.gz'  -czf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
@@ -46,7 +47,7 @@ ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 
 #  RENAMED mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
-echo "Running all steps" 
+echo "${INFO}Running all steps${NC}" 
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh

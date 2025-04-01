@@ -7,9 +7,9 @@ echo "Total number of arguments is $#"
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
-echo "Generating Diffie-Hellman keys by running this command on your server"
-openssl dhparam -out /etc/nginx/dhparam.pem 2048
+echo "${INFO}Generating Diffie-Hellman keys. Please wait about 10 seconds..${NC}"
+openssl dhparam -out /etc/nginx/dhparam.pem 2048 &>/dev/null
 
-echo "Creating a common ACME-challenge directory (for Let's Encrypt)"
+echo "${INFO}Creating a common ACME-challenge directory (for Let's Encrypt)${NC}"
 mkdir -p /var/www/_letsencrypt
 chown www-data /var/www/_letsencrypt
