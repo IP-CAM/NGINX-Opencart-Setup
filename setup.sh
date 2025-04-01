@@ -4,7 +4,7 @@
 OK=$(tput setaf 2) # green
 ERR=$(tput setaf 1) # red
 WARN=$(tput setaf 3) # yellow
-INFO=$(tput setaf 4) # blue
+INFO="\n"$(tput setaf 4) # blue
 NC=$(tput sgr0)  # unset
 BELL=$(tput bel)  # Play a bell
 
@@ -18,7 +18,7 @@ if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to 
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
-echo "${INFO}Creating a backup of your current NGINX configuration${NC}"
+printf "${INFO}Creating a backup of your current NGINX configuration${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
 tar --exclude='nginx*.tar.gz'  -czf nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 

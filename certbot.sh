@@ -15,13 +15,13 @@ cat /etc/nginx/sites-available/example.com.conf
 # This may cause NGINX to emit a warning, which is safe to ignore. 
 # The directive will be removed once Certbot is configured.
 
-echo "${INFO}Starting your NGINX server to be able issue certificate"
+printf "${INFO}Starting your NGINX server to be able issue certificate"
 echo "(need to see http://example.com/.well-known/acme-challenge/  to validate domain)${NC}"
 sudo nginx -t && sudo systemctl reload nginx
 
 sudo snap install --classic certbot
 
-echo "\n${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
+printf "\n${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
 certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
 # --pre-hook "service nginx stop" --post-hook "service nginx start"
 
