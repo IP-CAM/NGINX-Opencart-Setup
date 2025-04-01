@@ -8,8 +8,11 @@ echo "Total number of arguments is $#"
 # accordingly to 
 #  https://stackoverflow.com/questions/67252779/check-if-nginx-config-test-is-sucessfull-as-condition-for-bash-if
  
-if out=$(sudo nginx -t 2>&1); do
+if out=$(sudo nginx -t 2>&1); then
     echo "Configuration was successful" | sudo systemctl reload nginx
 else
     echo "Configuration failure, because: $out"
 fi
+
+if out=$(sudo nginx -t 2>&1); then echo "Configuration was successful" | sudo systemctl reload nginx; else echo "Configuration failure, because: $out"; fi
+
