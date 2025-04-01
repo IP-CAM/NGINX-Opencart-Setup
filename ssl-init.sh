@@ -1,5 +1,6 @@
 #!/bin/bash
  
+set -e 
    
 mydomain=$1
 
@@ -11,3 +12,5 @@ openssl dhparam -out /etc/nginx/dhparam.pem 2048 &>/dev/null
 printf "${INFO}Creating a common ACME-challenge directory (for Let's Encrypt)${NC}"
 mkdir -p /var/www/_letsencrypt
 chown www-data /var/www/_letsencrypt
+
+printf "${OK} SSL-init script ended without errors${NC}"

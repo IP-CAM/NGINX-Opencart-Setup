@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 mydomain=$1
 
 OK="\n 👌: "$(tput setaf 2) 	# green
@@ -52,3 +54,5 @@ printf "${INFO}Running all steps${NC}"
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
+
+printf "${OK} Setup script ended without errors${NC}"

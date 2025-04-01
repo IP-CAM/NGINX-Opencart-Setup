@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
   
 mydomain=$1
 
@@ -15,3 +16,4 @@ fi
 printf "\n\n\n"
 # if out=$(sudo nginx -t 2>&1); then echo "Configuration was successful" | sudo systemctl reload nginx; else echo "Configuration failure, because: $out"; fi
 
+printf "${OK} Check-conf script ended without errors${NC}"

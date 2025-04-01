@@ -33,7 +33,8 @@ printf "${INFO}Reloading NGINX server${NC}"
 
 sudo nginx -t && sudo systemctl reload nginx
 
-printf "${INFO}Configure Certbot to reload NGINX when it successfully renews certificates${NC}"
+printf "${INFO}Configuring Certbot to reload NGINX when it successfully renews certificates${NC}"
 echo -e '#!/bin/bash\nnginx -t && systemctl reload nginx' | sudo tee /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
 
 sudo chmod a+x /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
+printf "${OK} Certbot script ended without errors${NC}"
