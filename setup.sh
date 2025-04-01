@@ -26,7 +26,7 @@ unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' | sed 's
 rm nginx-opencart-setup.zip
 
 
-(cd ./nginx-opencart-setup-main && tar c .) | (cd .. && tar xf -)
+(cd ./nginx-opencart-setup-main && tar c .) | (cd . && tar xf -)
 
  
 # rm -r ./nginx-opencart-setup-main
