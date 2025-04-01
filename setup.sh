@@ -13,7 +13,7 @@ BELL=$(tput bel)  				# play a bell
 
  
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "MyLovelyOpencart.site" ] ; then 
- printf "${ERR}Script will terminate, because you need to set YOUR domain as parameter ${NC}" || exit 1 
+ printf "${ERR}Script will terminate, because you need to set YOUR own domain as parameter ${NC}" || exit 1 
 else 
   printf "${OK}Domain is set to '$mydomain'${NC}"
 fi
