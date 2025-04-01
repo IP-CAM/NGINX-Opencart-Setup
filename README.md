@@ -2,9 +2,10 @@
 
 
 
-NGINX setup for OPENCART based on  https://www.digitalocean.com/community/tools/nginx / 
+NGINX setup for OPENCART based on 
+[DigitalOcean Recommendations](https://www.digitalocean.com/community/tools/nginx/) 
 
-and on this discussion https://github.com/opencart/opencart.github.io/issues/335
+and on this [discussion](https://github.com/opencart/opencart.github.io/issues/335)
 
 Tested on Ubuntu 20.4
 
@@ -15,4 +16,4 @@ curl https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/
 with your own domain
 
 
-See also https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
+See also based [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
