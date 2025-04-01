@@ -35,7 +35,9 @@ rm -r ./nginx-opencart-setup-main
 mv ./sites-available/example.com.conf ./sites-available/$mydomain.conf
 ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 
-# Make scripts executable
-# chmod a+x ./ssl-init.sh
+mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
+
+# Run steps  
+chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 # chmod a+x ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
