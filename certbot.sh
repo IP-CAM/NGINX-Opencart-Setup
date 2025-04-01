@@ -29,7 +29,7 @@ printf "${INFO}Uncommenting SSL related directives in the configuration back${NC
 
 sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/example.com.conf
 
-printf "${INFO}Reloading your NGINX server${NC}"
+printf "${INFO}Reloading NGINX server${NC}"
 
 sudo nginx -t && sudo systemctl reload nginx
 
