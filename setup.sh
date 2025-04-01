@@ -37,14 +37,8 @@ sudo apt-get install unzip
 # unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //'
 echo "mydomain is set to $mydomain"
 unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' | sed 's/^[ ]*//;s/[ ]*$//' | xargs -d $'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
-rm nginx-opencart-setup.zip
-
 
 (cd ./nginx-opencart-setup-main && tar c .) | (cd . && tar xf -)
-
- 
-rm -r ./nginx-opencart-setup-main
-#rmdir ./nginx-opencart-setup-main
 
 mv ./sites-available/example.com.conf ./sites-available/$mydomain.conf
 ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
@@ -57,5 +51,11 @@ printf "${INFO}Running all steps${NC}"
 chmod a+x ./ssl-init.sh && source ./ssl-init.sh
 chmod a+x ./certbot.sh && source ./certbot.sh
 chmod a+x ./check-conf.sh && source ./check-conf.sh
+
+printf "${INFO}Cleaning after all${NC}" 
+rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
+rm -r ./nginx-opencart-setup-main
+rm nginx-opencart-setup.zip
+ 
 
 printf "${OK} All Setup scripts ended without errors${NC}"
