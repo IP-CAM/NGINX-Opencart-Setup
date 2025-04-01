@@ -9,9 +9,9 @@ mydomain=$1
 
 
 if out=$(sudo nginx -t 2>&1); then
-    printf "${OK}👌: Configuration was successful${NC}" | sudo systemctl reload nginx
+    printf "${OK} Configuration was successful${NC}" | sudo systemctl reload nginx
 else
-    printf "${BELL}${ERR}💩: Configuration failure, because: $out ${NC}"
+    printf "${BELL}${ERR} Configuration failure, because: $out ${NC}" && exit 1
 fi
 printf "\n\n\n"
 # if out=$(sudo nginx -t 2>&1); then echo "Configuration was successful" | sudo systemctl reload nginx; else echo "Configuration failure, because: $out"; fi
