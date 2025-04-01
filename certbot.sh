@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# example of using arguments to a script
-echo "Fist arg is $1"
-echo "Second arg is $2"
-echo "Total number of arguments is $#" 
+ 
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
 printf "${INFO}Commenting out SSL related directives in the configuration
  and adding a temporary 'ssl off;' directive to ensure 
  that SSL directives are not active. 
- his may cause NGINX to emit a warning, which is safe to ignore. 
+ This may cause NGINX to emit a warning, which is safe to ignore. 
  The directive will be removed once Certbot is configured.${NC}"
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#aaa\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
 cat /etc/nginx/sites-available/example.com.conf
