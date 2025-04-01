@@ -31,7 +31,9 @@ rm nginx-opencart-setup.zip
 # cd ./nginx-opencart-setup-main
 # (shopt -s dotglob; mv -- * ..)
 # cd ..
-rm -rf ./nginx-opencart-setup-main/*
+#rm -rf ./nginx-opencart-setup-main/*
+#rm -rf ./nginx-opencart-setup-main/*
+rm -r ./nginx-opencart-setup-main
 
 mv ./sites-available/example.com.conf ./sites-available/$mydomain.conf
 ln -s ./sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
