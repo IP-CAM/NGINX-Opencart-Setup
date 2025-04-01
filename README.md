@@ -9,10 +9,10 @@ and on this [discussion](https://github.com/opencart/opencart.github.io/issues/3
 
 Tested on Ubuntu 20.4
 
-For "dryrun" of the Letsencrypt bot run in terminal 
+For "dry-run" of the Letsencrypt bot run in terminal 
 ```shell
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
-| bash -s -- MyLovelyOpencart.site --dryrun
+| bash -s -- MyLovelyOpencart.site --dry-run
 ```
 with your own domain instead of MyLovelyOpencart.site 
 

@@ -22,8 +22,8 @@ sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
 sudo snap install --classic certbot
 # ‐‐dry‐run
-if  [ "$2" = "--dryrun" ] ; then 
- printf "${INFO}Dryrun for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
+if  [ "$2" = "--dry-run" ] ; then 
+ printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
  certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal ‐‐dry‐run
  mkdir -p  /etc/letsencrypt/live/$mydomain
  if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then echo "1234567890" > /etc/letsencrypt/live/$mydomain/fullchain.pem; else printf "${INFO}some fullchain.pem already exists${NC}"; fi
