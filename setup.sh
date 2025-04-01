@@ -5,6 +5,7 @@ OK=$(tput setaf 2) # green
 ERR=$(tput setaf 1) # red
 WARN=$(tput setaf 3) # yellow
 NC=$(tput sgr0)  # unset
+BELL=$(tput bel)  # Play a bell
 
 # example of using arguments to a script
 echo "Fist arg is $1" && mydomain=$1
