@@ -7,11 +7,11 @@ echo "Total number of arguments is $#"
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
-printf "${INFO}Commenting out SSL related directives in the configuration.
-\nAdding a temporary ssl off directive to ensure 
-\nthat SSL directives are not active. 
-\nThis may cause NGINX to emit a warning, which is safe to ignore. 
-\nThe directive will be removed once Certbot is configured.${NC}"
+printf "${INFO}Commenting out SSL related directives in the configuration and
+\n adding a temporary 'ssl off;' directive to ensure 
+\n that SSL directives are not active. 
+\n This may cause NGINX to emit a warning, which is safe to ignore. 
+\n The directive will be removed once Certbot is configured.${NC}"
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#aaa\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/example.com.conf
 cat /etc/nginx/sites-available/example.com.conf
 
