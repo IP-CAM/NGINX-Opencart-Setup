@@ -1,10 +1,16 @@
 #!/bin/bash
 
+ 
+OK=$(tput setaf 2) # green
+ERR=$(tput setaf 1) # red
+WARN=$(tput setaf 3) # yellow
+NC=$(tput sgr0)  # unset
+
 # example of using arguments to a script
 echo "Fist arg is $1" && mydomain=$1
 # echo "Second arg is $2"
 echo "Total number of arguments is $#" 
-if [ -z ${mydomain+x} ]; then echo "mydomain is unset and will be set to test123.com" &&  mydomain="test123.com"; else echo "mydomain is set to '$mydomain'"; fi
+if [ -z ${mydomain+x} ]; then echo "${WARN}mydomain is unset and will be set to test123.com${NC}" &&  mydomain="test123.com"; else echo "${OK}mydomain is set to '$mydomain'${OK}"; fi
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
