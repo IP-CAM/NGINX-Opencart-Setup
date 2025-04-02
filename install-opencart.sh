@@ -16,7 +16,7 @@ if  [ -z ${releaseurl+x} ] ; then releaseurl='https://github.com/opencart/openca
 releaseroot=$3 # e.g. 'upload-3040' 
 if  [ -z ${releaseroot+x} ] ; then releaseroot='upload'; fi
 
-webroot=/var/www/${mydomain}/public
+webroot=/var/www/$mydomain/public
 echo $webroot
 
 
