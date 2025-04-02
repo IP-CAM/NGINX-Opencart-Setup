@@ -25,7 +25,7 @@ webroot='/var/www/$mydomain/public'
 
 mkdir -p tmp && cd tmp
 curl -o oc.zip -fSL $releaseurl
-unzip oc.zip
+unzip -o oc.zip
 rm oc.zip;
 mv ./$releaseroot/* $webroot/
 cd ..
