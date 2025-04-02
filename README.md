@@ -68,3 +68,9 @@ with your own domain instead of MyLovelyOpencart.site
 
 
 See also start point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
+
+To install Opencart into so prepared enviroment use
+```shell
+curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
+| bash -s -- MyLovelyOpencart.site --dry-run
+```
