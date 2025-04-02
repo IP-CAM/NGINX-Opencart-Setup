@@ -26,9 +26,6 @@ if  [ "$2" = "--dry-run" ] ; then
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
  certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run
  mkdir -p  /etc/letsencrypt/live/$mydomain
- if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then echo "1234567890" > /etc/letsencrypt/live/$mydomain/fullchain.pem; else printf "${INFO}some fullchain.pem already exists${NC}"; fi
- if [ ! -f /etc/letsencrypt/live/$mydomain/privkey.pem ];   then echo "1234567890" > /etc/letsencrypt/live/$mydomain/privkey.pem;   else printf "${INFO}some privkey.pem   already exists${NC}"; fi
- if [ ! -f /etc/letsencrypt/live/$mydomain/chain.pem ];     then echo "1234567890" > /etc/letsencrypt/live/$mydomain/chain.pem; else printf "${INFO}some chain.pem     already exists${NC}"; fi
 else
  printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
  certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
