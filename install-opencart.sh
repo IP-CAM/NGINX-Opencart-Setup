@@ -6,7 +6,7 @@ mydomain=$1    # e.g.reallymydomain.site
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
 else 
-  printf "${OK}Domain is set to '$mydomain'${NC}"
+  printf "${OK}Domain is set to '$mydomain'${NC}\n"
 fi
 
 releaseurl=$2  # e.g. 'https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
@@ -23,10 +23,10 @@ webroot='/var/www/$mydomain/public'
 ################################
 
 mkdir tmp && cd tmp
-curl -o oc.zip -fSL $ocurl
+curl -o oc.zip -fSL $releaseurl
 unzip oc.zip
 rm oc.zip;
-mv releaseroot/* $webroot/
+mv $releaseroot/* $webroot/
 cd ..
 mv $webroot/config-dist.php $webroot/config.php
 mv $webroot/admin/config-dist.php $webroot/admin/config.php
