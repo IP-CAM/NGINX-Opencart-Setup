@@ -52,9 +52,6 @@ chmod 0777 $webroot/image/catalog/
 chmod 0777 $webroot/config.php
 chmod 0777 $webroot/admin/config.php
 
-sudo apt-get -qq install php-zip
-
-
 
 printf "\n
 #######################################################
