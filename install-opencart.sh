@@ -2,8 +2,12 @@
 
 set -e
 
-mydomain=$1    # e.g.mylovelyopencart.site
-if  [ -z ${mydomain+x} ] ; then printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 ; fi
+mydomain=$1    # e.g.MyLovelyOpencart.site
+if [ -z ${mydomain+x} ] || [ "$mydomain" = "MyLovelyOpencart.site" ] ; then 
+ printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
+else 
+  printf "${OK}Domain is set to '$mydomain'${NC}"
+fi
 releaseurl=$2  # e.g. 'https://github.com/opencart/opencart/releases/download/3.0.4.0/opencart-3.0.4.0.zip'
 if  [ -z ${releaseurl+x} ] ; then 'https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'; fi
 releaseroot=$3 # e.g. 'upload-3040-rs1' 
