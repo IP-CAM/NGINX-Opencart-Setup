@@ -27,7 +27,7 @@ mkdir -p tmp && cd tmp
 curl -o oc.zip -fSL $releaseurl
 unzip oc.zip
 rm oc.zip;
-mv $releaseroot/* $webroot/
+mv ./$releaseroot/* $webroot/
 cd ..
 mv $webroot/config-dist.php $webroot/config.php
 mv $webroot/admin/config-dist.php $webroot/admin/config.php
