@@ -10,6 +10,7 @@ else
 fi
 
 releaseurl=$2  # e.g. 'https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
+echo $releaseurl
 if  [ -z ${releaseurl+x} ] ; then releaseurl='https://github.com/opencart/opencart/releases/download/3.0.4.0/opencart-3.0.4.0.zip'; fi
 
 releaseroot=$3 # e.g. 'upload-3040' 
