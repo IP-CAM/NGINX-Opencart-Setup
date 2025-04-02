@@ -9,7 +9,6 @@ fi
 printf "${OK}Domain is set to '$mydomain'\n${NC}\n"
  
 releaseurl=$2  # e.g. 'https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
-echo $releaseurl
 if  [ -z ${releaseurl+x} ] ; then releaseurl='https://github.com/opencart/opencart/releases/download/3.0.4.0/opencart-3.0.4.0.zip'; fi
 printf "${OK}Release url is set to '$releaseurl'\n${NC}\n"
 
@@ -48,5 +47,5 @@ chmod 0755 $webroot/image/catalog/
 chmod 0755 $webroot/config.php
 chmod 0755 $webroot/admin/config.php
 
-printf 'Now visit https://$mydomain and you should be taken to the installer page. 
- Follow the on screen instructions.'
+printf '\n\nNow visit https://$mydomain and you should be taken to the installer page. 
+ Follow the on screen instructions.\n\n'
