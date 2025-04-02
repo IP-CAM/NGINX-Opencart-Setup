@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+echo 1
 
 mydomain=$1    # e.g.reallymydomain.site
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
