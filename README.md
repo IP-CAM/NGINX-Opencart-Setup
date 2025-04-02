@@ -21,7 +21,7 @@ Besause Let's Encrypt allows no more than 50 certificates
 to be issued per registered domain per week, for testing 
 you can try this script with "--dry-run" (then no real certificate will be issued).
  
-The dry-run succeed if 
+The dry-run should succeed if 
 - either the certificate already was once issued on your testing host,
 - or your need to copy your issued certificate for your domain from your previuos host
 
@@ -131,9 +131,6 @@ else
 fi 
 
 ```
-
-
- 
 
 
 See also starting point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
