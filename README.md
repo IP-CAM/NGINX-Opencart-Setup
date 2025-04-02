@@ -83,9 +83,11 @@ curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/hea
 | bash -s -- $mydomain $releaseurl upload-3040
 ```
 
-If you prepairing LEMP setup from scratch for new server you can use for the whole
+If you prepairing LEMP setup from scratch for new server 
+(on cloud you can even try this as cloud-init script ) 
+you can use for the whole
 
- in dry-run case:
+ - in dry-run case:
 ```shell
 #!/bin/sh
 
@@ -116,7 +118,7 @@ curl https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/
 
 ```
 
-or in real issuing of Let's Encrypt certificate:
+- in real issuing of Let's Encrypt certificate:
 ```shell
 #!/bin/sh
 
