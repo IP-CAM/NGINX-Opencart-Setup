@@ -5,29 +5,31 @@
 NGINX setup for OPENCART based on 
 [DigitalOcean Recommendations](https://www.digitalocean.com/community/tools/nginx/) 
 
-and on this [discussion](https://github.com/opencart/opencart.github.io/issues/335)
+and on this [discussion](https://github.com/opencart/opencart.github.io/issues/335) ,
 
-Tested on Ubuntu 20.4
+tested on Ubuntu 24.04
 
 
 To install just run in terminal 
 ```shell
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
-| bash -s -- MyLovelyOpencart.site
+| bash -s -- reallymydomain.site
 ```
-with your own domain instead of MyLovelyOpencart.site 
+with your own domain instead of reallymydomain.site of course
 
 Besause Let's Encrypt allows no more than 50 certificates 
 to be issued per registered domain per week, for testing 
-you can try this script with "dry-run" (then no real certificate will be issued).
+you can try this script with "--dry-run" (then no real certificate will be issued).
  
-The dry-run succeed if either the certificate already was once issued on your testing host,
-or your need to copy your issued certificate from your previuos domain.
-As a hint for the second case: you can download all 3 certificate files from previuos host
+The dry-run succeed if 
+- either the certificate already was once issued on your testing host,
+- or your need to copy your issued certificate for your domain from your previuos host
+
+As a hint for the second case: you can download certificate files from previuos host
 (fullchain.pem, chain.pem and privkey.pem) and place them on one 
 your secret [GIST](https://gist.github.com) on your github account.
 Then you can run on followng command on your testing host terminal to transfer them 
-here (obviously, you will have your own URL to your gist's ZIP) : 
+to the host in test (obviously, you will have your own URL to your gist's ZIP) : 
 
 ```shell
 
@@ -35,7 +37,7 @@ here (obviously, you will have your own URL to your gist's ZIP) :
 # mydomain=reallymydomain.site
 
 # set path to your secret gist's ZIP like:
-# gistkeyszip=https://gist.github.com/yourgithubacc/cf5csomefakeurlca5/archive/bc2morefakerurl9g.zip
+# gistkeyszip=https://gist.github.com/your-github-acc/cf5csomefakeurlca5/archive/bc2morefakerurl9g.zip
 
 if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "\n\nSet mydomain=reallymydomain.site first. Do nothing..\n\n"  
@@ -54,7 +56,8 @@ fi
 rm keys.zip
 ```
 
-Not forget then to change the A record in DNS to your new IP address for testing host.
+Not forget to change the 'A' record in DNS by your DNS- or NS- provider 
+to your new IP address for testing host first.
  
 After that you can try with "dry-run":
  
@@ -67,10 +70,6 @@ For "dry-run" of the Letsencrypt bot run in terminal
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
 | bash -s -- $mydomain --dry-run
 ```
-with your own domain instead of reallymydomain.site of course
-
-
-See also start point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
 
 To install Opencart into so prepared environment use
 ```shell
@@ -83,9 +82,9 @@ curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/hea
 | bash -s -- $mydomain $releaseurl upload-3040
 ```
 
-If you prepairing LEMP setup from scratch for new server 
-(on cloud you can even try this as cloud-init script ) 
-you can use for the whole
+If you preparing LEMP setup from scratch for new server 
+(on cloud you can even try this as cloud-init script ), 
+you can use for the whole setup
 
  - in dry-run case:
 ```shell
@@ -132,3 +131,9 @@ else
 fi 
 
 ```
+
+
+ 
+
+
+See also starting point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
