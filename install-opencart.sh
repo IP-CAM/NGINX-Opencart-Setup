@@ -28,10 +28,10 @@ mkdir -p tmp && cd tmp
 curl -o oc.zip -fSL $releaseurl
 unzip -o -q oc.zip
 rm oc.zip;
-mv ./$releaseroot/* $webroot/
+mv --force ./$releaseroot/* $webroot/
 cd ..
-mv $webroot/config-dist.php $webroot/config.php
-mv $webroot/admin/config-dist.php $webroot/admin/config.php
+mv  $webroot/config-dist.php $webroot/config.php
+mv  $webroot/admin/config-dist.php $webroot/admin/config.php
 rm -rf tmp
 #chmod -R 777 $webroot
 chmod 0755 $webroot/system/storage/cache/
