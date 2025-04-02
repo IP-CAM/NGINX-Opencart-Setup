@@ -35,13 +35,13 @@ here (obviously, you will have your own URL to your gist's ZIP) :
 # mydomain=reallymydomain.site
 
 # set path to your secret gist's ZIP like:
-# gistzip=https://gist.github.com/yourgithubacc/cf5csomefakeurlca5/archive/bc2morefakerurl9g.zip
+# gistkeyszip=https://gist.github.com/yourgithubacc/cf5csomefakeurlca5/archive/bc2morefakerurl9g.zip
 
 if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "\n\nSet mydomain=reallymydomain.site first. Do nothing..\n\n"  
 else   
  if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
-   curl -Lo keys.zip $gistzip
+   curl -Lo keys.zip $gistkeyszip
    mkdir -p  /etc/letsencrypt/live/$mydomain
    unzip keys.zip  -d ./keys
    find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
@@ -61,8 +61,11 @@ After that you can try with "dry-run":
 https://gist.github.com/radiocab/cf5csomefakeurlca5b173e94/archive/bcd255morefakerurl9fd.zip
 For "dry-run" of the Letsencrypt bot run in terminal 
 ```shell
+# set your domain like:
+# mydomain=reallymydomain.site
+
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
-| bash -s -- MyLovelyOpencart.site --dry-run
+| bash -s -- $mydomain --dry-run
 ```
 with your own domain instead of MyLovelyOpencart.site 
 
@@ -71,7 +74,59 @@ See also start point for all this as [DigitalOcean configuration](https://www.di
 
 To install Opencart into so prepared environment use
 ```shell
+# set your domain like:
+# mydomain=reallymydomain.site
+
+# if ommited will install 3.0.4.0:
 releaseurl='https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh \
-| bash -s -- MyLovelyOpencart.site $releaseurl upload-3040
+| bash -s -- $mydomain $releaseurl upload-3040
+```
+
+If you prepairing LEMP setup from scratch for new server you can use for the whole
+
+ in dry-run case:
+```shell
+#!/bin/sh
+
+
+# set your domain like:
+# mydomain=reallymydomain.site
+
+# set path to your secret gist's ZIP like:
+gistkeyszip=https://gist.github.com/radiocab/cf5c96361b78171b741bc0ca5b173e94/archive/bcd255612af9a4acf27962d33dbc3ad73f5cf9fd.zip
+
+if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
+ printf "\n\nSet mydomain="reallymydomain.site" first. Do nothing..\n\n"  
+else   
+ if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
+   curl -Lo keys.zip $gistkeyszip
+   mkdir -p  /etc/letsencrypt/live/$mydomain
+   sudo apt-get install unzip
+   unzip keys.zip  -d ./keys
+   find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
+   rm -r ./keys
+ else 
+  printf "\n\nSome cert keys already exist. Do nothing not to damage\n\n" 
+ fi
+fi 
+
+curl https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-lemp.sh \
+| bash -s -- $mydomain --dry-run
+
+```
+
+or in real issuing of Let's Encrypt certificate:
+```shell
+#!/bin/sh
+
+# set your domain like:
+# mydomain=reallymydomain.site
+if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
+ printf "\n\nSet mydomain="reallymydomain.site" first. Do nothing..\n\n"  
+else 
+ curl https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-lemp.sh \
+  | bash -s -- $mydomain  
+fi 
+
 ```
