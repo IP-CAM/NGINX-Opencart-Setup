@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-echo \n3
+echo \n4
 
 mydomain=$1    # e.g.reallymydomain.site
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
@@ -30,7 +30,8 @@ curl -o oc.zip -fSL $releaseurl
 unzip -o -q oc.zip
 rm oc.zip;
 #mv -f ./$releaseroot/* $webroot/
-(cd ./$releaseroot/* && tar c .) | (cd $webroot/ && tar xf -)
+(cd ./$releaseroot && tar c .) | (cd $webroot && tar xf -)
+
 cd ..
 mv  $webroot/config-dist.php $webroot/config.php
 mv  $webroot/admin/config-dist.php $webroot/admin/config.php
