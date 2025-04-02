@@ -22,7 +22,7 @@ to be issued per registered domain per week, for testing
 you can try this script with "dry-run" (then no real certificate will be issued).
  
 The dry-run succeed if either the certificate already was once issued on your testing host,
-or your need to copy your certificate from your previuos domain.
+or your need to copy your issued certificate from your previuos domain.
 As a hint for the second case: you can download all 3 certificate files from previuos host
 (fullchain.pem, chain.pem and privkey.pem) and place them on one 
 your secret [GIST](https://gist.github.com) on your github account.
@@ -38,20 +38,20 @@ here (obviously, you will have your own URL to your gist's ZIP) :
 # gistzip=https://gist.github.com/yourgithubacc/cf5csomefakeurlca5/archive/bc2morefakerurl9g.zip
 
 if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
- printf "\n\nSet mydomain="reallymydomain.site" first. Do nothing..\n\n"  
+ printf "\n\nSet mydomain=reallymydomain.site first. Do nothing..\n\n"  
 else   
  if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
-   curl -Lo certificates.zip $gistzip
+   curl -Lo keys.zip $gistzip
    mkdir -p  /etc/letsencrypt/live/$mydomain
-   unzip certificates.zip  -d ./certificates
-   find  ./certificates -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
-   rm -r ./certificates
+   unzip keys.zip  -d ./keys
+   find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
+   rm -r ./keys
  else 
-  printf "\n\nSome certificates already exist. Do nothing, afraid to damage\n\n" 
+  printf "\n\nSome cert keys already exist. Do nothing not to damage\n\n" 
  fi
 fi 
 
-rm certificates.zip
+rm keys.zip
 ```
 
 Not forget then to change the A record in DNS to your new IP address for testing host.
