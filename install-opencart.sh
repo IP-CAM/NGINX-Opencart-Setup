@@ -26,7 +26,7 @@ echo $webroot
 
 mkdir -p tmp && cd tmp
 curl -o oc.zip -fSL $releaseurl
-unzip -o oc.zip
+unzip -o -q oc.zip
 rm oc.zip;
 mv ./$releaseroot/* $webroot/
 cd ..
