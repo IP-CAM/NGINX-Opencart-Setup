@@ -73,13 +73,19 @@ curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/hea
 
 To install Opencart into so prepared environment use
 ```shell
-# set your domain like:
+
+# 1st arg - set your domain like:
 # mydomain=reallymydomain.site
 
-# if ommited will install 3.0.4.0:
+# 2nd arg -  release url (if omitted, then release 3.0.4.0 will be installed):
 releaseurl='https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
+
+# 3rd arg - root in (custom) release zip (standart 'upload' assumed):
+# releaseroot='upload-3040'
+
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh \
-| bash -s -- $mydomain $releaseurl upload-3040
+| bash -s -- $mydomain $releaseurl $releaseroot
+
 ```
 
 If you preparing LEMP setup from scratch for new server 
@@ -133,4 +139,4 @@ fi
 ```
 
 
-See also starting point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
+See also starting point for all this on [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
