@@ -2,7 +2,7 @@
  
 set -e 
    
-mydomain=$1
+mydomain=$1  # e.g.reallymydomain.site
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 

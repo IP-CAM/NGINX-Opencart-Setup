@@ -69,8 +69,9 @@ with your own domain instead of MyLovelyOpencart.site
 
 See also start point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
 
-To install Opencart into so prepared enviroment use
+To install Opencart into so prepared environment use
 ```shell
-curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
-| bash -s -- MyLovelyOpencart.site --dry-run
+releaseurl='https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
+curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh \
+| bash -s -- MyLovelyOpencart.site $releaseurl upload-3040
 ```

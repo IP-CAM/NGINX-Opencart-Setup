@@ -2,7 +2,7 @@
 
 set -e
 
-mydomain=$1
+mydomain=$1  # e.g.reallymydomain.site
  
 OK=$(tput setaf 2)"\n 👌: " 	# green
 ERR=$(tput setaf 1)"\n 💩: " 	# red
@@ -12,7 +12,7 @@ NC=$(tput sgr0)"\n"  		    # unset
 BELL=$(tput bel)  				# play a bell
 
  
-if [ -z ${mydomain+x} ] || [ "$mydomain" = "MyLovelyOpencart.site" ] ; then 
+if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
 else 
   printf "${OK}Domain is set to '$mydomain'${NC}"
