@@ -38,7 +38,7 @@ chmod 0755 $webroot/system/storage/cache/
 chmod 0755 $webroot/system/storage/download/
 chmod 0755 $webroot/system/storage/logs/
 chmod 0755 $webroot/system/storage/modification/
-chmod 0755 $webroot/system/storage/session/
+chmod 0777 $webroot/system/storage/session/
 chmod 0755 $webroot/system/storage/upload/
 chmod 0755 $webroot/system/storage/vendor/
 chmod 0755 $webroot/image/
