@@ -39,6 +39,7 @@ rm -rf tmp
 #chmod -R 777 $webroot
 # see for 0777 cache https://forum.opencart.com/viewtopic.php?t=235006
 chmod 0777 $webroot/system/storage/cache/
+/var/www/gsm-radio.ru/storage/cache/cache.store.1743630797
 chmod 0777 $webroot/system/storage/download/
 chmod 0777 $webroot/system/storage/logs/
 chmod 0777 $webroot/system/storage/modification/
@@ -55,6 +56,18 @@ sudo apt-get -qq install php-zip
 
 
 
-printf "\n\nNow visit https://$mydomain and you should be taken to the installer page. 
- Follow the on screen instructions.\n\n
- Don't forget to delete your installation directory after installation!\n\n"
+printf "\n
+#######################################################
+ 👣 Now visit https://$mydomain and you should be taken to the installer page. 
+ Follow the on screen instructions.\n
+ 👣 Don't forget to delete your installation directory after installation!:
+    sudo rm -r $webroot/install\n
+ 👣 Also  It is very important that you move the storage directory 
+ outside of the web directory to /var/www/$mydomain/storage by default
+#######################################################\n\n"
+mkdir -p /var/www/$mydomain/storage && chmod 0777 /var/www/$mydomain/storage
+mkdir -p /var/www/$mydomain/storage/logs && chmod 0777 /var/www/$mydomain/storage/logs
+mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache
+
+  #sudo chmod g+w /var/www -R
+  #sudo chown -R www-data:www-data /var/www/
