@@ -39,7 +39,7 @@ rm -rf tmp
 #chmod -R 777 $webroot
 # see for 0777 cache https://forum.opencart.com/viewtopic.php?t=235006
 chmod 0777 $webroot/system/storage/cache/
-/var/www/gsm-radio.ru/storage/cache/cache.store.1743630797
+
 chmod 0777 $webroot/system/storage/download/
 chmod 0777 $webroot/system/storage/logs/
 chmod 0777 $webroot/system/storage/modification/
