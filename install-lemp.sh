@@ -38,6 +38,8 @@ installnginx() {
 
 # Install PHP modules.
 installphp() {
+  # Opencart requirement : Please make sure the PHP extensions listed below are installed:
+  # Database  GD  cURL  OpenSSL  ZLIB	ZIP	 DOM/XML Hash XMLWriter	JSON
   #sudo apt-get -qq install php libapache2-mod-php php-mysql \
   #php-common php-cli php-common php-json php-opcache php-readline \
   #php-mbstring php-gd php-dom php-zip php-curl
@@ -46,7 +48,9 @@ installphp() {
   sudo apt-get -qq install php-fpm
   sudo apt-get -qq install php php-mysql \
   php-common php-cli php-opcache php-readline \
-  php-mbstring php-gd php-curl php-xml
+  php-mbstring php-gd php-zip php-curl php-xml
+  
+
   
   bash <(curl -s https://gist.githubusercontent.com/radiocab/814ad543ae94ef4f1a1792f4eb3edf2c/raw/011028e54cbe2a1f8c32578fdc57ac2739b490b9/tune_php_ini.sh)
   echo "$(date "+%F - %T") - Installing PHP modules." | tee -a $HOME/log.txt
@@ -61,7 +65,7 @@ installconfigmariadb() {
 
   echo "$(date "+%F - %T") - Generating root key for MariaDB." | tee -a $HOME/log.txt
   DB_ROOT_PASS="$(pwgen -1 -s 16)"
-
+  
   echo "$(date "+%F - %T") - Setting root password for MariaDB." | tee -a $HOME/log.txt
   sudo mysql -e "UPDATE mysql.global_priv SET priv=json_set(priv, '$.plugin', \
     'mysql_native_password', '$.authentication_string', \
@@ -77,8 +81,18 @@ installconfigmariadb() {
   echo "$(date "+%F - %T") - Deleting test database." | tee -a $HOME/log.txt
   sudo mysql -u root -p$DB_ROOT_PASS -e "DROP DATABASE IF EXISTS test;"
   sudo mysql -u root -p$DB_ROOT_PASS -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+
+  echo "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - Generating Opencart user,password and DB name." | tee -a $HOME/log.txt
+  OPENCART_USER_PASS="$(pwgen -1 -s 16)" 
+  OPENCART_USER_NAME="user$(pwgen -1 -s 3)"
+  OPENCART_DATABASE="db$(pwgen -1 -s 2)"
+  sudo mysql -u root -p$DB_ROOT_PASS -e "CREATE DATABASE $OPENCART_DATABASE;
+      CREATE USER '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS';
+      GRANT ALL PRIVILEGES on *.* TO '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS' WITH GRANT OPTION;"
+  
   echo "$(date "+%F - %T") - Applying changes." | tee -a $HOME/log.txt
-  sudo mysql -u root -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"
+  sudo mysql -u root -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"	  
 }
 
 
@@ -122,6 +136,14 @@ echo -e '\n' >> $HOME/log.txt
 echo '# ============ MARIADB ROOT PASSWORD ============' >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
 echo "# ===== MARIADB ROOT PASSWORD: $DB_ROOT_PASS" >> $HOME/log.txt
+echo '# =====' >> $HOME/log.txt
+
+echo -e '\n' >> $HOME/log.txt
+echo '# ============ OPENCART USER PASSWORD AND NAME============' >> $HOME/log.txt
+echo '# =====' >> $HOME/log.txt
+echo "# ===== OPENCART USER PASSWORD: $OPENCART_USER_PASS" >> $HOME/log.txt
+echo "# ===== OPENCART USER NAME: $OPENCART_USER_NAME" >> $HOME/log.txt
+echo "# ===== OPENCART DATABASE NAME: $OPENCART_DATABASE" >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
 
 echo -e "\n${Yellow} * LEMP SERVER IS READY!!!${Color_Off}"

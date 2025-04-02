@@ -37,18 +37,24 @@ mv  $webroot/config-dist.php $webroot/config.php
 mv  $webroot/admin/config-dist.php $webroot/admin/config.php
 rm -rf tmp
 #chmod -R 777 $webroot
-chmod 0755 $webroot/system/storage/cache/
-chmod 0755 $webroot/system/storage/download/
-chmod 0755 $webroot/system/storage/logs/
-chmod 0755 $webroot/system/storage/modification/
+# see for 0777 cache https://forum.opencart.com/viewtopic.php?t=235006
+chmod 0777 $webroot/system/storage/cache/
+chmod 0777 $webroot/system/storage/download/
+chmod 0777 $webroot/system/storage/logs/
+chmod 0777 $webroot/system/storage/modification/
 chmod 0777 $webroot/system/storage/session/
-chmod 0755 $webroot/system/storage/upload/
-chmod 0755 $webroot/system/storage/vendor/
-chmod 0755 $webroot/image/
-chmod 0755 $webroot/image/cache/
-chmod 0755 $webroot/image/catalog/
-chmod 0755 $webroot/config.php
-chmod 0755 $webroot/admin/config.php
+chmod 0777 $webroot/system/storage/upload/
+chmod 0777 $webroot/system/storage/vendor/
+chmod 0777 $webroot/image/
+chmod 0777 $webroot/image/cache/
+chmod 0777 $webroot/image/catalog/
+chmod 0777 $webroot/config.php
+chmod 0777 $webroot/admin/config.php
 
-printf '\n\nNow visit https://$mydomain and you should be taken to the installer page. 
- Follow the on screen instructions.\n\n'
+sudo apt-get -qq install php-zip
+
+
+
+printf "\n\nNow visit https://$mydomain and you should be taken to the installer page. 
+ Follow the on screen instructions.\n\n
+ Don't forget to delete your installation directory after installation!\n\n"
