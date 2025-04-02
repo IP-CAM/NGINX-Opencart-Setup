@@ -67,7 +67,7 @@ For "dry-run" of the Letsencrypt bot run in terminal
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh \
 | bash -s -- $mydomain --dry-run
 ```
-with your own domain instead of MyLovelyOpencart.site 
+with your own domain instead of reallymydomain.site of course
 
 
 See also start point for all this as [DigitalOcean configuration](https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true)
