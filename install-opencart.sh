@@ -35,6 +35,13 @@ rm oc.zip;
 cd ..
 mv  $webroot/config-dist.php $webroot/config.php
 mv  $webroot/admin/config-dist.php $webroot/admin/config.php
+# see https://docs.vultr.com/how-to-install-opencart-on-ubuntu-20-04-with-nginx   :
+chmod  644 $webroot/config.php
+chmod  644 $webroot/index.php
+chmod  644 $webroot/admin/config.php
+chmod  644 $webroot/admin/index.php
+chmod  644 $webroot/system/startup.php
+# mv $webroot/admin $webroot/privatemin
 rm -rf tmp
 #chmod -R 777 $webroot
 # see for 0777 cache https://forum.opencart.com/viewtopic.php?t=235006
@@ -53,6 +60,21 @@ chmod 0777 $webroot/config.php
 chmod 0777 $webroot/admin/config.php
 
 
+
+chmod 0777 /var/www/$mydomain
+#chmod -R g+w /var/www/$mydomain
+chown -R www-data:www-data  /var/www/$mydomain
+
+# mkdir -p /var/www/$mydomain/storage && chmod 0777 /var/www/$mydomain/storage
+#mkdir -p /var/www/$mydomain/storage/logs && chmod 0777 /var/www/$mydomain/storage/logs
+#mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache
+  
+  
+# 👣 If you plan to use paid Opencart extensions, it is advisable to install right now also
+# the 'ionCube Loader' they mostly use   
+chmod a+x ./install-ioncube.sh && source ./install-ioncube.sh
+ 
+
 printf "\n
 #######################################################
  👣 Now visit https://$mydomain and you should be taken to the installer page. 
@@ -61,10 +83,4 @@ printf "\n
     sudo rm -r $webroot/install\n
  👣 Also  It is very important that you move the storage directory 
  outside of the web directory to /var/www/$mydomain/storage by default
-#######################################################\n\n"
-mkdir -p /var/www/$mydomain/storage && chmod 0777 /var/www/$mydomain/storage
-mkdir -p /var/www/$mydomain/storage/logs && chmod 0777 /var/www/$mydomain/storage/logs
-mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache
-
-  #sudo chmod g+w /var/www -R
-  #sudo chown -R www-data:www-data /var/www/
+#######################################################\n\n"  

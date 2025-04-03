@@ -85,11 +85,11 @@ installconfigmariadb() {
   echo "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
   echo "$(date "+%F - %T") - Generating Opencart user,password and DB name." | tee -a $HOME/log.txt
   OPENCART_USER_PASS="$(pwgen -1 -s 16)" 
-  OPENCART_USER_NAME="user$(pwgen -1 -s 3)"
+  OPENCART_USER_NAME="admin"
   OPENCART_DATABASE="db$(pwgen -1 -s 2)"
   sudo mysql -u root -p$DB_ROOT_PASS -e "CREATE DATABASE $OPENCART_DATABASE;
       CREATE USER '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS';
-      GRANT ALL PRIVILEGES on *.* TO '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS' WITH GRANT OPTION;"
+      GRANT ALL PRIVILEGES on $OPENCART_DATABASE.* TO '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS' WITH GRANT OPTION;"
   
   echo "$(date "+%F - %T") - Applying changes." | tee -a $HOME/log.txt
   sudo mysql -u root -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"	  
@@ -101,8 +101,12 @@ configfirewall() {
   echo "$(date "+%F - %T") - Setting firewall rules for ports 22, 80 and 443." | tee -a $HOME/log.txt
   sudo ufw default deny incoming
   sudo ufw allow ssh
+  sudo ufw allow 80 
+  sudo ufw allow 8080  
   sudo ufw allow http
   sudo ufw allow https
+  
+  
   sudo echo y | sudo ufw enable
   # For Oracle Cloud, comment out the above values and uncomment the following:
   # sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
