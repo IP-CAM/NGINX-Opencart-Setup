@@ -11,9 +11,13 @@ rm $iontar;
 extensionsdir="$(php -i | grep 'extension_dir' | grep -o '[^ ]*$')"
 phpver="$(php -r 'echo implode(".", array_slice(explode(".", PHP_VERSION),0,2));')"
 cp ./ioncube/ioncube_loader_lin_$phpver.so $extensionsdir
-confspath="$(php -i | grep 'additional .ini files' | grep -o '[^ ]*$')"
-# for php-fpm running creates ini in /etc/php/X.X/fpm/, for php-cli - in /etc/php/X.X/cli/ :
-echo "zend_extension=ioncube_loader_lin_$phpver.so" > $confspath/00-ioncube-loader.ini
+
+confsclipath="$(php -i | grep 'additional .ini files' | grep -o '[^ ]*$')"
+echo "zend_extension=ioncube_loader_lin_$phpver.so" > $confsclipath/00-ioncube-loader.ini
+
+confsfpmpath="$(php-fpm$phpver -i | grep 'additional .ini files' | grep -o '[^ ]*$')"
+echo "zend_extension=ioncube_loader_lin_$phpver.so" > $confsfpmpath/00-ioncube-loader.ini 
+
 sudo systemctl restart php$phpver-fpm
 php -v
 if [ -z "$(php -v | grep 'ionCube PHP Loader')" ] ; then 
