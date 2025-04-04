@@ -29,7 +29,7 @@ if [ ! -z ${db2drop+x} ] ; then
  echo "$(date '+%F - %T') - Dropping old Opencart database '$db2drop' and user $(user2drop) @ localhost first." | tee -a $HOME/log.txt
  sudo mysql -u $dbrootusername -p$dbrootpassword -e "DROP DATABASE $db2drop; DROP USER IF EXISTS $user2drop@localhost ; FLUSH PRIVILEGES;"
 fi
-echo "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
+echo -e "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
 echo "$(date "+%F - %T") - Generating Opencart user,password and DB name." | tee -a $HOME/log.txt
 OPENCART_USER_NAME="admin$(pwgen -1 -s 2)"
 OPENCART_USER_PASS="$(pwgen -1 -s 16)" 
