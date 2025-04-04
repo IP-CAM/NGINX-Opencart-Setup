@@ -87,8 +87,8 @@ rm -f $random
 #  --http_server "http://$mydomain/"
 
 # /var/www/gsm-radio.ru/public/system/storage
-cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
-rm -r $webroot/system/storage/* || true
+#cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
+#rm -r $webroot/system/storage/* || true
 printf "${OK}${BELL} 
  *      OPENCART SERVER IS READY!!! 
  * We have reached end of installation with 'set -e' restriction, so all seems to be OK
