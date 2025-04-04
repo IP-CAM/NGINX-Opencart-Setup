@@ -64,7 +64,7 @@ rm -r /var/www/$mydomain/storage/* || true
  
 scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh
 scriptname="${scripturl##*/}"
-random=scriptname."$(pwgen -1 -s 5)"
+random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
