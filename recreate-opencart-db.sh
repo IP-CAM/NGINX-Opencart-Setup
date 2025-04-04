@@ -59,10 +59,9 @@ cp -a $webroot/. $webroot-saved-$(date "+%F@%T")/
 rm -r $webroot/* 
  
 randomsh="$(pwgen -1 -s 5)" 
-curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh -o $randomsh.sh \
-  && source $randomsh.sh \
-  $mydomain $releaseurl $releaseroot \
-  && rm -f $randomsh.sh
+curl -o $randomsh.sh  -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh 
+source $randomsh.sh $mydomain $releaseurl $releaseroot 
+rm -f $randomsh.sh
 
 
 php $webroot/install/cli_install.php install    \

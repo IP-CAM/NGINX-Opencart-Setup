@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-echo \n4
+ 
 
 mydomain=$1    # e.g.reallymydomain.site
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
@@ -69,11 +69,11 @@ chown -R www-data:www-data  /var/www/$mydomain
 #mkdir -p /var/www/$mydomain/storage/logs && chmod 0777 /var/www/$mydomain/storage/logs
 #mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache
   
-  
+set -e
 printf "\n
  👣 If you plan to use paid Opencart extensions, it is advisable to install right now also
     the 'ionCube Loader' they mostly use. We will do it now:\n"	
-chmod a+x ./install-ioncube.sh 
+chmod a+x ./install-ioncube.sh  
 source ./install-ioncube.sh
 printf "\n'ionCube Loader' installed\n"
  
