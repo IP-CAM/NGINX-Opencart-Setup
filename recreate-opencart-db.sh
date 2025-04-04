@@ -27,7 +27,7 @@ webroot=/var/www/$mydomain/public
 
 if [ ! -z ${db2drop+x} ] ; then 
  # printf "dbrootusername=$dbrootusername , dbrootpassword=$dbrootpassword--"
- printf "$(date '+%F - %T') - Dropping old Opencart database '${db2drop}' and user '${user2drop}'@-localhost first." | tee -a $HOME/log.txt
+ printf "$(date '+%F - %T') - Dropping old Opencart database '${db2drop}' and user '${user2drop}'@'localhost' first.\n" | tee -a $HOME/log.txt
  sudo mysql -u $dbrootusername -p$dbrootpassword -e "
   DROP USER IF EXISTS '$user2drop'@'localhost';
   DROP DATABASE IF EXISTS $db2drop;
@@ -53,7 +53,14 @@ echo "# ===== OPENCART USER NAME: $OPENCART_USER_NAME" >> $HOME/log.txt
 echo "# ===== OPENCART DATABASE NAME: $OPENCART_DATABASE" >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
   
-curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
+#curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
+ 
+randomsh="$(pwgen -1 -s 5)" 
+curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh -o $randomsh.sh \
+  && source $randomsh.sh \
+  $mydomain $releaseurl $releaseroot \
+  && rm -f $randomsh.sh
+
 
 php $webroot/install/cli_install.php install    \
   --db_hostname 'localhost' \
