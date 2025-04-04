@@ -70,16 +70,19 @@ chown -R www-data:www-data  /var/www/$mydomain
 #mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache
   
   
-# 👣 If you plan to use paid Opencart extensions, it is advisable to install right now also
-# the 'ionCube Loader' they mostly use   
-chmod a+x ./install-ioncube.sh && source ./install-ioncube.sh
+printf "\n
+ 👣 If you plan to use paid Opencart extensions, it is advisable to install right now also
+    the 'ionCube Loader' they mostly use. We will do it now:\n"	
+chmod a+x ./install-ioncube.sh 
+source ./install-ioncube.sh
+printf "\n'ionCube Loader' installed\n"
  
 
 printf "\n
 #######################################################
  👣 Now visit https://$mydomain and you should be taken to the installer page. 
  Follow the on screen instructions.\n
- 👣 Don't forget to delete your installation directory after installation!:
+ 👣 Do not forget to delete your installation directory after installation!:
     sudo rm -r $webroot/install\n
  👣 Also  It is very important that you move the storage directory 
  outside of the web directory to /var/www/$mydomain/storage by default
