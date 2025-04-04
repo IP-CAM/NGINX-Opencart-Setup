@@ -60,7 +60,7 @@ cp -a $webroot/. $webroot-saved-$datetime/
 rm -r $webroot/* || true
  
 cp -a /var/www/$mydomain/storage/. /var/www/$mydomain/storage-saved-$datetime/
-rm -r /var/www/$mydomain/storage/* || true 
+rm -r /var/www/$mydomain/storage/ || true 
  
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'
 scriptname="${scripturl##*/}"
@@ -87,7 +87,8 @@ php $webroot/install/cli_install.php install    \
   --http_server "http://$mydomain/"
 
 # /var/www/gsm-radio.ru/public/system/storage
-cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
+#cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
+#rm -r $webroot/system/storage/ || true
 rm -r $webroot/system/storage/ || true
 printf "${OK}${BELL} 
  *      OPENCART SERVER IS READY!!! 
