@@ -16,11 +16,11 @@ if [ -z ${releaseurl+x} ] ; then  printf "${ERR}You need to set release URL rele
 releaseroot=$3
 if [ -z ${releaseroot+x} ] ; then  printf "${ERR}You need to set YOUR own domain. Exiting..${NC}" && exit 1 ; fi
 dbrootpassword=$4
-if [ -z ${dbrootpassword+x} ] ; then  printf "${ERR}You need to set DB-root passwort. Exiting..${NC}" && exit 1 ; fi
+if [ -z ${dbrootpassword+x} ] ; then  printf "${ERR}You need to set DB-root password. Exiting..${NC}" && exit 1 ; fi
 dbrootusername=$5
-if [ -z ${dbrootusername+x} ] ; then printf "${WARN}will tru with DB-root username 'root'.${NC}";dbrootusername='root'; fi
+if [ -z ${dbrootusername+x} ] ; then printf "${WARN}will try with DB-root user name 'root'.${NC}";dbrootusername='root'; fi
 db2drop=$6
-if [ -z ${db2drop+x} ] ; then printf "${WARN}No previous DB and USER will be dropped'.${NC}"; fi
+if [ -z ${db2drop+x} ] ; then printf "${WARN}No previous DB and DB-USER will be dropped'.${NC}"; fi
 user2drop=$7
 
 webroot=/var/www/$mydomain/public
@@ -41,11 +41,8 @@ sudo mysql -u $dbrootusername -p$dbrootpassword -e \
   CREATE DATABASE $OPENCART_DATABASE;
   CREATE USER '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS';
   GRANT ALL PRIVILEGES on $OPENCART_DATABASE.* TO '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS' WITH GRANT OPTION;
+  FLUSH PRIVILEGES;
  "
-  
-echo "$(date "+%F - %T") - Applying changes." | tee -a $HOME/log.txt
-sudo mysql -u root -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"	
-
 echo -e '\n' >> $HOME/log.txt
 echo '# ============ OPENCART USER PASSWORD AND NAME============' >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
@@ -57,16 +54,20 @@ echo '# =====' >> $HOME/log.txt
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
 
 php $webroot/install/cli_install.php install    \
-  --db_hostname localhost \
+  --db_hostname 'localhost' \
   --db_username $dbrootusername \
   --db_password $dbrootpassword \
   --db_database $OPENCART_DATABASE \
-  --db_driver mysqli \
-  --db_port 3306 \
+  --db_driver 'mysqli' \
+  --db_port '3306' \
   --username $OPENCART_USER_NAME \
   --password $OPENCART_USER_PASS \
-  --email youremail@change.me.later \
-  --http_server http://$mydomain/
-  
-printf "${OK}${BELL} We have reached end of installion and all seems to be OK${NC}"
- 
+  --email 'youremail@change.me.later' \
+  --http_server 'http://$mydomain/'
+
+printf "${OK}${BELL} 
+ *      OPENCART SERVER IS READY!!! 
+ * We have reached end of installation with 'set -e' restriction, so all seems to be OK
+ * Installation details in $HOME/log.txt
+ * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
+ * You can access through your domain name $1 or public ip address.${NC}"

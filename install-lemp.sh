@@ -1,23 +1,18 @@
 #!bin/sh
 
-#
-#       Author:   Vadim Do, Reinaldo Moreno
-#  Description:   NGINX web server installer, PHP modules,
-#                 MariaDB database and firewall configuration.
-#           SO:   Ubuntu Server 22.04
-# Architecture:   any
-#
+mydomain=$1
+
+OK=$(tput setaf 2)"\n 👌: " 	# green
+ERR=$(tput setaf 1)"\n 💩: " 	# red
+WARN=$(tput setaf 3)"\n 👽: " 	# yellow
+INFO=$(tput setaf 4)"\n 👣: " 	# blue
+NC=$(tput sgr0)"\n"  			# unset
+BELL=$(tput bel)  				# play a bell
 
 startinstall() {
-  Color_Off='\033[0m'       # Reset
-  Green='\033[0;32m'        # Green
-  Cyan='\033[0;36m'         # Cyan
-  Yellow='\033[0;33m'       # Yellow
-
-  echo -e "${Yellow} * Starting installation... ${Color_Off}"
+  echo -e "${INFO} * Starting installation... ${NC}"
   touch $HOME/log.txt
-  echo "Unattended installation of LEMP Server" | tee -a $HOME/log.txt
-  echo "Author - Vadim Do, Reinaldo Moreno" | tee -a $HOME/log.txt
+  echo "Unattended installation of LEMP Server for Opencart" | tee -a $HOME/log.txt
 }
 
 # Update repository and install latest packages.
@@ -40,59 +35,58 @@ installnginx() {
 installphp() {
   # Opencart requirement : Please make sure the PHP extensions listed below are installed:
   # Database  GD  cURL  OpenSSL  ZLIB	ZIP	 DOM/XML Hash XMLWriter	JSON
-  #sudo apt-get -qq install php libapache2-mod-php php-mysql \
-  #php-common php-cli php-common php-json php-opcache php-readline \
-  #php-mbstring php-gd php-dom php-zip php-curl
-  # install php-fpm first to not install occidentally apache2: 
-  #       https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
+  
+  # install php-fpm first to not install occidentally apache2 with php: 
+  #  https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
   sudo apt-get -qq install php-fpm
   sudo apt-get -qq install php php-mysql \
   php-common php-cli php-opcache php-readline \
   php-mbstring php-gd php-zip php-curl php-xml
-  
+  # php-json php-dom 
 
   
-  bash <(curl -s https://gist.githubusercontent.com/radiocab/814ad543ae94ef4f1a1792f4eb3edf2c/raw/011028e54cbe2a1f8c32578fdc57ac2739b490b9/tune_php_ini.sh)
+  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
   echo "$(date "+%F - %T") - Installing PHP modules." | tee -a $HOME/log.txt
  }
 
 # Install MariaDB Server.
 # Generate key for root user.
-# Remove anonymous users, remove remote access and delete test database.
+# Remove anonymous users, remove remote access and delete 'test' database if exists.
 installconfigmariadb() {
+  DB_ROOT_NAME='root'
   echo "$(date "+%F - %T") - Installing MariaDB." | tee -a $HOME/log.txt
   sudo apt-get install -qq mariadb-server
 
-  echo "$(date "+%F - %T") - Generating root key for MariaDB." | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - Generating root password for MariaDB." | tee -a $HOME/log.txt
   DB_ROOT_PASS="$(pwgen -1 -s 16)"
   
   echo "$(date "+%F - %T") - Setting root password for MariaDB." | tee -a $HOME/log.txt
   sudo mysql -e "UPDATE mysql.global_priv SET priv=json_set(priv, '$.plugin', \
     'mysql_native_password', '$.authentication_string', \
-    PASSWORD('$DB_ROOT_PASS')) WHERE User='root';"
+    PASSWORD('$DB_ROOT_PASS')) WHERE User='$DB_ROOT_NAME';"
 
   echo "$(date "+%F - %T") - Applying privileges to MariaDB root user." | tee -a $HOME/log.txt    
   sudo mysql -e "FLUSH PRIVILEGES;"  
 
   echo "$(date "+%F - %T") - Deleting anonymous users in MariaDB." | tee -a $HOME/log.txt
-  sudo mysql -u root -p$DB_ROOT_PASS -e "DELETE FROM mysql.user WHERE User='';"
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "DELETE FROM mysql.user WHERE User='';"
   echo "$(date "+%F - %T") - Removing remote access to databases." | tee -a $HOME/log.txt
-  sudo mysql -u root -p$DB_ROOT_PASS -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "DELETE FROM mysql.user WHERE User='$DB_ROOT_NAME' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
   echo "$(date "+%F - %T") - Deleting test database." | tee -a $HOME/log.txt
-  sudo mysql -u root -p$DB_ROOT_PASS -e "DROP DATABASE IF EXISTS test;"
-  sudo mysql -u root -p$DB_ROOT_PASS -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "DROP DATABASE IF EXISTS test;"
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
 
   echo "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
   echo "$(date "+%F - %T") - Generating Opencart user,password and DB name." | tee -a $HOME/log.txt
   OPENCART_USER_PASS="$(pwgen -1 -s 16)" 
   OPENCART_USER_NAME="admin"
   OPENCART_DATABASE="db$(pwgen -1 -s 2)"
-  sudo mysql -u root -p$DB_ROOT_PASS -e "CREATE DATABASE $OPENCART_DATABASE;
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "CREATE DATABASE $OPENCART_DATABASE;
       CREATE USER '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS';
       GRANT ALL PRIVILEGES on $OPENCART_DATABASE.* TO '$OPENCART_USER_NAME'@'localhost' IDENTIFIED BY '$OPENCART_USER_PASS' WITH GRANT OPTION;"
   
   echo "$(date "+%F - %T") - Applying changes." | tee -a $HOME/log.txt
-  sudo mysql -u root -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"	  
+  sudo mysql -u $DB_ROOT_NAME -p$DB_ROOT_PASS -e "FLUSH PRIVILEGES;"	  
 }
 
 
@@ -118,8 +112,8 @@ configfirewall() {
 finishcleanrestart() {
   echo "$(date "+%F - %T") - Assigning permissions to the web directory." | tee -a $HOME/log.txt
   sudo adduser $USER www-data
-  sudo chmod g+w /var/www -R
-  sudo chown -R www-data:www-data /var/www/
+  sudo chmod g+w /var/www/$mydomain -R
+  sudo chown -R www-data:www-data /var/www/$mydomain
   # echo -e "ServerName localhost" | sudo tee -a /etc/apache2/apache2.conf
   echo "$(date "+%F - %T") - Clearing package cache an restart web service." | tee -a $HOME/log.txt
   sudo apt-get clean
@@ -134,7 +128,7 @@ installphp
 installconfigmariadb
 configfirewall
 finishcleanrestart
-curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $1 $2
+curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
 
 echo -e '\n' >> $HOME/log.txt
 echo '# ============ MARIADB ROOT PASSWORD ============' >> $HOME/log.txt
@@ -150,7 +144,10 @@ echo "# ===== OPENCART USER NAME: $OPENCART_USER_NAME" >> $HOME/log.txt
 echo "# ===== OPENCART DATABASE NAME: $OPENCART_DATABASE" >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
 
-echo -e "\n${Yellow} * LEMP SERVER IS READY!!!${Color_Off}"
-echo -e "\n${Green} * Installation details in $HOME/log.txt.${Color_Off}"
-echo -e "\n${Yellow} * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA.${Color_Off}"
-echo -e "\n${Green} * You can access through your domain name $1 or public ip address.${Color_Off}"
+ 
+printf "${OK}${BELL} 
+ *      LEMP SERVER TUNED FOR OPENCART IS READY!!! 
+ * We have reached end of installation with 'set -e' restriction, so all seems to be OK
+ * Installation details in '$HOME/log.txt'
+ * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
+ * You can access through your domain name $1 or public IP address.${NC}"
