@@ -26,8 +26,12 @@ user2drop=$7
 webroot=/var/www/$mydomain/public
 
 if [ ! -z ${db2drop+x} ] ; then 
+ printf "dbrootusername=$dbrootusername , dbrootpassword=$dbrootpassword--"
  printf "$(date '+%F - %T') - Dropping old Opencart database ${db2drop} and user ${user2drop}@---localhost first." | tee -a $HOME/log.txt
- sudo mysql -u $dbrootusername -p$dbrootpassword -e "DROP USER IF EXISTS '$user2drop'@'localhost'; DROP DATABASE $db2drop; FLUSH PRIVILEGES;"
+ sudo mysql -u $dbrootusername -p$dbrootpassword -e "
+  DROP USER IF EXISTS '$user2drop'@'localhost';
+  DROP DATABASE IF EXISTS $db2drop;
+  FLUSH PRIVILEGES;"
 fi
 echo -e "$(date "+%F - %T") - Creating Opencart database." | tee -a $HOME/log.txt
 echo "$(date "+%F - %T") - Generating Opencart user,password and DB name." | tee -a $HOME/log.txt
