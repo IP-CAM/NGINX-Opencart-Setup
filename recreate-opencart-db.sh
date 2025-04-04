@@ -55,6 +55,9 @@ echo '# =====' >> $HOME/log.txt
   
 #curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
  
+cp -a $webroot/. $webroot-saved-$(date "+%F@%T")/
+rm -r $webroot/* 
+ 
 randomsh="$(pwgen -1 -s 5)" 
 curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh -o $randomsh.sh \
   && source $randomsh.sh \
