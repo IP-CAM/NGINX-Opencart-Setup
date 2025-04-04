@@ -73,7 +73,7 @@ set -e
 printf "\n
  👣 You will sure use some paid Opencart extensions, so we will install right now  
     the 'ionCube Loader' they mostly use:\n"	
-scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-ioncube.sh	
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-ioncube.sh'	
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
 

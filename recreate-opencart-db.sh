@@ -62,7 +62,7 @@ rm -r $webroot/* || true
 cp -a /var/www/$mydomain/storage/. /var/www/$mydomain/storage-saved-$datetime/
 rm -r /var/www/$mydomain/storage/* || true 
  
-scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
 
