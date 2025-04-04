@@ -55,9 +55,12 @@ echo '# =====' >> $HOME/log.txt
   
 #curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
  
-cp -a $webroot/. $webroot-saved-$(date "+%F@%T")/
+datetime=$(date "+%F@%T")
+cp -a $webroot/. $webroot-saved-$datetime/
 rm -r $webroot/* || true
  
+cp -a /var/www/$mydomain/storage/. /var/www/$mydomain/storage-saved-$datetime/
+rm -r /var/www/$mydomain/storage/* || true 
  
 scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh
 scriptname="${scripturl##*/}"
