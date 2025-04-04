@@ -72,11 +72,11 @@ php $webroot/install/cli_install.php install    \
   --username $OPENCART_USER_NAME \
   --password $OPENCART_USER_PASS \
   --email 'youremail@change.me.later' \
-  --http_server 'http://$mydomain/'
+  --http_server "http://$mydomain/"
 
 printf "${OK}${BELL} 
  *      OPENCART SERVER IS READY!!! 
  * We have reached end of installation with 'set -e' restriction, so all seems to be OK
  * Installation details in $HOME/log.txt
  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
- * You can access through your domain name $1 or public ip address.${NC}"
+ * You can access through your domain name '$1' or public ip address.${NC}"
