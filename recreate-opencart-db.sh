@@ -74,17 +74,17 @@ echo "exited $random !"
 rm -f $random
 
 
-php $webroot/install/cli_install.php install    \
-  --db_hostname 'localhost' \
-  --db_username $dbrootusername \
-  --db_password $dbrootpassword \
-  --db_database $OPENCART_DATABASE \
-  --db_driver 'mysqli' \
-  --db_port '3306' \
-  --username $OPENCART_USER_NAME \
-  --password $OPENCART_USER_PASS \
-  --email 'youremail@change.me.later' \
-  --http_server "http://$mydomain/"
+#php $webroot/install/cli_install.php install    \
+#  --db_hostname 'localhost' \
+#  --db_username $dbrootusername \
+#  --db_password $dbrootpassword \
+#  --db_database $OPENCART_DATABASE \
+#  --db_driver 'mysqli' \
+#  --db_port '3306' \
+#  --username $OPENCART_USER_NAME \
+#  --password $OPENCART_USER_PASS \
+#  --email 'youremail@change.me.later' \
+#  --http_server "http://$mydomain/"
 
 # /var/www/gsm-radio.ru/public/system/storage
 cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
