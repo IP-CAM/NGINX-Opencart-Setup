@@ -58,12 +58,17 @@ echo '# =====' >> $HOME/log.txt
 cp -a $webroot/. $webroot-saved-$(date "+%F@%T")/
 rm -r $webroot/* || true
  
-randomsh="$(pwgen -1 -s 5)" 
-curl -o install-opencart.$randomsh.sh  -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh 
-echo "running install-opencart.$randomsh.sh "
-source ./install-opencart.$randomsh.sh $mydomain $releaseurl $releaseroot 
-echo "exited install-opencart.$randomsh.sh "
-rm -f install-opencart.$randomsh.sh
+ 
+scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh
+scriptname="${scripturl##*/}"
+random=scriptname."$(pwgen -1 -s 5)"
+
+curl -s $scripturl  -o $random
+chmod a+x ./$random
+echo "running $random"
+source ./$random $mydomain $releaseurl $releaseroot 
+echo "exited $random"
+rm -f $random
 
 
 php $webroot/install/cli_install.php install    \
