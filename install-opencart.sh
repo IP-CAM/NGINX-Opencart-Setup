@@ -71,10 +71,18 @@ chown -R www-data:www-data  /var/www/$mydomain
   
 set -e
 printf "\n
- 👣 If you plan to use paid Opencart extensions, it is advisable to install right now also
-    the 'ionCube Loader' they mostly use. We will do it now:\n"	
-chmod a+x ./install-ioncube.sh  
-source ./install-ioncube.sh
+ 👣 You will sure use some paid Opencart extensions, so we will install right now  
+    the 'ionCube Loader' they mostly use:\n"	
+scripturl=https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-ioncube.sh	
+scriptname="${scripturl##*/}"
+random=scriptname."$(pwgen -1 -s 5)"
+
+curl -s $scripturl  -o $random
+chmod a+x ./$random
+echo "running $random"
+source ./$random $mydomain $releaseurl $releaseroot 
+echo "exited $random"
+rm -f $random
 printf "\n'ionCube Loader' installed\n"
  
 
