@@ -79,9 +79,9 @@ random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
-echo "running2 $random"
+echo "running $random ..."
 source ./$random 
-echo "exited2 $random"
+echo "exited $random !"
 rm -f $random
 printf "\n'ionCube Loader' installed\n"
  

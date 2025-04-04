@@ -68,9 +68,9 @@ random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
-echo "running1 $random"
+echo "running $random ...."
 source ./$random $mydomain $releaseurl $releaseroot 
-echo "exited1 $random"
+echo "exited $random !"
 rm -f $random
 
 
