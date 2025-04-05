@@ -2,26 +2,23 @@
  
 set -e 
 
-OK=$(tput setaf 2)"\n 👌: " 	# green
-ERR=$(tput setaf 1)"\n 💩: " 	# red
-WARN=$(tput setaf 3)"\n 👽: " 	# yellow
-INFO=$(tput setaf 4)"\n 👣: " 	# blue
-NC=$(tput sgr0)"\n"  		# unset
-BELL=$(tput bel)  		# play a bell
- 
-mydomain=$1
-if [ -z ${mydomain+x} ] ; then  printf "${ERR}You need to set YOUR own domain mydomain. Exiting..${NC}" && exit 1 ; fi
-releaseurl=$2
-if [ -z ${releaseurl+x} ] ; then  printf "${ERR}You need to set release URL releaseurl. Exiting..${NC}" && exit 1 ; fi
-releaseroot=$3
-if [ -z ${releaseroot+x} ] ; then  printf "${ERR}You need to set YOUR own domain. Exiting..${NC}" && exit 1 ; fi
-dbrootpassword=$4
-if [ -z ${dbrootpassword+x} ] ; then  printf "${ERR}You need to set DB-root password. Exiting..${NC}" && exit 1 ; fi
-dbrootusername=$5
-if [ -z ${dbrootusername+x} ] ; then printf "${WARN}will try with DB-root user name 'root'.${NC}";dbrootusername='root'; fi
-db2drop=$6
+source ./includes.sh
+
+set_colors
+read_args_by_place
+check_mydomain_set
+set_dbreqs
+# check_dbreqs() {
+ if [ -z ${dbrootpassword+x} ] ; then printf "${ERR}You need to set DB-root password. Exiting..${NC}" && exit 1 ; fi
+ if [ -z ${dbrootusername+x} ] ; then printf "${WARN}will try with DB-root user name 'root'.${NC}";dbrootusername='root'; fi
+# }
+set_opencart_source
+# check_opencart_source() {
+ if [ -z ${sourceurl+x} ] ; then  printf "${ERR}You need to set source URL sourceurl. Exiting..${NC}" && exit 1 ; fi
+ if [ -z ${sourceroot+x} ] ; then  printf "${ERR}You need to set YOUR own domain. Exiting..${NC}" && exit 1 ; fi
+# }
+
 if [ -z ${db2drop+x} ] ; then printf "${WARN}No previous DB and DB-USER will be dropped'.${NC}"; fi
-user2drop=$7
 
 webroot=/var/www/$mydomain/public
 
@@ -53,7 +50,7 @@ echo "# ===== OPENCART USER NAME: $OPENCART_USER_NAME" >> $HOME/log.txt
 echo "# ===== OPENCART DATABASE NAME: $OPENCART_DATABASE" >> $HOME/log.txt
 echo '# =====' >> $HOME/log.txt
   
-#curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $releaseurl $releaseroot
+#curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh | bash -s -- $mydomain $sourceurl $sourceroot
  
 datetime=$(date "+%F@%T")
 cp -a $webroot/. $webroot-saved-$datetime/ || true
@@ -69,12 +66,13 @@ random=$scriptname."$(pwgen -1 -s 5)"
 curl -s $scripturl  -o $random
 chmod a+x ./$random
 echo "running $random ...."
-source ./$random $mydomain $releaseurl $releaseroot 
+source ./$random $mydomain $sourceurl $sourceroot 
 echo "exited $random !"
 rm -f $random
 
-cd $webroot/install/
-php $webroot/install/cli_install.php install    \
+if [ ! -z ${cliinstall+x} ] ; then 
+ cd $webroot/install/
+ php $webroot/install/cli_install.php install    \
   --db_hostname 'localhost' \
   --db_username $dbrootusername \
   --db_password $dbrootpassword \
@@ -85,14 +83,18 @@ php $webroot/install/cli_install.php install    \
   --password $OPENCART_USER_PASS \
   --email 'youremail@change.me.later' \
   --http_server "http://$mydomain/"
+ # returns back to prev dir:
+ cd -
+fi
 
 # /var/www/gsm-radio.ru/public/system/storage
 #cp -a $webroot/system/storage/. /var/www/$mydomain/storage/
 #rm -r $webroot/system/storage/ || true
  
-printf "${OK}${BELL} 
- *      OPENCART SERVER IS READY!!! 
- * We have reached end of installation with 'set -e' restriction, so all seems to be OK
- * Installation details in $HOME/log.txt
- * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
- * You can access through your domain name '$1' or public ip address.${NC}"
+footermsg 
+# printf "${OK}${BELL} 
+#  *      OPENCART SERVER IS READY!!! 
+#  * We have reached end of installation with 'set -e' restriction, so all seems to be OK
+#  * Installation details in $HOME/log.txt
+#  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
+#  * You can access through your domain name '$1' or public ip address.${NC}"

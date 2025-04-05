@@ -9,13 +9,13 @@ if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then
 fi
 printf "${OK}Domain is set to '$mydomain'\n${NC}\n"
  
-releaseurl=$2  # e.g. 'https://github.com/opencart/opencart/releases/download/3.0.3.2/opencart-3.0.3.2.zip'
-if  [ -z ${releaseurl+x} ] ; then releaseurl='https://github.com/opencart/opencart/releases/download/3.0.4.0/opencart-3.0.4.0.zip'; fi
-printf "${OK}Release url is set to '$releaseurl'\n${NC}\n"
+sourceurl=$2  # e.g. 'https://github.com/opencart/opencart/sources/download/3.0.3.2/opencart-3.0.3.2.zip'
+if  [ -z ${sourceurl+x} ] ; then sourceurl='https://github.com/opencart/opencart/releases/download/3.0.4.0/opencart-3.0.4.0.zip'; fi
+printf "${OK}source url is set to '$sourceurl'\n${NC}\n"
 
-releaseroot=$3 # e.g. 'upload-3040' 
-if  [ -z ${releaseroot+x} ] ; then releaseroot='upload'; fi
-printf "${OK}Release root is set to '$releaseroot'\n${NC}\n"
+sourceroot=$3 # e.g. 'upload-3040' 
+if  [ -z ${sourceroot+x} ] ; then sourceroot='upload'; fi
+printf "${OK}source root is set to '$sourceroot'\n${NC}\n"
 
 webroot=/var/www/$mydomain/public
 printf "${OK}Web root is  '$webroot'\n${NC}\n"
@@ -26,11 +26,11 @@ printf "${OK}Web root is  '$webroot'\n${NC}\n"
 ################################
 
 mkdir -p tmp && cd tmp
-curl -o oc.zip -fSL $releaseurl
+curl -o oc.zip -fSL $sourceurl
 unzip -o -q oc.zip
 rm oc.zip;
-#mv -f ./$releaseroot/* $webroot/
-(cd ./$releaseroot && tar c .) | (cd $webroot && tar xf -)
+#mv -f ./$sourceroot/* $webroot/
+(cd ./$sourceroot && tar c .) | (cd $webroot && tar xf -)
 
 cd ..
 mv  $webroot/config-dist.php $webroot/config.php
