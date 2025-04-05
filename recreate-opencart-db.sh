@@ -73,7 +73,7 @@ source ./$random $mydomain $releaseurl $releaseroot
 echo "exited $random !"
 rm -f $random
 
-
+cd $webroot/install/
 php $webroot/install/cli_install.php install    \
   --db_hostname 'localhost' \
   --db_username $dbrootusername \
