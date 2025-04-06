@@ -40,7 +40,7 @@ simple_choose_from_menu() {
  }
  
 
-simple_menu{
+simple_menu() {
 selections=(
  "Selection A"
  "Selection B"
