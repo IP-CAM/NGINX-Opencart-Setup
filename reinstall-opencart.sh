@@ -2,10 +2,10 @@
  
 set -e 
 
-source ./includes.sh
+source ./includes.sh # also sets colors and print header message here by include
 
 scriptname=reinstall-opencart.sh
-set_colors
+
 read_args_by_place
 check_mydomain_set
 set_dbreqs
