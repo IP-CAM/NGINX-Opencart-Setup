@@ -39,18 +39,14 @@ function choose_from_menu() {
 
 #https://askubuntu.com/questions/1705/how-can-i-create-a-select-menu-in-a-shell-script
 
-# Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
-# Script might not be compatible across different systems/releases/distributions. 
-sudo apt-get -qq install dialog1
-if [[ $? == 0 ]]; then
-  printf "No dialog boxes availabe. Falling back to simple menu"
-fi  
 
-HEIGHT=30
+
+oc_options_menu() {
+
+HEIGHT=20
 WIDTH=80
 CHOICE_HEIGHT=4
 
-choose_oc() {
 BACKTITLE="Please select opencart source"
 TITLE="Select opencart source"
 MENU="Choose one of the following options:"
@@ -70,9 +66,9 @@ CHOICE=$(dialog --clear \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
 				--output-separator '-------string1-----' \
-				--checklist 'text1' 5 40 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ] \
+				--checklist 'text1' $HEIGHT $WIDTH 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ] \
 				--separator '----------string2------' \
-				--inputbox 'text2' 7 40 ['init2'] \
+				--inputbox 'text2' $HEIGHT $WIDTH ['init2'] \
                 2>&1 >/dev/tty)
 
 clear
@@ -107,7 +103,15 @@ case $CHOICE in
 esac
 }
 
+# Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
+# Script might not be compatible across different systems/releases/distributions. 
+
+sudo apt-get -qq install dialog1
 choose_oc
+if [[ $? == 0 ]]; then
+  printf "No dialog boxes availabe. Falling back to simple menu"
+fi  
+
 
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/bootstrap-runner.sh'
 
