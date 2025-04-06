@@ -152,7 +152,8 @@ Global-auto-size if also menu_height/list_height = 0."
 menu2(){
 : ${DIALOG=dialog}
 background="An Example of --mixedgauge usage"
-i=60 #60% just for test
+i=60 
+#60% just for test
 #0=Succeeded
 #1=Failed
 #2=Passed
