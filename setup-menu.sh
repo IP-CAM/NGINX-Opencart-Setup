@@ -134,7 +134,7 @@ dialog           --keep-window --begin 2 2 --yesno "" 0 0 \
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
 
-sudo apt-get -qq install dialog1
+sudo apt-get -qq install dialog
 if [[ $? != 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu\n"
   simple_choose_from_menu
