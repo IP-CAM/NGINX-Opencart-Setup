@@ -97,109 +97,79 @@ dialog                         --begin 2 2 --yesno "" 0 0 \
 					--output-separator '-------string2-----' \
     --and-widget               --begin 6 6  "" 0 0
 }
-dialog_help() {
-printf "Usage: dialog <options> { --and-widget <options> }
-where options are 'common' options, followed by 'box' options
 
-Special options:
-[--create-rc 'file']
-Common options:
-[--ascii-lines] [--aspect <ratio>] [--backtitle <backtitle>]
-[--begin <y> <x>] [--cancel-label <str>] [--clear] [--colors]
-[--column-separator <str>] [--cr-wrap] [--default-item <str>]
-[--defaultno] [--exit-label <str>] [--extra-button]
-[--extra-label <str>] [--help-button] [--help-label <str>]
-[--help-status] [--ignore] [--input-fd <fd>] [--insecure]
-[--item-help] [--keep-tite] [--keep-window] [--max-input <n>]
-[--no-cancel] [--no-collapse] [--no-kill] [--no-label <str>]
-[--no-lines] [--no-ok] [--no-shadow] [--nook] [--ok-label <str>]
-[--output-fd <fd>] [--output-separator <str>] [--print-maxsize]
-[--print-size] [--print-version] [--quoted] [--separate-output]
-[--separate-widget <str>] [--shadow] [--single-quoted] [--size-err]
-[--sleep <secs>] [--stderr] [--stdout] [--tab-correct] [--tab-len <n>]
-[--timeout <secs>] [--title <title>] [--trace <file>] [--trim]
-[--version] [--visit-items] [--yes-label <str>]
-Box options:
---calendar <text> <height> <width> <day> <month> <year>
---checklist <text> <height> <width> <list height> <tag1> <item1> <status1>...
---dselect <directory> <height> <width>
---editbox <file> <height> <width>
---form <text> <height> <width> <form height> <label1> <l_y1> <l_x1> <item1> <i_y1> <i_x1> <flen1> <ilen1>...
---fselect <filepath> <height> <width>
---gauge <text> <height> <width> [<percent>]
---infobox <text> <height> <width>
---inputbox <text> <height> <width> [<init>]
---inputmenu <text> <height> <width> <menu height> <tag1> <item1>...
---menu <text> <height> <width> <menu height> <tag1> <item1>...
---mixedform <text> <height> <width> <form height> <label1> <l_y1> <l_x1> <item1> <i_y1> <i_x1> <flen1> <ilen1> <itype>...
---mixedgauge <text> <height> <width> <percent> <tag1> <item1>...
---msgbox <text> <height> <width>
---passwordbox <text> <height> <width> [<init>]
---passwordform <text> <height> <width> <form height> <label1> <l_y1> <l_x1> <item1> <i_y1> <i_x1> <flen1> <ilen1>...
---pause <text> <height> <width> <seconds>
---progressbox <height> <width>
---radiolist <text> <height> <width> <list height> <tag1> <item1> <status1>...
---tailbox <file> <height> <width>
---tailboxbg <file> <height> <width>
---textbox <file> <height> <width>
---timebox <text> <height> <width> <hour> <minute> <second>
---yesno <text> <height> <width>
-Auto-size with height and width = 0. Maximize with height and width = -1.
-Global-auto-size if also menu_height/list_height = 0."
+declare_terminal() {
+# Application constants
+declare -r snmp_oid_laitos_ip=1.3.6.1.4.1.52535.121.100
+declare -r caption_online='✅Online'
+declare -r caption_offline='➖Unreachable'
+declare -r caption_unknown='❔Undetermined'
+declare -r conf_file="$HOME/.laitos-terminal-config.txt"
+declare -r self_exe="$0"
+declare -r -a daemon_names=('HTTP server' 'HTTPS server' 'DNS server' 'Mail server' 'Telnet server' 'SNMP server' 'QOTD')
+declare -r -A main_menu_key_labels=(
+  ['config']='💾 Configure laitos server address and more'
+  ['email']='📮 Read and send Emails'
+  ['phone']='📠 Make calls and send SMS'
+  ['tweet']='🐦 Read and post tweets'
+  ['info']='🌐 Get the latest news / weather / facts'
+  ['book']='📝 2FA code / password book / text search'
+  ['cmd']='💻 Run commands and inspect server status'
+)
 }
 
-#  Mixed gauge demonstration
-menu2(){
-: ${DIALOG=dialog}
-background="An Example of --mixedgauge usage"
-i=60 
-#60% just for test
-#0=Succeeded
-#1=Failed
-#2=Passed
-#3=Completed
-#4=Done
-#5=Skipped
-#6=In Progress
-#7=Checked
-#-$i= value in i%
-# "" "8" draws empty line
 
-$DIALOG --begin 5 5 \
---backtitle "$background" \
---title "Mixed gauge demonstration" \
---mixedgauge "This is a prompt message,\nand this is the second line." \
-0 0 33 \
-"Process one" "0" \ 
-"Process two" "1" \
-"Process three" "2" \
-"Process four" "3" \
-"" "8" \
-"Process five" "5" \
-"Process six" "6" \
-"Process seven" "7" \
-"Process eight" "4" \
-"Process nine" "-$i"
-
-# Auto-size with height and width = 0. Maximize with height and width = -1.
-# Global-auto-size if also menu_height/list_height = 0.
-$DIALOG --begin -1 -1 \
---backtitle "$background" \
---title "Mixed gauge demonstration" \
---mixedgauge "This is a prompt message,\nand this is the second line." \
-0 0 33 \
-"Process one" "0" \ 
-"Process two" "1" \
-"Process three" "2" \
-"Process four" "3" \
-"" "8" \
-"Process five" "5" \
-"Process six" "6" \
-"Process seven" "7" \
-"Process eight" "4" \
-"Process nine" "-$i"
+################################################################################
+# Dialog - application configuration
+################################################################################
+dialog_config() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '💾 Configure laitos server address and more' --mixedform "The settings for connecting to your laitos server are saved to $conf_file" 21 70 12 \
+      'What is the server hostname/IP?' 1 0 "$laitos_host"     1 32 200 0 0 \
+      '' 2 0 '' 2 0 0 0 0 \
+      'On which port does the server run... (leave empty if unsed)' 3 0 '' 3 0 0 0 0 \
+      'HTTP port'                      4 0 "$port_httpd"       4 32 8 0 0 \
+      'HTTPS port'                     5 0 "$port_httpsd"      5 32 8 0 0 \
+      'DNS port'                       6 0 "$port_dnsd"        6 32 8 0 0 \
+      'SMTP port'                      7 0 "$port_smtpd"       7 32 8 0 0 \
+      'SNMP port'                      8 0 "$port_snmpd"       8 32 8 0 0 \
+      'Telnet - plain socket port'     9 0 "$port_plainsocket" 9 32 8 0 0 \
+      'Simple IP service - QOTD port' 10 0 "$port_qotd"       10 32 8 0 0 \
+      '' 11 0 '' 11 0 0 0 0 \
+      'In order to execute app commands on your laitos server...' 12 0 '' 12 0 0 0 0 \
+      'Command processor password'    13 0 "$app_cmd_pass"     13 32 200 0 0 \
+      'App command execution API URL' 14 0 "$app_cmd_endpoint" 14 32 200 0 0 \
+      '' 15 0 '' 15 0 0 0 0 \
+      'What is the community string for probing SNMP?' 16 0 '' 16 0 0 0 0 \
+      'Leave empty if unused'       17 0 "$snmp_community_string" 17 32 200 0 0 \
+      '' 18 0 '' 18 0 0 0 0 \
+      'Low bandwidth mode works better over satellite (reduce security)' 19 0 '' 19 0 0 0 0 \
+      'Use low bandwidth mode? (y/n)' 20 0 "$low_bandwidth_mode" 20 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  if [ -s "$form_submission_file" ]; then
+    readarray -t form_fields < "$form_submission_file"
+    cat << EOF > "$conf_file"
+laitos_host="${form_fields[0]}"
+port_httpd="${form_fields[1]}"
+port_httpsd="${form_fields[2]}"
+port_dnsd="${form_fields[3]}"
+port_smtpd="${form_fields[4]}"
+port_snmpd="${form_fields[5]}"
+port_plainsocket="${form_fields[6]}"
+port_qotd="${form_fields[7]}"
+app_cmd_pass="${form_fields[8]}"
+app_cmd_endpoint="${form_fields[9]}"
+snmp_community_string="${form_fields[10]}"
+low_bandwidth_mode="${form_fields[11]}"
+EOF
  
+  fi
 }
+
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
@@ -211,8 +181,10 @@ if [[ $? != 0 ]]; then
   # https://github.com/JazerBarclay/whiptail-examples some samples:
   # whiptail_menu
 fi  
-menu2
-menu1
+
+declare_terminal
+dialog_config
+#menu1
 
  
 #oc_options_menu
