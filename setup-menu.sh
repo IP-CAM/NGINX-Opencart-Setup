@@ -107,7 +107,7 @@ esac
 # Script might not be compatible across different systems/releases/distributions. 
 
 sudo apt-get -qq install dialog1
-choose_oc
+oc_options_menu
 if [[ $? == 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu"
 fi  
