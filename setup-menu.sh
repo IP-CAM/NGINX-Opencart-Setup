@@ -116,7 +116,17 @@ declare -r -A main_menu_key_labels=(
   ['book']='📝 2FA code / password book / text search'
   ['cmd']='💻 Run commands and inspect server status'
 )
-form_submission_file="$(mktemp -p /tmp my-form-submission-XXXXX)"
+ 
+
+# Runtime data
+connection_report_file="$(mktemp -p /tmp terminal-connection-report-XXXXX)"
+last_reqresp_file="$(mktemp -p /tmp terminal-last-reqresp-XXXXX)"
+app_cmd_out_file="$(mktemp -p /tmp terminal-app-cmd-output-XXXXX)"
+form_submission_file="$(mktemp -p /tmp terminal-form-submission-XXXXX)"
+ 
+
+# Application configuration read from and persisted into a text file
+sample_host="${sample_host:-}"
 #}
 
 
@@ -410,6 +420,8 @@ dialog_book
 dialog_cmd
 dialog_main_menu
 rm -f  "$form_submission_file" || true
+
+dialog --hline "{_VERSION}" --title "Сборка базового образа ubn1c-base" --tailbox /tmp/out.out 10 120 --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 2> /dev/null &
 
 
 #menu1
