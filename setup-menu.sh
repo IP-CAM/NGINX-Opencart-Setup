@@ -6,7 +6,7 @@ export TOP_PID=$$
  
  
 # thanks to https://askubuntu.com/posts/1386907/revisions
-function choose_from_menu() {
+function simple_choose_from_menu() {
     local prompt="$1" outvar="$2"
     shift
     shift
@@ -111,6 +111,7 @@ oc_options_menu() {
 sudo apt-get -qq install dialog1
 if [[ $? == 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu\n"
+  simple_choose_from_menu
 fi  
 
 oc_options_menu
