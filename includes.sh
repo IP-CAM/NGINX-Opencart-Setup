@@ -123,8 +123,7 @@ read_args_by_name() {
 }
 
 headermsg() { 
- me=$(basename "$0")
- 
+ #me=$(basename "$0")
  printf "${OK} 
  * Starting to execute '$scriptname'-script with 'set -e'(exit on error switch)
     from folder ${0%/*}
@@ -135,12 +134,18 @@ headermsg() {
 
 
 footermsg() { 
- #me=$(basename "$0")
- printf "${OK}${BELL} 
- * We have reached end of '$scriptname'-script with 'set -e'(exit on error switch), 
-    so all seems to be OK
- * Installation details are in file $HOME/log.txt
- * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA ${NC}"
+ if [[ $? == 0 ]]; then
+  printf "${OK}${BELL} 
+   * We have reached end of '$scriptname'-script with 'set -e'(exit on error switch), 
+      so all seems to be OK${NC}"
+ else
+  printf "${ERR}${BELL} 
+   * We have not reached end of '$scriptname'-script with 'set -e'(exit on error switch), 
+      so it seems to be some error (error code $?)${NC}" 
+ fi 
+   printf "${INFO}
+   * Installation details are in file $HOME/log.txt
+   * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA ${NC}"
 }
 
 headermsg
