@@ -127,6 +127,20 @@ form_submission_file="$(mktemp -p /tmp terminal-form-submission-XXXXX)"
 
 # Application configuration read from and persisted into a text file
 sample_host="${sample_host:-}"
+
+
+# Clean up after temporary files and background jobs on exit
+clean_up_before_exit() {
+  rm -f "$connection_report_file" "$last_reqresp_file" "$app_cmd_out_file" "$form_submission_file" || true
+}
+on_exit() {
+  clean_up_before_exit
+  # The temrinal program is not expected to exit using the exit code of external command "dialog"
+  exit 0
+}
+trap on_exit EXIT INT TERM
+
+
 #}
 
 
@@ -419,7 +433,7 @@ dialog_simple_info_box "Please complete any section of the form to use that app.
 dialog_book
 dialog_cmd
 dialog_main_menu
-rm -f  "$form_submission_file" || true
+ 
 
 dialog --hline "{_VERSION}" --title "Сборка базового образа ubn1c-base" --tailbox /tmp/out.out 10 120 --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 2> /dev/null &
 
