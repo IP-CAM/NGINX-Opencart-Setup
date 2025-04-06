@@ -116,6 +116,7 @@ declare -r -A main_menu_key_labels=(
   ['book']='📝 2FA code / password book / text search'
   ['cmd']='💻 Run commands and inspect server status'
 )
+form_submission_file="$(mktemp -p /tmp my-form-submission-XXXXX)"
 }
 
 
@@ -199,6 +200,191 @@ dialog_simple_info_box() {
     --begin 2 50 --title 'Notice' --infobox "$info_box_txt" 10 45 || true
 }
 
+################################################################################
+# Dialog - read and send Emails
+################################################################################
+dialog_email() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '📮 Read and send Emails' --mixedform '' 21 70 14 \
+      'List Emails'                       1 0 ''     1  0   0 0 0 \
+      'Email account nick name'           2 0 ''     2 32 200 0 0 \
+      'Skip latest N Emails'              3 0 '0'    3 32 200 0 0 \
+      'And then list N Emails'            4 0 '10'   4 32 200 0 0 \
+      '------------------------------'    5 0 ''     5 0    0 0 0 \
+      'Read Email'                        6 0 ''     6  0   0 0 0 \
+      'Email account nick name'           7 0 ''     7 32 200 0 0 \
+      'Email message number'              8 0 ''     8 32 200 0 0 \
+      '------------------------------'    9 0 ''     9  0   0 0 0 \
+      'Send Email'                       10 0 ''    10  0   0 0 0 \
+      'To address'                       11 0 ''    11 32 200 0 0 \
+      'Subject'                          12 0 ''    12 32 200 0 0 \
+      'Content'                          13 0 ''    13 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+
+################################################################################
+# Dialog - make calls and send SMS
+################################################################################
+dialog_phone() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '📠 Make calls and send SMS' --mixedform '' 21 70 14 \
+      'Dial a number and speak a message' 1 0 ''     1  0   0 0 0 \
+      'Dial phone number (+35812345)'     2 0 ''     2 32 200 0 0 \
+      'Speak message'                     3 0 ''     3 32 200 0 0 \
+      '------------------------------'    4 0 ''     4 0    0 0 0 \
+      'Send an SMS'                       5 0 ''     5  0   0 0 0 \
+      'To number (+35812345)'             6 0 ''     6 32 200 0 0 \
+      'Text message'                      7 0 ''     7 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+  
+  ################################################################################
+# Dialog - read and post tweets
+################################################################################
+dialog_tweet() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '🐦 Read and post tweets' --mixedform '' 21 70 14 \
+      'Read latest tweets from home timeline' 1 0 ''     1  0   0 0 0 \
+      'Skip latest N tweets'                  2 0 '0'    2 32 200 0 0 \
+      'And then read N tweets'                3 0 '10'   3 32 200 0 0 \
+      '------------------------------'        4 0 ''     4 0    0 0 0 \
+      'Post a tweet'                          5 0 ''     5  0   0 0 0 \
+      'Content'                               6 0 ''     6 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+  
+  ################################################################################
+# Dialog - get the latest news / weather / facts
+################################################################################
+dialog_info() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '🌐 Get the latest news / weather / facts' --mixedform '' 21 70 14 \
+      'Get the latest news from RSS'        1 0 ''     1  0   0 0 0 \
+      'Skip latest N news articles'         2 0 '0'    2 32 200 0 0 \
+      'And then read N articles'            3 0 '10'   3 32 200 0 0 \
+      '------------------------------'      4 0 ''     4 0    0 0 0 \
+      'Ask WolframAlpha for weather/facts'  5 0 ''     5  0   0 0 0 \
+      'Inquiry (free form text)'            6 0 ''     6 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+  
+  ################################################################################
+# Dialog - 2FA code / password book / text search
+################################################################################
+dialog_book() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '📝 2FA code / password book / text search' --mixedform '' 21 70 14 \
+      'Get 2FA authentication code'         1 0 ''     1  0   0 0 0 \
+      'The remaining decryption key'        2 0 ''     2 32 200 0 0 \
+      'Search for account'                  3 0 ''     3 32 200 0 0 \
+      '------------------------------'      4 0 ''     4  0   0 0 0 \
+      'Find in encrypted text'              5 0 ''     5  0   0 0 0 \
+      'File shortcut word'                  6 0 ''     6 32 200 0 0 \
+      'The remaining decryption key'        7 0 ''     7 32 200 0 0 \
+      'Search for'                          8 0 ''     8 32 200 0 0 \
+      '------------------------------'      9 0 ''     9  0   0 0 0 \
+      'Find in plain text'                 10 0 ''    10  0   0 0 0 \
+      'File shortcut word'                 11 0 ''    11 32 200 0 0 \
+      'Search for'                         12 0 ''    12 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+  
+  ################################################################################
+# Dialog - run commands and inspect server status
+################################################################################
+dialog_cmd() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title '💻 Run commands and inspect server status' --mixedform '' 21 70 14 \
+      'Select one of the following by entering Y' 1 0 ''     1  0   0 0 0 \
+      'Get the latest server info'                2 0 'y'    2 32 200 0 0 \
+      'Get the latest server log'                 3 0 ''     3 32 200 0 0 \
+      'Get the latest server warnings'            4 0 ''     4 32 200 0 0 \
+      'Server emergency lock (careful)'           5 0 ''     5 32 200 0 0 \
+      '------------------------------'            6 0 ''     6 0    0 0 0 \
+      'Run this app command'                      7 0 ''     7 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  }
+  
+  ################################################################################
+# Main menu
+################################################################################
+dialog_main_menu() {
+  while true; do
+    exec 5>&1
+    main_menu_choice=$(
+    dialog \
+      --backtitle 'Laitos Terminal' \
+      --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+      --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+      --and-widget --keep-window --begin 2 50 --title "App Menu" --radiolist "Welcome to laitos terminal! What can I do for you?" 21 70 10 \
+        "${main_menu_key_labels['config']}" '' 'ON' \
+        "${main_menu_key_labels['email']}" '' '' \
+        "${main_menu_key_labels['phone']}" '' '' \
+        "${main_menu_key_labels['tweet']}" '' '' \
+        "${main_menu_key_labels['info']}" '' '' \
+        "${main_menu_key_labels['book']}" '' '' \
+        "${main_menu_key_labels['cmd']}" '' '' \
+    2>&1 1>&5 || true
+    )
+    exec 5>&-
+    if [ ! "$main_menu_choice" ]; then
+      echo 'Thanks for using laitos terminal, see you next time!'
+      exit 0
+    fi
+
+    case "$main_menu_choice" in
+      "${main_menu_key_labels['config']}")
+        dialog_config
+        ;;
+      "${main_menu_key_labels['email']}")
+        dialog_email
+        ;;
+      "${main_menu_key_labels['phone']}")
+        dialog_phone
+        ;;
+      "${main_menu_key_labels['tweet']}")
+        dialog_tweet
+        ;;
+      "${main_menu_key_labels['info']}")
+        dialog_info
+        ;;
+      "${main_menu_key_labels['book']}")
+        dialog_book
+        ;;
+      "${main_menu_key_labels['cmd']}")
+        dialog_cmd
+        ;;
+      *)
+        echo "unexpected menu choice \"$main_menu_choice\", this is a programming error." >&2
+        exit 1
+        ;;
+    esac
+  done
+}
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
@@ -215,6 +401,19 @@ declare_terminal
 dialog_config
 dialog_app_command_in_progress
 dialog_app_command_done
+dialog_email
+dialog_phone
+dialog_tweet
+dialog_info
+dialog_simple_info_box "Please complete any section of the form to use that app."
+dialog_book
+dialog_cmd
+dialog_main_menu
+rm -f  "$form_submission_file" || true
+
+
+
+
 
 #menu1
 
