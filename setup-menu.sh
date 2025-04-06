@@ -152,8 +152,8 @@ trap on_exit EXIT INT TERM
 dialog_config() {
   dialog \
     --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
-    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 25 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 25 \
     --and-widget --keep-window --begin 2 50 --title '💾 Configure laitos server address and more' --mixedform "The settings for connecting to your laitos server are saved to $conf_file" 21 70 12 \
       'What is the server hostname/IP?' 1 0 "$laitos_host"     1 32 200 0 0 \
       '' 2 0 '' 2 0 0 0 0 \
@@ -424,16 +424,16 @@ if [[ $? != 0 ]]; then
 fi  
 
 # declare_terminal
-dialog_config
-dialog_app_command_in_progress
-dialog_app_command_done
-dialog_email
-dialog_phone
-dialog_tweet
-dialog_info
-dialog_simple_info_box "Please complete any section of the form to use that app."
-dialog_book
-dialog_cmd
+#dialog_config
+#dialog_app_command_in_progress
+#dialog_app_command_done
+#dialog_email
+#dialog_phone
+#dialog_tweet
+#dialog_info
+#dialog_simple_info_box "Please complete any section of the form to use that app."
+#dialog_book
+#dialog_cmd
 dialog_main_menu
  
 
