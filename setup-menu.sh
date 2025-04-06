@@ -100,15 +100,15 @@ dialog                         --begin 2 2 --yesno "" 0 0 \
 
 #declare_terminal() {
 # Application constants
-declare -r snmp_oid_laitos_ip=1.3.6.1.4.1.52535.121.100
+declare -r snmp_oid_oc_ip=1.3.6.1.4.1.52535.121.100
 declare -r caption_online='✅Online'
 declare -r caption_offline='➖Unreachable'
 declare -r caption_unknown='❔Undetermined'
-declare -r conf_file="$HOME/.laitos-terminal-config.txt"
+declare -r conf_file="$HOME/.terminal-config.txt"
 declare -r self_exe="$0"
 declare -r -a daemon_names=('HTTP server' 'HTTPS server' 'DNS server' 'Mail server' 'Telnet server' 'SNMP server' 'QOTD')
 declare -r -A main_menu_key_labels=(
-  ['config']='💾 Configure laitos server address and more'
+  ['config']='💾 Configure oc server address and more'
   ['email']='📮 Read and send Emails'
   ['phone']='📠 Make calls and send SMS'
   ['tweet']='🐦 Read and post tweets'
@@ -151,11 +151,11 @@ trap on_exit EXIT INT TERM
 ################################################################################
 dialog_config() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 25 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 25 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 25 \
-    --and-widget --keep-window --begin 2 50 --title '💾 Configure laitos server address and more' --mixedform "The settings for connecting to your laitos server are saved to $conf_file" 21 70 12 \
-      'What is the server hostname/IP?' 1 0 "$laitos_host"     1 32 200 0 0 \
+    --and-widget --keep-window --begin 2 30 --title '💾 Configure oc server address and more' --mixedform "The settings for connecting to your oc server are saved to $conf_file" 21 70 12 \
+      'What is the server hostname/IP?' 1 0 "$oc_host"     1 32 200 0 0 \
       '' 2 0 '' 2 0 0 0 0 \
       'On which port does the server run... (leave empty if unsed)' 3 0 '' 3 0 0 0 0 \
       'HTTP port'                      4 0 "$port_httpd"       4 32 8 0 0 \
@@ -166,7 +166,7 @@ dialog_config() {
       'Telnet - plain socket port'     9 0 "$port_plainsocket" 9 32 8 0 0 \
       'Simple IP service - QOTD port' 10 0 "$port_qotd"       10 32 8 0 0 \
       '' 11 0 '' 11 0 0 0 0 \
-      'In order to execute app commands on your laitos server...' 12 0 '' 12 0 0 0 0 \
+      'In order to execute app commands on your oc server...' 12 0 '' 12 0 0 0 0 \
       'Command processor password'    13 0 "$app_cmd_pass"     13 32 200 0 0 \
       'App command execution API URL' 14 0 "$app_cmd_endpoint" 14 32 200 0 0 \
       '' 15 0 '' 15 0 0 0 0 \
@@ -180,7 +180,7 @@ dialog_config() {
   if [ -s "$form_submission_file" ]; then
     readarray -t form_fields < "$form_submission_file"
     cat << EOF > "$conf_file"
-laitos_host="${form_fields[0]}"
+oc_host="${form_fields[0]}"
 port_httpd="${form_fields[1]}"
 port_httpsd="${form_fields[2]}"
 port_dnsd="${form_fields[3]}"
@@ -205,14 +205,14 @@ dialog_app_command_in_progress() {
  
   dialog \
     --sleep 1 \
-    --backtitle 'Laitos Terminal' \
+    --backtitle 'Opencart Terminal' \
     --begin 2 50 --title "Running app command $bandwidth_mode" --infobox "Please wait, this may take couple of seconds." 10 45 || true
 }
 
 dialog_app_command_done() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title 'Command result (scroll with Left/Right/Up/Down)' --textbox "$app_cmd_out_file" 21 70 || true
 }
@@ -222,7 +222,7 @@ dialog_simple_info_box() {
   info_box_txt="$1"
   dialog \
     --sleep 3 \
-    --backtitle 'Laitos Terminal' \
+    --backtitle 'Opencart Terminal' \
     --begin 2 50 --title 'Notice' --infobox "$info_box_txt" 10 45 || true
 }
 
@@ -231,8 +231,8 @@ dialog_simple_info_box() {
 ################################################################################
 dialog_email() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '📮 Read and send Emails' --mixedform '' 21 70 14 \
       'List Emails'                       1 0 ''     1  0   0 0 0 \
@@ -257,8 +257,8 @@ dialog_email() {
 ################################################################################
 dialog_phone() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '📠 Make calls and send SMS' --mixedform '' 21 70 14 \
       'Dial a number and speak a message' 1 0 ''     1  0   0 0 0 \
@@ -277,8 +277,8 @@ dialog_phone() {
 ################################################################################
 dialog_tweet() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '🐦 Read and post tweets' --mixedform '' 21 70 14 \
       'Read latest tweets from home timeline' 1 0 ''     1  0   0 0 0 \
@@ -296,8 +296,8 @@ dialog_tweet() {
 ################################################################################
 dialog_info() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '🌐 Get the latest news / weather / facts' --mixedform '' 21 70 14 \
       'Get the latest news from RSS'        1 0 ''     1  0   0 0 0 \
@@ -315,8 +315,8 @@ dialog_info() {
 ################################################################################
 dialog_book() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '📝 2FA code / password book / text search' --mixedform '' 21 70 14 \
       'Get 2FA authentication code'         1 0 ''     1  0   0 0 0 \
@@ -340,8 +340,8 @@ dialog_book() {
 ################################################################################
 dialog_cmd() {
   dialog \
-    --backtitle 'Laitos Terminal' \
-    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --backtitle 'Opencart Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
     --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
     --and-widget --keep-window --begin 2 50 --title '💻 Run commands and inspect server status' --mixedform '' 21 70 14 \
       'Select one of the following by entering Y' 1 0 ''     1  0   0 0 0 \
@@ -363,10 +363,10 @@ dialog_main_menu() {
     exec 5>&1
     main_menu_choice=$(
     dialog \
-      --backtitle 'Laitos Terminal' \
-      --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+      --backtitle 'Opencart Terminal' \
+      --keep-window --begin 2 2 --title "Connection - $oc_host" --tailboxbg "$connection_report_file" 12 45 \
       --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
-      --and-widget --keep-window --begin 2 50 --title "App Menu" --radiolist "Welcome to laitos terminal! What can I do for you?" 21 70 10 \
+      --and-widget --keep-window --begin 2 50 --title "App Menu" --radiolist "Welcome to oc terminal! What can I do for you?" 21 70 10 \
         "${main_menu_key_labels['config']}" '' 'ON' \
         "${main_menu_key_labels['email']}" '' '' \
         "${main_menu_key_labels['phone']}" '' '' \
@@ -378,7 +378,7 @@ dialog_main_menu() {
     )
     exec 5>&-
     if [ ! "$main_menu_choice" ]; then
-      echo 'Thanks for using laitos terminal, see you next time!'
+      echo 'Thanks for using oc terminal, see you next time!'
       exit 0
     fi
 
