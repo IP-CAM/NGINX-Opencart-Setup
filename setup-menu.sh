@@ -6,8 +6,7 @@ export TOP_PID=$$
  
  
 # thanks to https://askubuntu.com/posts/1386907/revisions
-function simple_menu{
- simple_choose_from_menu() {
+simple_choose_from_menu() {
     local prompt="$1" outvar="$2"
     shift
     shift
@@ -39,7 +38,10 @@ function simple_menu{
     # export the selection to the requested output variable
     printf -v $outvar "${options[$cur]}"
  }
- selections=(
+ 
+
+simple_menu{
+selections=(
  "Selection A"
  "Selection B"
  "Selection C"
@@ -48,7 +50,6 @@ function simple_menu{
  simple_choose_from_menu "Please make a choice:" selected_choice "${selections[@]}"
  echo "Selected choice: $selected_choice"
 }
-
 # thanks to https://askubuntu.com/posts/563226/revisions
 # https://web.archive.org/web/20180130222805/http://pro-toolz.net/data/programming/bash/Bash_fancy_menu.html
 # only works with bash
