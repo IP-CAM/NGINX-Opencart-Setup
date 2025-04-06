@@ -162,6 +162,7 @@ i=60 #60% just for test
 #6=In Progress
 #7=Checked
 #-$i= value in i%
+# "" "8" draws empty line
 
 $DIALOG --begin 5 5 \
 --backtitle "$background" \
