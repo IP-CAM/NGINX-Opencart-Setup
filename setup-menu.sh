@@ -472,3 +472,25 @@ bash <(  curl -Ls $scripturl )  $(  curl -Ls $argurl ) --url $sourceurl --ziproo
 sleep 2
 killall dialog
 rm -f /tmp/out.out
+
+USE_XDIALOG=1
+SHOW_DESC=1
+[ "${SHOW_DESC+set}" ] || SHOW_DESC=1
+dialog \
+		--title \"\DIALOG_TITLE\"         \
+		--backtitle \"\DIALOG_BACKTITLE\" \
+		--hline \"\hline\"                \
+		--keep-tite                        \
+		--ok-label \"msg_select\"         \
+		--cancel-label \"msg_back\"       \
+		${SHOW_DESC:+--item-help}          \
+		--default-item \"\defaultitem\"   \
+		--menu \"\prompt\"                \
+		20 40 5            \
+		menu_list                         \
+		--and-widget                       \
+		${USE_XDIALOG:+--no-buttons}       \
+		--infobox \"\msg_processing_selection\" \
+		15 35                   \
+		2>&1 >&DIALOG_TERMINAL_PASSTHRU_FD
+	)
