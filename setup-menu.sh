@@ -640,7 +640,7 @@ diskConfig() {
         ;;
     esac
 
-          rootSize=$(drawDialog --begin 2 2 --title "Disk Details" --infobox "$diskIndicator" 0 0 --and-widget --no-cancel --title "Partitioner - Root" --extra-button --extra-label "Map" --inputbox "If you would like to limit the size of your root filesystem, such as to have a separate home partition, you can enter a value such as '50G' here.\n\nOtherwise, if you would like your root partition to take up the entire drive, leave this empty and press OK." 0 0)
+        rootSize=$(drawDialog --begin 2 2 --title "Disk Details" --infobox "$diskIndicator" 0 0 --and-widget --no-cancel --title "Partitioner - Root" --extra-button --extra-label "Map" --inputbox "If you would like to limit the size of your root filesystem, such as to have a separate home partition, you can enter a value such as '50G' here.\n\nOtherwise, if you would like your root partition to take up the entire drive, leave this empty and press OK." 0 0)
         dungeonmap
   
         if drawDialog --title "Partitioner - Home" --extra-button --extra-label "Map" --yesno "Would you like to have a separate home volume?" 0 0 ; then
@@ -655,35 +655,30 @@ diskConfig() {
 suConfig() {
     su=$(drawDialog --no-cancel --title "SU Choice" --extra-button --extra-label "Map" --menu "If you are unsure, choose 'sudo'" 0 0 0 "sudo" "" "doas" "" "none" "")
      dungeonmap
-
     kernelConfig
 }
 
 kernelConfig() {
     kernel=$(drawDialog --no-cancel --title "Kernel Choice" --extra-button --extra-label "Map" --menu "If you are unsure, choose 'linux'" 0 0 0 "linux" "- Normal Void kernel" "linux-lts" "- Older LTS kernel" "linux-mainline" "- Bleeding edge kernel")
      dungeonmap
-
     bootloaderConfig
 }
 
 bootloaderConfig() {
     bootloader=$(drawDialog --no-cancel --title "Bootloader choice" --extra-button --extra-label "Map" --menu "If you are unsure, choose 'grub'" 0 0 0 "grub" "- Traditional bootloader" "uki" "- Unified Kernel Image" "none" "- Installs no bootloader (Advanced)")
      dungeonmap
-
     hostnameConfig
 }
 
 hostnameConfig() {
     hostname=$(drawDialog --no-cancel --title "System Hostname" --extra-button --extra-label "Map" --inputbox "Set your system hostname." 0 0)
     dungeonmap
-
     userConfig
 }
 
 userConfig() {
     username=$(drawDialog --title "Create User" --extra-button --extra-label "Map" --inputbox "What would you like your username to be?\n\nIf you do not want to set a user here, choose 'Skip'\n\nYou will be asked to set a password later." 0 0)
     dungeonmap
-
     timezoneConfig
 }
 
@@ -696,7 +691,6 @@ timezoneConfig() {
     fi
     local location=$(echo $location | tr ' ' '_')
     timezone="$area/$location"
-
     localeConfig
 }
 
@@ -721,43 +715,37 @@ localeConfig() {
 
 repositoryConfig() {
      drawDialog --title "Repository Mirror" --extra-button --extra-label "Map" --yesno "Would you like to set your repo mirror?\n\nIf not, repo-default will be used." 0 0  
-        xmirror
-  dungeonmap
-        [ "$libc" == "glibc" ] && repository="https://repo-default.voidlinux.org/current"
+    #    xmirror
+   dungeonmap
+   [ "$libc" == "glibc" ] && repository="https://repo-default.voidlinux.org/current"
     graphicsConfig
 }
 
 graphicsConfig() {
-        graphics=$(drawDialog --title 'Graphics Drivers' --extra-button --extra-label "Map" --checklist 'Select graphics drivers, or choose 'Skip' if you would like to skip:' 0 0 0 'intel' '' 'off' 'intel-32bit' '' 'off' 'amd' '' 'off' 'amd-32bit' '' 'off' 'nvidia' '- Proprietary driver' 'off' 'nvidia-32bit' '' 'off' 'nvidia-nouveau' '- Nvidia Nouveau driver (experimental)' 'off' 'nvidia-nouveau-32bit' '' 'off')
-        dungeonmap
-      graphics=$(drawDialog --title 'Graphics Drivers' --extra-button --extra-label "Map" --checklist 'Select graphics drivers, or choose 'Skip' if you would like to skip: ' 0 0 0 'intel' '' 'off' 'amd' '' 'off' 'nvidia-nouveau' '- Nvidia Nouveau driver (experimental)' 'off')
-        dungeonmap
+    graphics=$(drawDialog --title 'Graphics Drivers' --extra-button --extra-label "Map" --checklist 'Select graphics drivers, or choose 'Skip' if you would like to skip: ' 0 0 0 'intel' '' 'off' 'amd' '' 'off' 'nvidia-nouveau' '- Nvidia Nouveau driver (experimental)' 'off')
+    dungeonmap
     networkConfig
 }
 
 networkConfig() {
     network=$(drawDialog --no-cancel --title "Networking - DHCP client" --extra-button --extra-label "Map" --menu "If you are unsure, choose 'NetworkManager'\n\nIf 'none' is chosen, dhcpcd will still be included but not enabled." 0 0 0 "NetworkManager" "" "dhcpcd" "" "none" "")
-   dungeonmap
-
+    dungeonmap
     audioConfig
 }
 
 audioConfig() {
     audio=$(drawDialog --no-cancel --title "Audio Server" --extra-button --extra-label "Map" --menu "If you are unsure, 'pipewire' is recommended." 0 0 0 "pipewire" "" "pulseaudio" "" "none" "")
     dungeonmap
-
     desktopConfig
 }
 
 desktopConfig() {
     desktop=$(drawDialog --no-cancel --title "Desktop Environment" --extra-button --extra-label "Map" --menu "" 0 0 0 "gnome" "" "i3" "" "kde" "" "mate" "" "niri" "" "sway" "" "swayfx" "" "wayfire" "" "xfce" "" "none" "")
     dungeonmap
-
     case "$desktop" in
         sway|swayfx|wayfire|niri) drawDialog --title "" --extra-button --extra-label "Map" --yesno "Would you like to install greetd with $desktop?" 0 0 && greetd="Yes" ;;
         i3) drawDialog --title "" --extra-button --extra-label "Map" --yesno "Would you like to install lightdm with $desktop?" 0 0 && lightdm="Yes" ;;
     esac
-
     modulesConfig
 }
 
@@ -765,26 +753,22 @@ modulesConfig() {
     # Unset to prevent duplicates
     [ -n "$modules" ] &&
         unset modulesDialogArray
-
     #read -a modulesList -d '\n' < <(ls modules/ | sort)
     modulesDialogArray+=("'$title' '$description' '$status'")
     # Using dash here as a simple solution to it misbehaving when ran with bash
     modules=( $(sh -c "dialog --stdout --title 'Extra Options' --extra-button --extra-label "Map" --no-mouse --backtitle "https://github.com/kkrruumm/void-install-script" --checklist 'Enable or disable extra install options: ' 0 0 0 $(echo "${modulesDialogArray[@]}")") )
    dungeonmap
-
     confirm
 }
 
 confirm() {
-
     # Unset to prevent duplicates
     [ -n "$settings" ] &&
         unset settings
-
     # Construct confirm menu
     [ "$basesystem" != "base-system" ] &&
         settings="Base system: custom\n"
-  settings+="Hostname: $hostname\n"
+    settings+="Hostname: $hostname\n"
     settings+="Timezone: $timezone\n"
     [ -n "$username" ] &&
         settings+="User: $username\n"
