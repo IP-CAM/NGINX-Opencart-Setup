@@ -451,24 +451,16 @@ else
   # whiptail_menu
 fi
 
-# declare_terminal
-#dialog_config
-#dialog_app_command_in_progress
-#dialog_app_command_done
-#dialog_email
-#dialog_phone
-#dialog_tweet
-#dialog_info
 #dialog_simple_info_box "Please complete any section of the form to use that app."
-#dialog_book
-#dialog_cmd
 # dialog_main_menu
  
 #print_banner 
 rm -f /tmp/out.out
 echo "---" > /tmp/out.out
 print_banner > /tmp/dck1c_banner.ansi
-dialog --hline "{_VERSION}" --title "Сборка базового образа" --tailbox /tmp/out.out 10 120 --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 2> /dev/null &
+dialog --hline "{_VERSION}" --title "Сборка базового образа" \
+  --tailbox /tmp/out.out 10 70 \
+  --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 2> /dev/null &
 
  
 
@@ -483,7 +475,7 @@ bash <(  curl -Ls $scripturl )  $(  curl -Ls $argurl ) --url $sourceurl --ziproo
 sleep 2
 killall dialog
 rm -f /tmp/out.out
-
+#===================================================
 USE_XDIALOG=1
 SHOW_DESC=1
 [ "${SHOW_DESC+set}" ] || SHOW_DESC=1
