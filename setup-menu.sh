@@ -135,15 +135,15 @@ dialog           --keep-window --begin 2 2 --yesno "" 0 0 \
 # Script might not be compatible across different systems/releases/distributions. 
 
 sudo apt-get -qq install dialog1
-if [[ $? == 0 ]]; then
+if [[ $? != 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu\n"
   simple_choose_from_menu
 fi  
 menu1
-menu2
-menu3
-menu4
-oc_options_menu
+#menu2
+#menu3
+#menu4
+#oc_options_menu
 
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/bootstrap-runner.sh'
 
