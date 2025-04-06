@@ -4,6 +4,7 @@ set -e
 
 source ./includes.sh
 
+scriptname=reinstall-opencart.sh
 set_colors
 read_args_by_place
 check_mydomain_set
@@ -98,3 +99,4 @@ footermsg
 #  * Installation details in $HOME/log.txt
 #  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
 #  * You can access through your domain name '$1' or public ip address.${NC}"
+echo "Exiting '$scriptname' with code:$?  "$?
