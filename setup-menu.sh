@@ -188,6 +188,7 @@ $DIALOG --begin 15 15 \
 "Process eight" "4" \
 "Process nine" "-$i"
 # break
+done
 }
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
