@@ -98,7 +98,7 @@ dialog                         --begin 2 2 --yesno "" 0 0 \
     --and-widget               --begin 6 6  "" 0 0
 }
 
-declare_terminal() {
+#declare_terminal() {
 # Application constants
 declare -r snmp_oid_laitos_ip=1.3.6.1.4.1.52535.121.100
 declare -r caption_online='✅Online'
@@ -117,7 +117,7 @@ declare -r -A main_menu_key_labels=(
   ['cmd']='💻 Run commands and inspect server status'
 )
 form_submission_file="$(mktemp -p /tmp my-form-submission-XXXXX)"
-}
+#}
 
 
 ################################################################################
@@ -175,7 +175,7 @@ EOF
 ################################################################################
 dialog_app_command_in_progress() {
   local bandwidth_mode
-  bandwidth_mode=''
+  bandwidth_mode='aaaaaa'
  
   dialog \
     --sleep 1 \
@@ -397,7 +397,7 @@ if [[ $? != 0 ]]; then
   # whiptail_menu
 fi  
 
-declare_terminal
+# declare_terminal
 dialog_config
 dialog_app_command_in_progress
 dialog_app_command_done
@@ -410,9 +410,6 @@ dialog_book
 dialog_cmd
 dialog_main_menu
 rm -f  "$form_submission_file" || true
-
-
-
 
 
 #menu1
