@@ -11,6 +11,7 @@ if [[ $- =~ e ]]; then
     # set -e has already been set so we need to set it back it after the command
     set +e
     source ./$action1.sh
+	echo "Exiting '$scriptname' with code:$?  "
     set -e	
 else
      source ./$action1.sh
