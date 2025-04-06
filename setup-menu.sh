@@ -453,7 +453,7 @@ fi
 #dialog_cmd
 # dialog_main_menu
  
-print_banner 
+#print_banner 
 rm -f /tmp/out.out
 echo "---" > /tmp/out.out
 print_banner > /tmp/dck1c_banner.ansi
