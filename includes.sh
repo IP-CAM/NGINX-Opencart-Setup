@@ -134,9 +134,9 @@ headermsg() {
 
 
 footermsg() { 
- me=$(basename "$0")
+ #me=$(basename "$0")
  printf "${OK}${BELL} 
- * We have reached end of '$me'-script with 'set -e'(exit on error), 
+ * We have reached end of '$scriptname'-script with 'set -e'(exit on error), 
     so all seems to be OK
  * Installation details are in file $HOME/log.txt
  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA ${NC}"
