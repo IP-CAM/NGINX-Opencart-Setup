@@ -178,6 +178,24 @@ $DIALOG --begin 5 5 \
 "Process seven" "7" \
 "Process eight" "4" \
 "Process nine" "-$i"
+
+# Auto-size with height and width = 0. Maximize with height and width = -1.
+# Global-auto-size if also menu_height/list_height = 0.
+$DIALOG --begin 0 0 \
+--backtitle "$background" \
+--title "Mixed gauge demonstration" \
+--mixedgauge "This is a prompt message,\nand this is the second line." \
+0 0 33 \
+"Process one" "0" \ 
+"Process two" "1" \
+"Process three" "2" \
+"Process four" "3" \
+"" "8" \
+"Process five" "5" \
+"Process six" "6" \
+"Process seven" "7" \
+"Process eight" "4" \
+"Process nine" "-$i"
  
 }
 
