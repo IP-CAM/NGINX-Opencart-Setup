@@ -128,7 +128,7 @@ set_dbreqs() {
 
 headermsg() { 
  #me=$(basename "$0")
- printf "${OK} 
+ printf "${INFO} 
  * Starting to execute '$scriptname'-script with 'set -e'(exit on error switch)
     from folder ${0%/*}
  * Installation details will be in file $HOME/log.txt
