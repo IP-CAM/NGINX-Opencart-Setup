@@ -69,7 +69,9 @@ CHOICE=$(dialog --clear \
                 --menu "$MENU" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
+				--output-separator '-------string1-----' \
 				--checklist 'text1' 5 40 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ] \
+				separator '----------string2------' \
 				--inputbox 'text2' 7 40 ['init2'] \
                 2>&1 >/dev/tty)
 
