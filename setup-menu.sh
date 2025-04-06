@@ -107,8 +107,10 @@ oc_options_menu() {
 
 menu1() {
 dialog                         --begin 2 2 --yesno "" 0 0 \
-    --and-widget               --begin 4 4 --yesno "" 0 0 \
-    --and-widget               --begin 6 6 --yesno "" 0 0
+				--output-separator '-------string1-----' \
+    --and-widget               --begin 4 4   "" 0 0 \
+					--output-separator '-------string2-----' \
+    --and-widget               --begin 6 6  "" 0 0
 }	
 #Only the last widget is left visible:
 menu2() { 
