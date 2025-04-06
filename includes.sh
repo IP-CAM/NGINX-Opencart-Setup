@@ -89,7 +89,7 @@ set_colors() {
  OK=$(tput setaf 2)"\n 👌: " 	# green
  ERR=$(tput setaf 1)"\n 💩: " 	# red
  WARN=$(tput setaf 3)"\n 👽: " 	# yellow
- INFO=$(tput setaf 4)"\n 👣: " 	# blue
+ INFO=$(tput setaf 4)" 👣: " 	# blue
  NC=$(tput sgr0)"\n"  			# unset
  BELL=$(tput bel)  				# play a bell
 }
