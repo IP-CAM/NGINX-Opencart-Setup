@@ -69,7 +69,8 @@ CHOICE=$(dialog --clear \
                 --menu "$MENU" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
-				--checklist 'text1' 5 40 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ]
+				--checklist 'text1' 5 40 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ] \
+				--inputbox 'text2' 7 40 ['init2'] \
                 2>&1 >/dev/tty)
 
 clear
