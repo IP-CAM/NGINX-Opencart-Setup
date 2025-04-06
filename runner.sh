@@ -11,10 +11,12 @@ if [[ $- =~ e ]]; then
     # set -e has already been set so we need to set it back it after the command
     set +e
     source ./$action1.sh
+	footermsg 
 	echo "Exiting '$scriptname' with code:$?  "
     set -e	
 else
-     source ./$action1.sh
+    source ./$action1.sh
+    footermsg 
 fi
 #source ./$action1.sh
 
@@ -22,4 +24,4 @@ fi
 # if [[ $- =~ e ]]; then ....    
 # source ./$action1.sh
 
-footermsg 
+
