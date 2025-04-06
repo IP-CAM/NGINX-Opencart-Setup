@@ -69,32 +69,33 @@ CHOICE=$(dialog --clear \
                 --menu "$MENU" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
+				--checklist 'text1' 5 40 10 [ 'tag1' 'item1' 0 ] [ 'tag2' 'item2' 1 ]
                 2>&1 >/dev/tty)
 
 clear
 case $CHOICE in
         1)
             echo "You chose Option 1"
-			url='https://github.com/opencart/opencart/archive/refs/heads/3.0.x.x.zip'
-			ziproot='opencart-3.0.x.x/upload'
+			sourceurl='https://github.com/opencart/opencart/archive/refs/heads/3.0.x.x.zip'
+			sourceroot='opencart-3.0.x.x/upload'
             ;;
         2)
             echo "You chose Option 2"
             ;;
         3)
             echo "You chose Option 3"
-			url='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
-			ziproot='oc-3.0.x.x-3.0.x.x/upload'
+			sourceurl='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
+			sourceroot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
         4)
             echo "You chose Option 4"
-			url='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
-			ziproot='oc-3.0.x.x-3.0.x.x/upload'
+			sourceurl='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
+			sourceroot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
         5)
             echo "You chose Option 5"
-			url='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
-			ziproot='oc-3.0.x.x-3.0.x.x/upload'
+			sourceurl='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
+			sourceroot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
         6)
             echo "Bye.."
