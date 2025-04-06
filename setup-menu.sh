@@ -105,6 +105,30 @@ oc_options_menu() {
  esac
 }
 
+menu1() {
+dialog                         --begin 2 2 --yesno "" 0 0 \
+    --and-widget               --begin 4 4 --yesno "" 0 0 \
+    --and-widget               --begin 6 6 --yesno "" 0 0
+}	
+#Only the last widget is left visible:
+menu2() { 
+dialog           --clear       --begin 2 2 --yesno "" 0 0 \
+    --and-widget --clear       --begin 4 4 --yesno "" 0 0 \
+    --and-widget               --begin 6 6 --yesno "" 0 0
+}
+# All three widgets visible, staircase effect, ordered 3,2,1:
+menu3() {
+dialog           --keep-window --begin 2 2 --yesno "" 0 0 \
+    --and-widget --keep-window --begin 4 4 --yesno "" 0 0 \
+    --and-widget               --begin 6 6 --yesno "" 0 0
+}	
+# First and third widget visible, staircase effect, ordered 3,1:
+menu4() {
+dialog           --keep-window --begin 2 2 --yesno "" 0 0 \
+    --and-widget --clear       --begin 4 4 --yesno "" 0 0 \
+    --and-widget               --begin 6 6 --yesno "" 0 0
+}
+
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
 
@@ -113,7 +137,10 @@ if [[ $? == 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu\n"
   simple_choose_from_menu
 fi  
-
+menu1
+menu2
+menu3
+menu4
 oc_options_menu
 
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/bootstrap-runner.sh'
