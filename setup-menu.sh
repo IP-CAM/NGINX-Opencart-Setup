@@ -169,6 +169,35 @@ EOF
  
   fi
 }
+################################################################################
+# Dialog - app commands and related
+################################################################################
+dialog_app_command_in_progress() {
+  local bandwidth_mode
+  bandwidth_mode=''
+ 
+  dialog \
+    --sleep 1 \
+    --backtitle 'Laitos Terminal' \
+    --begin 2 50 --title "Running app command $bandwidth_mode" --infobox "Please wait, this may take couple of seconds." 10 45 || true
+}
+
+dialog_app_command_done() {
+  dialog \
+    --backtitle 'Laitos Terminal' \
+    --keep-window --begin 2 2 --title "Connection - $laitos_host" --tailboxbg "$connection_report_file" 12 45 \
+    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
+    --and-widget --keep-window --begin 2 50 --title 'Command result (scroll with Left/Right/Up/Down)' --textbox "$app_cmd_out_file" 21 70 || true
+}
+
+dialog_simple_info_box() {
+  local info_box_txt
+  info_box_txt="$1"
+  dialog \
+    --sleep 3 \
+    --backtitle 'Laitos Terminal' \
+    --begin 2 50 --title 'Notice' --infobox "$info_box_txt" 10 45 || true
+}
 
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
@@ -184,6 +213,9 @@ fi
 
 declare_terminal
 dialog_config
+dialog_app_command_in_progress
+dialog_app_command_done
+
 #menu1
 
  
