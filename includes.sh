@@ -126,7 +126,7 @@ headermsg() {
  me=$(basename "$0")
  
  printf "${OK} 
- * Starting to execute '$scriptname'-script with 'set -e'(exit on error)
+ * Starting to execute '$scriptname'-script with 'set -e'(exit on error switch)
     from folder ${0%/*}
  * Installation details will be in file $HOME/log.txt
  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA ${NC}
@@ -137,7 +137,7 @@ headermsg() {
 footermsg() { 
  #me=$(basename "$0")
  printf "${OK}${BELL} 
- * We have reached end of '$scriptname'-script with 'set -e'(exit on error), 
+ * We have reached end of '$scriptname'-script with 'set -e'(exit on error switch), 
     so all seems to be OK
  * Installation details are in file $HOME/log.txt
  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA ${NC}"
