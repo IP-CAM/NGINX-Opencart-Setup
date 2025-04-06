@@ -67,9 +67,9 @@ random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
-echo "running $random ...."
+echo "Running $random ...."
 source ./$random $mydomain $sourceurl $sourceroot 
-echo "exited $random !"
+echo "Exited $random !"
 rm -f $random
 
 if [ ! -z ${cliinstall+x} ] ; then 
