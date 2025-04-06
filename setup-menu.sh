@@ -75,69 +75,16 @@ dialog                         --begin 2 2 --yesno "" 0 0 \
 					--output-separator '-------string2-----' \
     --and-widget               --begin 6 6  "" 0 0
 }	
- 
-whiptail_menu() {
-whiptail --title "Menu example" --menu "Choose an option" 25 78 16 \
-"<-- Back" "Return to the main menu." \
-"Modify Group" "Modify a group and its list of members. Very loooooooooooong string" \
-"List Groups" "List all groups on the system."
-
-eval `resize`
-whiptail --title "Menu example" --menu "Choose an option" $LINES $COLUMNS $(( $LINES - 8 )) \
-"<-- Back" "Return to the main menu." \
-"Modify Group" "Modify a group and its list of members. Very loooooooooooong string" \
-"List Groups" "List all groups on the system."
- 
-PASSWORD=$(whiptail --passwordbox "Enter your new password" 8 70 --title "New Password" 3>&1 1>&2 2>&3)
-echo "Welcome to Bash $BASH_VERSION" > test_textbox
-
-# filename height width
-whiptail --textbox test_textbox 12 80
-
-COLOR=$(whiptail --inputbox "What is your favorite Color?" 8 78 Blue --title "Example Dialog" 3>&1 1>&2 2>&3)
-# The `3>&1 1>&2 2>&3` above is a small trick to swap the stderr with stdout
-
-whiptail --title "Example Title" --yesno "This is an example yes/no box." 8 70
-whiptail --title "Example Title" --msgbox "This is an example message box. Press OK to continue." 8 70
-whiptail --title "Example Title" --infobox "This is an example info box." 8 70
-TERM=ansi whiptail --title "Example Title" --infobox "This is an example info box" 8 70
- 
- whiptail --title "Check list example" --checklist \
-"Choose user's permissions" 20 78 4 \
-"NET_OUTBOUND" "Allow connections to other hosts" ON \
-"NET_INBOUND" "Allow connections from other hosts" OFF \
-"LOCAL_MOUNT" "Allow mounting of local devices" OFF \
-"REMOTE_MOUNT" "Allow mounting of remote devices" OFF
-
-whiptail --title "Radio list example" --radiolist \
-"Choose user's permissions" 20 78 4 \
-"NET_OUTBOUND" "Allow connections to other hosts" ON \
-"NET_INBOUND" "Allow connections from other hosts" OFF \
-"LOCAL_MOUNT" "Allow mounting of local devices" OFF \
-"REMOTE_MOUNT" "Allow mounting of remote devices" OFF
-
-#!/bin/bash
-{
-    for ((i = 0 ; i <= 100 ; i+=5)); do
-        sleep 0.1
-        echo $i
-    done
-} | whiptail --gauge "Please wait while we are sleeping..." 6 50 0
-
-}
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
 
-#echo get debconf/frontend | debconf-communicate
-# output: 0 Dialog
-# whiptail -h 2>/dev/null
-sudo apt-get -qq install dialog1
+sudo apt-get -qq install dialog
 if [[ $? != 0 ]]; then
-  printf "No dialog boxes availabe. Falling back to simple menu\n"
-  sudo apt-get -qq install whiptail
-  # https://github.com/JazerBarclay/whiptail-examples
-  whiptail_menu
+  printf "No dialog boxes availabe. You can try to install whiptail and write your oun menu with it\n"
+  # sudo apt-get -qq install whiptail
+  # https://github.com/JazerBarclay/whiptail-examples some samples:
+  # whiptail_menu
 fi  
 menu1
 
