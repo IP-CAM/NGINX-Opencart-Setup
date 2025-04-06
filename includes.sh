@@ -69,6 +69,7 @@ help_actions() {
 	  "  
 }
 read_args_by_name() {
+echo "\n# arguments includes called with ---->  ${@}\n"
  while [ $# -gt 0 ]; do
   case "$1" in
     --domain*|-d*)
@@ -106,6 +107,7 @@ read_args_by_name() {
     --action*|-a*)
       if [[ "$1" != *=* ]]; then shift; fi # Value is next arg if no `=`
       action="${1#*=}"
+	  echo "\n action=#action\n"
       ;;		  
     --help|-h)
 	  printf "${INFO}
