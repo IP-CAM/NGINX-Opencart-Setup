@@ -6,7 +6,8 @@ export TOP_PID=$$
  
  
 # thanks to https://askubuntu.com/posts/1386907/revisions
-function simple_choose_from_menu() {
+function simple_menu{
+ function simple_choose_from_menu() {
     local prompt="$1" outvar="$2"
     shift
     shift
@@ -37,6 +38,15 @@ function simple_choose_from_menu() {
     done
     # export the selection to the requested output variable
     printf -v $outvar "${options[$cur]}"
+ }
+ selections=(
+ "Selection A"
+ "Selection B"
+ "Selection C"
+ )
+
+ simple_choose_from_menu "Please make a choice:" selected_choice "${selections[@]}"
+ echo "Selected choice: $selected_choice"
 }
 
 #https://askubuntu.com/questions/1705/how-can-i-create-a-select-menu-in-a-shell-script
@@ -137,7 +147,7 @@ dialog           --keep-window --begin 2 2 --yesno "" 0 0 \
 sudo apt-get -qq install dialog
 if [[ $? != 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu\n"
-  simple_choose_from_menu
+  simple_menu
 fi  
 menu1
 #menu2
