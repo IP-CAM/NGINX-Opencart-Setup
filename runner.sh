@@ -12,7 +12,6 @@ if [[ $- =~ e ]]; then
     set +e
     source ./$action1.sh
 	footermsg 
-	echo "Exiting '$scriptname' with code:$?  "
     set -e	
 else
     source ./$action1.sh
