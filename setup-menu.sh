@@ -148,17 +148,27 @@ Auto-size with height and width = 0. Maximize with height and width = -1.
 Global-auto-size if also menu_height/list_height = 0."
 }
 
+#  Mixed gauge demonstration
 menu2(){
 : ${DIALOG=dialog}
 background="An Example of --mixedgauge usage"
+i=60 #60% just for test
+#0=Succeeded
+#1=Failed
+#2=Passed
+#3=Completed
+#4=Done
+#5=Skipped
+#6=In Progress
+#7=Checked
+#-$i= value in i%
 
-i=60 #60%
 $DIALOG --begin 5 5 \
 --backtitle "$background" \
 --title "Mixed gauge demonstration" \
 --mixedgauge "This is a prompt message,\nand this is the second line." \
 0 0 33 \
-"Process one" "0" \
+"Process one" "0" \ 
 "Process two" "1" \
 "Process three" "2" \
 "Process four" "3" \
