@@ -69,7 +69,7 @@ help_actions() {
 	  "  
 }
 read_args_by_name() {
-echo "\n# arguments includes called with ---->  ${@}\n"
+echo "# arguments includes called with ---->  ${@}"
  while [ $# -gt 0 ]; do
   case "$1" in
     --domain*|-d*)
