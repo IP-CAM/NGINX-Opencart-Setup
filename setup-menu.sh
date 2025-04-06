@@ -459,9 +459,7 @@ echo "---" > /tmp/out.out
 print_banner > /tmp/dck1c_banner.ansi
 dialog --hline "{_VERSION}" --title "Сборка базового образа" --tailbox /tmp/out.out 10 120 --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 2> /dev/null &
 
-sleep 2
-killall dialog
-rm -f /tmp/out.out
+ 
 
 #menu1
 
