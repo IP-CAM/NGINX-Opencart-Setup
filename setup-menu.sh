@@ -1,6 +1,8 @@
 #!/bin/bash
 # Bash Menu Script  
  
+trap "exit 1" TERM
+export TOP_PID=$$ 
  
  
 # thanks to https://askubuntu.com/posts/1386907/revisions
@@ -43,23 +45,23 @@ function choose_from_menu() {
 
 oc_options_menu() {
 
-HEIGHT=20
-WIDTH=80
-CHOICE_HEIGHT=4
+ HEIGHT=20
+ WIDTH=80
+ CHOICE_HEIGHT=4
 
-BACKTITLE="Please select opencart source"
-TITLE="Select opencart source"
-MENU="Choose one of the following options:"
+ BACKTITLE="Please select opencart source"
+ TITLE="Select opencart source"
+ MENU="Choose one of the following options:"
 
-OPTIONS=(1 "v.3: Official Maintainence Branch 3.0.x.x (3.0.4.1)"
-         2 "v.3: DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)"
-         3 "v.3: Custom Branch 3.0.x.x (3.0.4.1)"
-         4 "v.3: Custom DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)"
-         5 "v.4: Official latest release 4.x.x"
+ OPTIONS=(1 "v.3:  Official Maintainence Branch 3.0.x.x (3.0.4.1)"
+         2 "v.3:  DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)"
+         3 "v.3:👌Custom Branch 3.0.x.x (3.0.4.1)"
+         4 "v.3:  Custom DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)"
+         5 "v.4:  Official latest release 4.x.x"
          6 "Exit, terminate, next time, no choice"		 
 		 )
 
-CHOICE=$(dialog --clear \
+ CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
                 --title "$TITLE" \
                 --menu "$MENU" \
@@ -71,8 +73,8 @@ CHOICE=$(dialog --clear \
 				--inputbox 'text2' $HEIGHT $WIDTH ['init2'] \
                 2>&1 >/dev/tty)
 
-clear
-case $CHOICE in
+ clear
+ case $CHOICE in
         1)
             echo "You chose Option 1"
 			sourceurl='https://github.com/opencart/opencart/archive/refs/heads/3.0.x.x.zip'
@@ -98,9 +100,9 @@ case $CHOICE in
             ;;
         6)
             echo "Bye.."
-			exit 1
+			kill -s TERM $TOP_PID
             ;;			
-esac
+ esac
 }
 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
