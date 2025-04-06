@@ -64,7 +64,7 @@ help_actions() {
 		  -a check-conf         : checks configuration (is a part of setup)
 		  -a ss-init            : initialize SSL (is a part of setup)
 		  -a certbot            : installs and run  SSL Lets Encrypt bot (is a part of setup)
-		--cli or -c  : runs OC install automatically with cli_install   
+		--cli or -c  : runs OC install automatically with cli_install, any not null value allowed e.g. yes  
         --help or -h : shows this help		  
 	  "  
 }

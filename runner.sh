@@ -4,7 +4,7 @@ set -e
 
 source ./includes.sh 
 
-setcolors
+set_colors
 read_args_by_name
 source ./$ACTION.sh
 
