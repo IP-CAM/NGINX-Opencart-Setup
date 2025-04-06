@@ -7,7 +7,7 @@ export TOP_PID=$$
  
 # thanks to https://askubuntu.com/posts/1386907/revisions
 function simple_menu{
- function simple_choose_from_menu() {
+ simple_choose_from_menu() {
     local prompt="$1" outvar="$2"
     shift
     shift
