@@ -1,46 +1,6 @@
 #!bin/sh
  
 set -e 
-set_colors() {
- OK=$(tput setaf 2)"\n 👌: " 	# green
- ERR=$(tput setaf 1)"\n 💩: " 	# red
- WARN=$(tput setaf 3)"\n 👽: " 	# yellow
- INFO=$(tput setaf 4)"\n 👣: " 	# blue
- NC=$(tput sgr0)"\n"  			# unset
- BELL=$(tput bel)  				# play a bell
-}
-
-# set mydomain variable as e.g. reallymydomain.site
-check_mydomain_set() {
- if [ -z ${mydomain+x} ] ; then  
-   printf "${INFO}Setting var mydomain to '$mydomain' ${NC}"
-   mydomain=$1
- else
-   printf "${INFO}Supposing var mydomain as '$mydomain' ${NC}"
- fi
- if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
-   printf "${ERR}You need to set YOUR own domain mydomain. Exiting..${NC}" 
-   exit 1 
- fi
-  webroot="/var/www/$mydomain/public"
-}
-
-# this intended to be used in scripts that might be run alone without runner.sh:  
-set_opencart_source() {
- # Opencart source related
- if [ -z ${sourceurl+x} ] ; then sourceurl=$2; fi
- if [ -z ${sourceroot+x} ] ; then sourceroot=$3; fi
-}
-
-# this intended to be used in scripts that might be run alone without runner.sh:  
-set_dbreqs() {
- # Database related
- if [ -z ${dbrootpassword+x} ] ; then dbrootpassword=$4; fi
- if [ -z ${dbrootusername+x} ] ; then dbrootusername=$5; fi
- if [ -z ${db2drop+x} ] ; then  db2drop=$6; fi
- if [ -z ${user2drop+x} ] ; then  user2drop=$7; fi
-}
-
 
 help_actions() {
       printf "
@@ -68,6 +28,7 @@ help_actions() {
         --help or -h : shows this help		  
 	  "  
 }
+
 read_args_by_name() {
 echo "# arguments includes called with ---->  ${@}"
  while [ $# -gt 0 ]; do
@@ -122,6 +83,46 @@ echo "# arguments includes called with ---->  ${@}"
   esac
   shift
  done
+}
+
+set_colors() {
+ OK=$(tput setaf 2)"\n 👌: " 	# green
+ ERR=$(tput setaf 1)"\n 💩: " 	# red
+ WARN=$(tput setaf 3)"\n 👽: " 	# yellow
+ INFO=$(tput setaf 4)"\n 👣: " 	# blue
+ NC=$(tput sgr0)"\n"  			# unset
+ BELL=$(tput bel)  				# play a bell
+}
+
+# set mydomain variable as e.g. reallymydomain.site
+check_mydomain_set() {
+ if [ -z ${mydomain+x} ] ; then  
+   printf "${INFO}Setting var mydomain to '$mydomain' ${NC}"
+   mydomain=$1
+ else
+   printf "${INFO}Supposing var mydomain as '$mydomain' ${NC}"
+ fi
+ if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
+   printf "${ERR}You need to set YOUR own domain mydomain. Exiting..${NC}" 
+   exit 1 
+ fi
+  webroot="/var/www/$mydomain/public"
+}
+
+# this intended to be used in scripts that might be run alone without runner.sh:  
+set_opencart_source() {
+ # Opencart source related
+ if [ -z ${sourceurl+x} ] ; then sourceurl=$2; fi
+ if [ -z ${sourceroot+x} ] ; then sourceroot=$3; fi
+}
+
+# this intended to be used in scripts that might be run alone without runner.sh:  
+set_dbreqs() {
+ # Database related
+ if [ -z ${dbrootpassword+x} ] ; then dbrootpassword=$4; fi
+ if [ -z ${dbrootusername+x} ] ; then dbrootusername=$5; fi
+ if [ -z ${db2drop+x} ] ; then  db2drop=$6; fi
+ if [ -z ${user2drop+x} ] ; then  user2drop=$7; fi
 }
 
 headermsg() { 

@@ -4,15 +4,16 @@ set -e
 
 source ./includes.sh # also sets colors and print header message here by include
 
-scriptname=reinstall-opencart.sh
+scriptname='reinstall-opencart.sh'
 
-read_args_by_place
 check_mydomain_set
+
 set_dbreqs
 # check_dbreqs() {
  if [ -z ${dbrootpassword+x} ] ; then printf "${ERR}You need to set DB-root password. Exiting..${NC}" && exit 1 ; fi
  if [ -z ${dbrootusername+x} ] ; then printf "${WARN}will try with DB-root user name 'root'.${NC}";dbrootusername='root'; fi
 # }
+
 set_opencart_source
 # check_opencart_source() {
  if [ -z ${sourceurl+x} ] ; then  printf "${ERR}You need to set source URL sourceurl. Exiting..${NC}" && exit 1 ; fi
@@ -21,7 +22,7 @@ set_opencart_source
 
 if [ -z ${db2drop+x} ] ; then printf "${WARN}No previous DB and DB-USER will be dropped'.${NC}"; fi
 
-webroot=/var/www/$mydomain/public
+# webroot=/var/www/$mydomain/public
 
 if [ ! -z ${db2drop+x} ] ; then 
  # printf "dbrootusername=$dbrootusername , dbrootpassword=$dbrootpassword--"
@@ -93,9 +94,7 @@ fi
 #rm -r $webroot/system/storage/ || true
  
 footermsg 
-# printf "${OK}${BELL} 
-#  *      OPENCART SERVER IS READY!!! 
-#  * We have reached end of installation with 'set -e' restriction, so all seems to be OK
-#  * Installation details in $HOME/log.txt
-#  * DO NOT DELETE THIS FILE BEFORE COPYING THE DATA
-#  * You can access through your domain name '$1' or public ip address.${NC}"
+printf "${OK}${BELL} 
+  *      OPENCART SERVER IS READY!!! 
+  * We have reached end of installation with 'set -e' restriction, so all seems to be OK
+  * You can access through your domain name '$mydomain' or public ip address.${NC}"
