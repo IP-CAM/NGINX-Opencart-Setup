@@ -720,7 +720,7 @@ localeConfig() {
 }
 
 repositoryConfig() {
-    if drawDialog --title "Repository Mirror" --extra-button --extra-label "Map" --yesno "Would you like to set your repo mirror?\n\nIf not, repo-default will be used." 0 0 ; then
+     drawDialog --title "Repository Mirror" --extra-button --extra-label "Map" --yesno "Would you like to set your repo mirror?\n\nIf not, repo-default will be used." 0 0  
         xmirror
   dungeonmap
         [ "$libc" == "glibc" ] && repository="https://repo-default.voidlinux.org/current"
