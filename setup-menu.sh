@@ -46,8 +46,8 @@ if [[ $? == 0 ]]; then
   printf "No dialog boxes availabe. Falling back to simple menu"
 fi  
 
-HEIGHT=15
-WIDTH=40
+HEIGHT=30
+WIDTH=80
 CHOICE_HEIGHT=4
 
 choose_oc() {
