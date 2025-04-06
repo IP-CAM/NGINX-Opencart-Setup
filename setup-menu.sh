@@ -91,17 +91,6 @@ if [[ $? != 0 ]]; then
 fi  
 menu1
 
-
-
-sudo apt-get -qq install zenity
-selection=$(zenity --list "Option 1" "Option 2" "Option 3" --column="" --text="Text above column(s)" --title="My menu")
-
-case "$selection" in
-"Option 1")zenity --info --text="Do something here for No1";;
-"Option 2")zenity --info --text="Do something here for No2";;
-"Option 3")zenity --info --text="Do something here for No3";;
-esac
-
  
 #oc_options_menu
 
