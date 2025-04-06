@@ -183,7 +183,7 @@ $DIALOG --begin 5 5 \
 
 # Auto-size with height and width = 0. Maximize with height and width = -1.
 # Global-auto-size if also menu_height/list_height = 0.
-$DIALOG --begin 0 0 \
+$DIALOG --begin -1 -1 \
 --backtitle "$background" \
 --title "Mixed gauge demonstration" \
 --mixedgauge "This is a prompt message,\nand this is the second line." \
