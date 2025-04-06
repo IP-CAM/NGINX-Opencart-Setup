@@ -87,12 +87,12 @@ case $CHOICE in
 			ziproot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
         4)
-            echo "You chose Option 3"
+            echo "You chose Option 4"
 			url='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
 			ziproot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
         5)
-            echo "You chose Option 3"
+            echo "You chose Option 5"
 			url='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
 			ziproot='oc-3.0.x.x-3.0.x.x/upload'
             ;;
