@@ -416,23 +416,7 @@ dialog_main_menu() {
   done
 }
 
-function print_banner() {
-
-    printf "\n\n"
-    printf "${_BLU}         88            88               ${_LYLW}88   ,ad8888ba,   ${_NA}\n"
-    printf "${_BLU}         88            88             ${_LYLW},d88  d8\"\'    \`\"8b  ${_NA}\n"
-    printf "${_BLU}         88            88           ${_LYLW}888888 d8\'            ${_NA}\n"
-    printf "${_BLU} ,adPPYb,88  ,adPPYba, 88   ,d8         ${_LYLW}88 88             ${_NA}\n"
-    printf "${_BLU}a8\"    \`Y88 a8\"     \"\" 88 ,a8\"          ${_LYLW}88 88             ${_NA}\n"
-    printf "${_BLU}8b       88 8b         8888[            ${_LYLW}88 Y8,            ${_NA}\n"
-    printf "${_BLU}\"8a,   ,d88 \"8a,   ,aa 88\`\"Yba,         ${_LYLW}88  Y8a.    .a8P  ${_NA}\n"
-    printf "${_BLU} \`\"8bbdP\"Y8  \`\"Ybbd8\"\' 88   \`Y8a        ${_LYLW}88   \`\"Y8888Y\"\'   ${_NA}\n"
-    printf "\n"
-    printf "                 ${_LWHT}%40s${_NA}\n" "1C docker container builder"
-    printf "                 ${_LGRE}%40s${_NA}\n" ${_VERSION}
-    printf "                 ${_LGRE}%40s${_NA}\n\n" "pltf."${DCK1C_1CPLATFORM_VERSION}
-}
-
+ 
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 
 
@@ -451,22 +435,15 @@ else
   # whiptail_menu
 fi
 
-#dialog_simple_info_box "Please complete any section of the form to use that app."
-# dialog_main_menu
+ dialog_simple_info_box "Please complete any section of the form to use that app."
+ dialog_main_menu
  
  #https://github.com/usnistgov/qpx-gamma/blob/4af4dd783e618074791674a018a3ba21c9b9aab1/bash/config.sh#L84
  #!/bin/bash
  SHOW_DESC=
 # Inherit SHOW_DESC value if set, otherwise default to 1 :
 [ "${SHOW_DESC+set}" ] || SHOW_DESC=1
-#print_banner 
-rm -f /tmp/out.out
-echo "---" > /tmp/out.out
-print_banner > /tmp/dck1c_banner.ansi
-dialog --hline "{_VERSION}" --title "Сборка базового образа" \
-  --tailbox /tmp/out.out 10 70 \
-  --and-widget --textbox /tmp/dck1c_banner.ansi 15 60 
-  # 2> /dev/null &
+ 
 
  
 
@@ -478,9 +455,7 @@ dialog --hline "{_VERSION}" --title "Сборка базового образа"
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/bootstrap-runner.sh'
 
 bash <(  curl -Ls $scripturl )  $(  curl -Ls $argurl ) --url $sourceurl --ziproot $sourceroot
-sleep 2
-killall dialog
-rm -f /tmp/out.out
+ 
 #===================================================
 #https://github.com/opnsense/src/blob/d61f5e3dd96151b64f6990a9a5dc2a4efe37a8f5/usr.sbin/bsdconfig/share/packages/packages.subr#L499
  
