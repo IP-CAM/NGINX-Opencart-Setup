@@ -124,7 +124,9 @@ last_reqresp_file="$(mktemp -p /tmp terminal-last-reqresp-XXXXX)"
 app_cmd_out_file="$(mktemp -p /tmp terminal-app-cmd-output-XXXXX)"
 form_submission_file="$(mktemp -p /tmp terminal-form-submission-XXXXX)"
  
-
+echo -en "\nStarted: $(date --rfc-3339=seconds)" >> "$connection_report_file"
+echo -en "\nStatus: started" >> "$last_reqresp_file"
+ 
 # Application configuration read from and persisted into a text file
 sample_host="${sample_host:-}"
 
