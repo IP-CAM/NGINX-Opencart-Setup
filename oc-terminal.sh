@@ -64,17 +64,6 @@ declare -r -a lemp_parts=('NGINX server' 'MySQL server' 'PHP stack' 'PHP-FMP mod
   8 '👋 Nothing, just exit \Zb\Z1🔚\Zn' 'I will try next time...'
   )
 
-declare -r -A main_menu_key_labels=(
-  ['inst_oc']='🆙 Install Opencart 🛒' 
-  ['reinst_oc']='🔄 Reinstall Opencart 🛒'
-  ['inst_lemp']='🌐Install LEMP only 🆖'
-  ['inst_ioncube']='🛅 Install ionCube only 🤑'
-  ['inst_ssl']='🔒 Install SSL Lets Encrypt Certbot only 🔗'
-  ['inst_template']='📝 Install free OC template 🛒'
-  ['cmd']='🏃‍ Run some command on server'  
-  ['exit']='👋 Nothing, just exit 🔚'
-)  
-
 declare -r -a RELEASES=(
  1 "v.3:  Official Maintenance Branch 3.0.x.x (3.0.4.1)" "Official from Opencart $URL1"
  2 "v.3:  DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Development branch $URL2"
@@ -208,57 +197,6 @@ dialog_main_menu() {
     esac
   done
 }
-################################################################################
-# Main menu
-################################################################################
-dialog_main_menu1111() {
-  while true; do
-    exec 5>&1
-    main_menu_choice=$(
-    dialog    \
-	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	  --title "Main Menu" \
-	  --colors	\
-	  --radiolist "Welcome to opencart terminal! What are we going to do?" \
-	     $DLGSIZE 10 \
-        "${main_menu_key_labels['inst_oc']}" '' 'ON' \
-        "${main_menu_key_labels['reinst_oc']}" '' '' \
-        "${main_menu_key_labels['inst_lemp']}" '' '' \
-        "${main_menu_key_labels['inst_ioncube']}" '' '' \
-        "${main_menu_key_labels['inst_ssl']}" '' '' \
-        "${main_menu_key_labels['inst_template']}" '' '' \
-        "${main_menu_key_labels['cmd']}" '' '' \
-    2>&1 1>&5 || true
-    )
-    exec 5>&-
-    if [ ! "$main_menu_choice" ]; then
-      echo 'Thanks for using opencart terminal, see you next time!'
-      exit 0
-    fi
-
-    case "$main_menu_choice" in
-      "${main_menu_key_labels['inst_oc']}") dialog_inst_oc;;
-      "${main_menu_key_labels['reinst_oc']}") dialog_reinst_oc;;
-      "${main_menu_key_labels['inst_lemp']}") dialog_inst_lemp;;
-      "${main_menu_key_labels['inst_ioncube']}") dialog_inst_ioncube ;;
-      "${main_menu_key_labels['inst_ssl']}") dialog_inst_ssl;;
-      "${main_menu_key_labels['inst_template']}") dialog_inst_template;;
-      "${main_menu_key_labels['cmd']}") dialog_cmd;;
-      "${main_menu_key_labels['exit']}") exit 1;;	  
-      *)
-        echo "unexpected menu choice \"$main_menu_choice\", this is a programming error." >&2
-        exit 1
-        ;;
-    esac
-  done
-}
-
-
 ################################################################################
 # Dialog - install Opencart
 ################################################################################
