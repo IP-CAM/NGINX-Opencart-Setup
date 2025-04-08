@@ -3,7 +3,7 @@
 
 # https://stackoverflow.com/questions/16365130/what-is-the-difference-between-usr-bin-env-bash-and-usr-bin-bash
 
-#  not forget femover CR : https://stackoverflow.com/questions/29045140/env-bash-r-no-such-file-or-directory
+#  not forget remove CR : https://stackoverflow.com/questions/29045140/env-bash-r-no-such-file-or-directory
 set -Eeuo pipefail
 
 export PS4='#${BASH_SOURCE}:${LINENO} [${SHLVL},${BASH_SUBSHELL},$?]: '
@@ -35,19 +35,7 @@ declare -r caption_offline='👽Unreachable'
 declare -r caption_unknown='❔Undetermined'
 declare -r conf_file="$HOME/.opencart-terminal-config.txt"
 declare -r self_exe="$0"
-# 🛠️⚙️🩼🔗⏳⌛🚀🏗️🌀🏃‍♂️🏃‍♀️🏃‍➡️😕😤👽🤔✴️🚼‼️⁉️🌐🛅🤌💻🆕🆗▶️⏭️🔽⏬⬇️↘️⤵️🔃↪️↩️🔜🔙🔚☑️✔️➕️🔄️↪️↩️⤵️ℹ️🔃🆖🆓🔀🔂⬇☑️🆙💫🚩🏳️🏴🚦🛸🌹🥀🥂⏰💻🖥️💣🩻🔩🔑🗝️🔒🪩🫵☝️👆✌️🐣🐥⚠
 declare -r -a lemp_parts=('NGINX server' 'MySQL server' 'PHP stack' 'PHP-FMP module' 'SSL certbot' 'Site' 'Linux')
-declare -r -A main_menu_key_labels=(
-  ['inst_oc']='🆙 Install Opencart 🛒' 
-  ['reinst_oc']='🔄 Reinstall Opencart 🛒'
-  ['inst_lemp']='🌐Install LEMP only 🆖'
-  ['inst_ioncube']='🛅 Install ionCube only 🤑'
-  ['inst_ssl']='🔒 Install SSL Lets Encrypt Certbot only 🔗'
-  ['inst_template']='📝 Install free OC template 🛒'
-  ['cmd']='🏃‍➡ Run some command on server'  
-  ['exit']='👋 Nothing, just exit 🔚'
-)
-
 
  BACKTITLE="Opencart Terminal"
  TITLE="Select opencart source"
@@ -58,14 +46,9 @@ declare -r -A main_menu_key_labels=(
  URL4='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
  URL5='https://github.com/radiocab/oc-3.0.x.x/archive/refs/heads/3.0.x.x.zip'
 
-RELEASES=(
- 1 "v.3:  Official Maintainence Branch 3.0.x.x (3.0.4.1)" "Official from opencart $URL1"
- 2 "v.3:  DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Development branch $URL2"
- 3 "v.3:👌Custom Branch 3.0.x.x (3.0.4.1)" "Custom branch with some enhancements $URL3"
- 4 "v.3:  Custom DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Custom development branch $URL4"
- 5 "v.4:  Official latest release 4.x.x" "Latest release from Opencart $URL5"
- 6 "\Zb\Z1Exit, terminate\Zn, next time, no choice" "Do nothing, please exit"		 
- )
+# 🛠️⚙️🩼🔗⏳⌛🚀🏗️🌀🏃‍♂️🏃‍♀️🏃‍➡️😕😤👽🤔✴️🚼‼️⁉️🌐🛅🤌💻🆕🆗▶️⏭️🔽⏬⬇️↘️⤵️🔃↪️↩️🔜🔙🔚☑️✔️➕️🔄️↪️↩️⤵️ℹ️🔃🆖🆓🔀🔂⬇☑️🆙💫🚩🏳️🏴🚦🛸🌹🥀🥂⏰💻🖥️💣🩻🔩🔑🗝️🔒🪩🫵☝️👆✌️🐣🐥⚠
+
+
  # \Zx: 0=black, 1=red, 2=green, 3=yellow, 4=blue, 5=magenta, 6=cyan and 7=white
  # \Zy: b=bold(perhaps bright) B=reset, r=reverse R=reset, u=Underline U=reset
  #  The settings are cumulative, e.g., "\Zb\Z1" makes the following text bold (perhaps bright) & red. 
@@ -80,71 +63,37 @@ RELEASES=(
   7 '🏃‍➡ Run some command on server' 'Run some command on server \Zb\Z5🏃‍➡\Zn' 
   8 '👋 Nothing, just exit \Zb\Z1🔚\Zn' 'I will try next time...'
   )
-#echo "${ACTIONS[@]}"; 
- 
- val=22
- #for val in ${ACTIONS[@]}; do
-#  printf "printing line: "
-#  echo $val
-#  read -p fields <<< $val
-#  #readarray -t fields <<< "${ACTIONS[@]}"
-#  declare -r -a fields
-#  printf "printing fields: "
-#  echo $fields
-#####declare -r -a arr2=$ACTIONS
-#printf "arr2 ${arr2[@]}"
-####declare -A arr  # declare an associative array
-####declare -i c=0
 
-#IFS="|$IFS"; (printf '%s\n' "${ACTIONS[*]}")> 'temp1'; IFS="${IFS:1}" 
-########IFS="|$IFS"; printf '%s\n' "${ACTIONS[*]}"; IFS="${IFS:1}"
-###IFS="|$IFS"; printf '%s\n' "${ACTIONS[*]}" | awk -F '|' '{print $2}'; IFS="${IFS:1}"
-#echo "${ACTIONS[*]}"
-#printf "ACTIONS ${ACTIONS[@]}"
-# read from stdin (from file)
-#printf "${ACTIONS[@]}" > 'temp1'
-#while read -r label number; do
-#  arr[$c,0]="$label"; arr[$c,1]="$number"
-#  c=c+1
-#done < 'temp1'
-echo "awk1"
-#awk -F  '|' '{for(i=1; i<=NF; i++) if($i=="a") if(++count%3==0) $i="!!!!"}1' 'temp1'
-#awk -F '|' 'temp1'
-#cat   'temp1' | awk -F  '|' '/1/ {print }'
-#cat   'temp1' | awk 'BEGIN { FS="|" } /1/ { print  }'
-####cat   'temp1' | awk -F '|' '{println $2}'
-# array11=(5 "one one1" 6 "two two2" 7 "three three3")
+declare -r -A main_menu_key_labels=(
+  ['inst_oc']='🆙 Install Opencart 🛒' 
+  ['reinst_oc']='🔄 Reinstall Opencart 🛒'
+  ['inst_lemp']='🌐Install LEMP only 🆖'
+  ['inst_ioncube']='🛅 Install ionCube only 🤑'
+  ['inst_ssl']='🔒 Install SSL Lets Encrypt Certbot only 🔗'
+  ['inst_template']='📝 Install free OC template 🛒'
+  ['cmd']='🏃‍➡ Run some command on server'  
+  ['exit']='👋 Nothing, just exit 🔚'
+)  
+
+declare -r -a RELEASES=(
+ 1 "v.3:  Official Maintainence Branch 3.0.x.x (3.0.4.1)" "Official from opencart $URL1"
+ 2 "v.3:  DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Development branch $URL2"
+ 3 "v.3:👌Custom Branch 3.0.x.x (3.0.4.1)" "Custom branch with some enhancements $URL3"
+ 4 "v.3:  Custom DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Custom development branch $URL4"
+ 5 "v.4:  Official latest release 4.x.x" "Latest release from Opencart $URL5"
+ 6 "\Zb\Z1Exit, terminate\Zn, next time, no choice" "Do nothing, please exit"		 
+ )
+
 getArrayString () {
- #local key="$1"
- #declare -a arr=( "${$2[@]}" )
  arr=("$@")
- ###arr=("$1")
- ###echo "$@"
- #echo "Param is $arr"
- #local ret
- #echo "---$(printf '%s|' "${ACTIONS[@]}" | awk -v var="$1" -F '|' '{print $var}')"
  echo "Configuring: $(printf '%s|' "${arr[@]}" | awk -v var="$1" -F '|' '{print $var}')"
-   #echo $ret
-   #return printf '%s|' "${ACTIONS[@]}" | awk -F '|' '{print $$(key)}'
 }
-####getArrayString "${ACTIONS[@]}" "2" 
-echo "function returns  " $(getArrayString "3" "${ACTIONS[@]}")
-# echo "function returns  " $(getArrayString "6" "${array11[@]}"  )
-####printf '%s|' "${ACTIONS[@]}" | awk -F '|' '{print $2}'
-#print array arr
-#for ((i=0;i<${#arr[@]}/2;i++)); do
-#  echo "$i ---- ${arr[$i,0]} -------- ${arr[$i,1]}"
-#done
-
-
-#exit 0;	
-	
+ 	
 Y_START=2
 LMARGIN=2
 DLGHEIGHT=15
 DLGWIDTH=70
-# TAILY_START=DLGHEIGHT+Y_START+2
-# TAILY_START=20 
+
 let TAILY_START=DLGHEIGHT+Y_START+2
 TAIL1WIDTH=45
 TAIL1HEIGHT=12
@@ -229,7 +178,7 @@ dialog_main_menu() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-	  --title "App Menu" \
+	  --title "Main Menu" \
 	  --item-help \
 	  --colors	\
 	  --menu "Welcome to opencart terminal! What are we going to do?" \
@@ -273,7 +222,7 @@ dialog_main_menu1111() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-	  --title "App Menu" \
+	  --title "Main Menu" \
 	  --radiolist "Welcome to opencart terminal! What are we going to do?" \
 	     $DLGSIZE 10 \
         "${main_menu_key_labels['inst_oc']}" '' 'ON' \
@@ -292,27 +241,14 @@ dialog_main_menu1111() {
     fi
 
     case "$main_menu_choice" in
-      "${main_menu_key_labels['inst_oc']}")
-        dialog_inst_oc
-        ;;
-      "${main_menu_key_labels['reinst_oc']}")
-        dialog_reinst_oc
-        ;;
-      "${main_menu_key_labels['inst_lemp']}")
-        dialog_inst_lemp
-        ;;
-      "${main_menu_key_labels['inst_ioncube']}")
-        dialog_inst_ioncube
-        ;;
-      "${main_menu_key_labels['inst_ssl']}")
-        dialog_inst_ssl
-        ;;
-      "${main_menu_key_labels['inst_template']}")
-        dialog_inst_template
-        ;;
-      "${main_menu_key_labels['cmd']}")
-        dialog_cmd
-        ;;
+      "${main_menu_key_labels['inst_oc']}") dialog_inst_oc;;
+      "${main_menu_key_labels['reinst_oc']}") dialog_reinst_oc;;
+      "${main_menu_key_labels['inst_lemp']}") dialog_inst_lemp;;
+      "${main_menu_key_labels['inst_ioncube']}") dialog_inst_ioncube ;;
+      "${main_menu_key_labels['inst_ssl']}") dialog_inst_ssl;;
+      "${main_menu_key_labels['inst_template']}") dialog_inst_template;;
+      "${main_menu_key_labels['cmd']}") dialog_cmd;;
+      "${main_menu_key_labels['exit']}") exit 1;;	  
       *)
         echo "unexpected menu choice \"$main_menu_choice\", this is a programming error." >&2
         exit 1
@@ -320,7 +256,7 @@ dialog_main_menu1111() {
     esac
   done
 }
-##################################################################
+
 
 ################################################################################
 # Communicate with opencart server
@@ -455,7 +391,7 @@ EOF
 }
 
 ################################################################################
-# Dialog - app commands and related
+# Dialog - commands and related
 ################################################################################
 dialog_app_command_in_progress() {
   local bandwidth_mode
@@ -466,16 +402,18 @@ dialog_app_command_in_progress() {
   dialog \
     --sleep 1 \
     --backtitle "$BACKTITLE" \
-    --begin 2 50 --title "Running app command $bandwidth_mode" \
+    --begin 2 50 --title "Running command $bandwidth_mode" \
 	--infobox "Please wait, this may take couple of seconds." 10 45 || true
 }
 
 dialog_app_command_done() {
   dialog \
-    --backtitle "$BACKTITLE" \
-    --keep-window --begin 2 2 --title "Connection - $mydomain" --tailboxbg "$connection_report_file" 12 45 \
-    --and-widget --begin 16 2 --title 'Last contact' --tailboxbg "$last_reqresp_file" 7 45 \
-    --and-widget --keep-window --begin 2 50 --title 'Command result (scroll with Left/Right/Up/Down)' --textbox "$app_cmd_out_file" 21 70 || true
+   	 --backtitle "$BACKTITLE" \
+   	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+		--and-widget --keep-window --begin 2 50 --title 'Command result (scroll with Left/Right/Up/Down)' --textbox "$app_cmd_out_file" 21 70 || true
 }
 
 dialog_simple_info_box() {
@@ -499,8 +437,8 @@ dialog_reinst_oc() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   --colors	\
-	   --title "$(getArrayString "3" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "4" "${ACTIONS[@]}")" \
+	   --title "$(getArrayString "6" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "7" "${ACTIONS[@]}")" \
 	  	 $DLGSIZE 9 \
       'List tests'                       1 0 ''     1  0   0 0 0 \
       'test account nick name'           2 0 ''     2 32 200 0 0 \
@@ -569,8 +507,8 @@ dialog_inst_lemp() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-       --title '📠 Make calls and send SMS' \
-	   --mixedform '' \
+	   --title "$(getArrayString "9" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "10" "${ACTIONS[@]}")" \
   	   $DLGSIZE 9 \
       'Sample1' 1 0 ''     1  0   0 0 0 \
       'Sample2'     2 0 ''     2 32 200 0 0 \
@@ -621,8 +559,8 @@ dialog_inst_ioncube() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-	   --title '🐦 Read and post inst_ioncubes' \
-	   --mixedform '' \
+	   --title "$(getArrayString "12" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "13" "${ACTIONS[@]}")" \
   	   $DLGSIZE 9 \
       'Read latest inst_ioncubes from home timeline' 1 0 ''     1  0   0 0 0 \
       'Skip latest N inst_ioncubes'                  2 0 '0'    2 32 200 0 0 \
@@ -672,8 +610,8 @@ dialog_inst_ssl() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-  	   --title '🌐 Get the latest news / weather / facts' \
-	   --mixedform '' \
+	   --title "$(getArrayString "15" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "16" "${ACTIONS[@]}")" \
   	   $DLGSIZE 9 \
       'Get the latest ssl'        1 0 ''     1  0   0 0 0 \
       'Skip latest ssl'         2 0 '0'    2 32 200 0 0 \
@@ -723,8 +661,8 @@ dialog_inst_template() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-	   --title '📝 2FA code / password inst_template / text search' \
-	   --mixedform '' \
+	   --title "$(getArrayString "18" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "19" "${ACTIONS[@]}")" \
   	   $DLGSIZE 9 \
       'Get     authentication code'         1 0 ''     1  0   0 0 0 \
       'The remaining decryption key'        2 0 ''     2 32 200 0 0 \
@@ -791,8 +729,8 @@ dialog_cmd() {
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
-	   --title '💻 Run commands and inspect server status' \
-	   --mixedform '' \
+	   --title "$(getArrayString "19" "${ACTIONS[@]}")" \
+	   --mixedform "$(getArrayString "20" "${ACTIONS[@]}")" \
   	   $DLGSIZE 9 \
       'Select one of the following by entering Y' 1 0 ''     1  0   0 0 0 \
       'Get the latest server info'                2 0 'y'    2 32 200 0 0 \
