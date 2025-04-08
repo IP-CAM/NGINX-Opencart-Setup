@@ -23,11 +23,11 @@ updateupgrade() {
   sudo apt-get -y -qq update
   echo "$(date "+%F - %T") - Installing latest packages..." | tee -a $HOME/log.txt
   DEBIAN_FRONTEND=noninteractive \
-  apt-get \
+  sudo apt-get \
   -o Dpkg::Options::=--force-confold \
   -o Dpkg::Options::=--force-confdef \
-  -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
-  sudo apt-get -y -qq upgrade
+  -y -qq --allow-downgrades --allow-remove-essential --allow-change-held-packages upgrade
+  #sudo apt-get -y -qq upgrade
   echo "$(date "+%F - %T") - Installing pwgen password generator." | tee -a $HOME/log.txt
   sudo apt-get install -qq pwgen curl unattended-upgrades
 }
