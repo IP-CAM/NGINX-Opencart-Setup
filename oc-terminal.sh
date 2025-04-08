@@ -60,7 +60,7 @@ declare -r -a lemp_parts=('NGINX server' 'MySQL server' 'PHP stack' 'PHP-FMP mod
   4 '🛅 Install ionCube only 🤑' 'Install only ionCube Loader for encrypted Opencart \Zb\Z5🛒\Zn modules'
   5 '🔒 Install SSL Lets Encrypt Certbot only 🔗' 'Initialize  SSL and install SSL LetsEncrypt Certbot'
   6 '📝 Install free OC template \Zb\Z5🛒\Zn' 'Install some sample Opencart \Zb\Z5🛒\Zn template'
-  7 '🏃‍➡ Run some command on server' 'Run some command on server \Zb\Z5🏃‍➡\Zn' 
+  7 '🏃‍Run some command on server' 'Run some your command on server \Zb\Z5🏃‍\Zn' 
   8 '👋 Nothing, just exit \Zb\Z1🔚\Zn' 'I will try next time...'
   )
 
@@ -71,12 +71,12 @@ declare -r -A main_menu_key_labels=(
   ['inst_ioncube']='🛅 Install ionCube only 🤑'
   ['inst_ssl']='🔒 Install SSL Lets Encrypt Certbot only 🔗'
   ['inst_template']='📝 Install free OC template 🛒'
-  ['cmd']='🏃‍➡ Run some command on server'  
+  ['cmd']='🏃‍ Run some command on server'  
   ['exit']='👋 Nothing, just exit 🔚'
 )  
 
 declare -r -a RELEASES=(
- 1 "v.3:  Official Maintainence Branch 3.0.x.x (3.0.4.1)" "Official from opencart $URL1"
+ 1 "v.3:  Official Maintenance Branch 3.0.x.x (3.0.4.1)" "Official from Opencart $URL1"
  2 "v.3:  DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Development branch $URL2"
  3 "v.3:👌Custom Branch 3.0.x.x (3.0.4.1)" "Custom branch with some enhancements $URL3"
  4 "v.3:  Custom DEV Branch 3.0.x.x towards newest PHP (3.2.0.0)" "Custom development branch $URL4"
@@ -92,7 +92,6 @@ getArrayString () {
 Y_START=2
 LMARGIN=2
 DLGHEIGHT=15
-DLGWIDTH=70
 
 let TAILY_START=DLGHEIGHT+Y_START+2
 TAIL1WIDTH=45
@@ -103,7 +102,8 @@ TAIL2HEIGHT=7
 TAIL2SIZE="$TAIL2HEIGHT $TAIL2WIDTH"
 TAIL1LMARGIN="$LMARGIN"
 let TAIL2Y_START=TAIL1WIDTH+LMARGIN+3
- 
+
+let DLGWIDTH=TAIL2Y_START+TAIL2WIDTH-LMARGIN
 
 TAIL1BEGIN="--begin $TAILY_START $LMARGIN"
 TAIL2BEGIN="--begin $TAILY_START $TAIL2Y_START"
@@ -223,6 +223,7 @@ dialog_main_menu1111() {
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
 	   --and-widget --keep-window $DLGBEGIN   \
 	  --title "Main Menu" \
+	  --colors	\
 	  --radiolist "Welcome to opencart terminal! What are we going to do?" \
 	     $DLGSIZE 10 \
         "${main_menu_key_labels['inst_oc']}" '' 'ON' \
@@ -256,6 +257,443 @@ dialog_main_menu1111() {
     esac
   done
 }
+
+
+################################################################################
+# Dialog - install Opencart
+################################################################################
+dialog_inst_oc() {
+
+#TAILBOXES
+  dialog \
+	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+    --title '🛠️ Configure opencart and more' \
+	--colors	\
+    --mixedform "The settings for your opencart server are saved to $conf_file" \
+	   $DLGSIZE 9 \
+      'What is your domain?' 1 0 "$mydomain"     1 32 200 0 0 \
+      '' 2 0 '' 2 0 0 0 0 \
+      'On which port does the server run... (leave empty if unused)' 3 0 '' 3 0 0 0 0 \
+      'HTTP port'                      4 0 "$port_httpd"       4 32 8 0 0 \
+      'HTTPS port'                     5 0 "$port_httpsd"      5 32 8 0 0 \
+      'DNS port'                       6 0 "$port_dnsd"        6 32 8 0 0 \
+      'SMTP port'                      7 0 "$port_smtpd"       7 32 8 0 0 \
+      'SNMP port'                      8 0 "$port_snmpd"       8 32 8 0 0 \
+      'Telnet - plain socket port'     9 0 "$port_plainsocket" 9 32 8 0 0 \
+      'Simple IP service - QOTD port' 10 0 "$port_qotd"       10 32 8 0 0 \
+      '' 11 0 '' 11 0 0 0 0 \
+      'In order to execute app commands on your opencart server...' 12 0 '' 12 0 0 0 0 \
+      'Command processor password'    13 0 "$app_cmd_pass"     13 32 200 0 0 \
+      'App command execution API URL' 14 0 "$app_cmd_endpoint" 14 32 200 0 0 \
+      '' 15 0 '' 15 0 0 0 0 \
+      'What is the community string for probing SNMP?' 16 0 '' 16 0 0 0 0 \
+      'Leave empty if unused'       17 0 "$snmp_community_string" 17 32 200 0 0 \
+      '' 18 0 '' 18 0 0 0 0 \
+      'Low bandwidth mode works better over satellite (reduce security)' 19 0 '' 19 0 0 0 0 \
+      'Use low bandwidth mode? (y/n)' 20 0 "$low_bandwidth_mode" 20 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  if [ -s "$form_submission_file" ]; then
+    readarray -t form_fields < "$form_submission_file"
+    cat << EOF > "$conf_file"
+mydomain="${form_fields[0]}"
+port_httpd="${form_fields[1]}"
+port_httpsd="${form_fields[2]}"
+port_dnsd="${form_fields[3]}"
+port_smtpd="${form_fields[4]}"
+port_snmpd="${form_fields[5]}"
+port_plainsocket="${form_fields[6]}"
+port_qotd="${form_fields[7]}"
+app_cmd_pass="${form_fields[8]}"
+app_cmd_endpoint="${form_fields[9]}"
+snmp_community_string="${form_fields[10]}"
+low_bandwidth_mode="${form_fields[11]}"
+EOF
+    # Re-execute this terminal program for background functions to pick up new configuration
+    clean_up_before_exit
+    exec "$self_exe"
+  fi
+}
+
+################################################################################
+# Dialog - reinstall Opencart
+################################################################################
+dialog_reinst_oc() {
+#       "${ACTIONS[1][1]}" '' '' \
+  dialog \
+ 	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   --colors	\
+	   --title "$(getArrayString "6" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "7" "${ACTIONS[@]}")" \
+	  	 $DLGSIZE 9 \
+      'List tests'                       1 0 ''     1  0   0 0 0 \
+      'test account nick name'           2 0 ''     2 32 200 0 0 \
+      'Skip latest N tests'              3 0 '0'    3 32 200 0 0 \
+      'And then list N tests'            4 0 '10'   4 32 200 0 0 \
+      '------------------------------'    5 0 ''     5 0    0 0 0 \
+      'Read tests'                        6 0 ''     6  0   0 0 0 \
+      'test account nick name'           7 0 ''     7 32 200 0 0 \
+      'test message number'              8 0 ''     8 32 200 0 0 \
+      '------------------------------'    9 0 ''     9  0   0 0 0 \
+      'Send test'                       10 0 ''    10  0   0 0 0 \
+      'To address'                       11 0 ''    11 32 200 0 0 \
+      'Subject'                          12 0 ''    12 32 200 0 0 \
+      'Content'                          13 0 ''    13 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    list_acct_nick="${form_fields[0]}"
+    list_skip_count="${form_fields[1]}"
+    list_get_count="${form_fields[2]}"
+
+    read_acct_nick="${form_fields[3]}"
+    read_num="${form_fields[4]}"
+
+    send_to_addr="${form_fields[5]}"
+    send_subject="${form_fields[6]}"
+    send_content="${form_fields[7]}"
+    # Figure out which function user would like to use
+    if [ "$list_acct_nick" ]; then
+      invoke_app_command ".il $list_acct_nick $list_skip_count $list_get_count" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$read_acct_nick" ]; then
+      invoke_app_command ".ir $read_acct_nick $read_num" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$send_to_addr" ]; then
+      invoke_app_command ".m $send_to_addr \"$send_subject\" $send_content"
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_reinst_oc
+    fi
+  fi
+}
+
+################################################################################
+# Dialog - install LEMP
+################################################################################
+dialog_inst_lemp() {
+  dialog \
+ 	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+	   --title "$(getArrayString "9" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "10" "${ACTIONS[@]}")" \
+  	   $DLGSIZE 9 \
+      'Sample1' 1 0 ''     1  0   0 0 0 \
+      'Sample2'     2 0 ''     2 32 200 0 0 \
+      'message'                     3 0 ''     3 32 200 0 0 \
+      '------------------------------'    4 0 ''     4 0    0 0 0 \
+      'Send Sample1'                       5 0 ''     5  0   0 0 0 \
+      'To sample'             6 0 ''     6 32 200 0 0 \
+      'Text message'                      7 0 ''     7 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    dial_number="${form_fields[0]}"
+    speak_message="${form_fields[1]}"
+
+    send_to_number="${form_fields[2]}"
+    text_message="${form_fields[3]}"
+    # Figure out which function user would like to use
+    if [ "$dial_number" ]; then
+      invoke_app_command ".pc $dial_number $speak_message" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$send_to_number" ]; then
+      invoke_app_command ".pt $send_to_number $text_message" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_inst_lemp
+    fi
+  fi
+}
+
+################################################################################
+# Dialog - install ionCube Loader
+################################################################################
+dialog_inst_ioncube() {
+  dialog \
+     	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+	   --title "$(getArrayString "12" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "13" "${ACTIONS[@]}")" \
+  	   $DLGSIZE 9 \
+      'Read latest inst_ioncubes from home timeline' 1 0 ''     1  0   0 0 0 \
+      'Skip latest N inst_ioncubes'                  2 0 '0'    2 32 200 0 0 \
+      'And then read N inst_ioncubes'                3 0 '10'   3 32 200 0 0 \
+      '------------------------------'        4 0 ''     4 0    0 0 0 \
+      'Post a inst_ioncube'                          5 0 ''     5  0   0 0 0 \
+      'Content'                               6 0 ''     6 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    skip_n_inst_ioncubes="${form_fields[0]}"
+    read_n_inst_ioncubes="${form_fields[1]}"
+
+    inst_ioncube_content="${form_fields[2]}"
+    # Figure out which function user would like to use
+    # The read inst_ioncube fields use default values, hence check posting of new inst_ioncube first.
+    if [ "$inst_ioncube_content" ]; then
+      invoke_app_command ".tp $inst_ioncube_content" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$read_n_inst_ioncubes" ]; then
+      invoke_app_command ".tg $skip_n_inst_ioncubes $read_n_inst_ioncubes" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_inst_ioncube
+    fi
+  fi
+}
+
+################################################################################
+# Dialog - install SSL and Certbot
+################################################################################
+dialog_inst_ssl() {
+  dialog \
+     	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+	   --title "$(getArrayString "15" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "16" "${ACTIONS[@]}")" \
+  	   $DLGSIZE 9 \
+      'Get the latest ssl'        1 0 ''     1  0   0 0 0 \
+      'Skip latest ssl'         2 0 '0'    2 32 200 0 0 \
+      'And then read ssl'            3 0 '10'   3 32 200 0 0 \
+      '------------------------------'      4 0 ''     4 0    0 0 0 \
+      'Ask ssl'  5 0 ''     5  0   0 0 0 \
+      'Inquiry (in free form text)'            6 0 ''     6 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    skip_n_feeds="${form_fields[0]}"
+    read_n_feeds="${form_fields[1]}"
+
+    ssl_query="${form_fields[2]}"
+    # Figure out which function user would like to use
+    # The read  uses default values, hence check inquiry first.
+    if [ "$ssl_query" ]; then
+      invoke_app_command ".w $ssl_query" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$read_n_feeds" ]; then
+      invoke_app_command ".r $skip_n_feeds $read_n_feeds" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_inst_ssl
+    fi
+  fi
+}
+
+################################################################################
+# Dialog - install some useful Opencart template
+################################################################################
+dialog_inst_template() {
+  dialog \
+     	 --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+	   --title "$(getArrayString "18" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "19" "${ACTIONS[@]}")" \
+  	   $DLGSIZE 9 \
+      'Get     authentication code'         1 0 ''     1  0   0 0 0 \
+      'The remaining decryption key'        2 0 ''     2 32 200 0 0 \
+      'Search for account'                  3 0 ''     3 32 200 0 0 \
+      '------------------------------'      4 0 ''     4  0   0 0 0 \
+      'Find in encrypted text'              5 0 ''     5  0   0 0 0 \
+      'File shortcut word'                  6 0 ''     6 32 200 0 0 \
+      'The remaining decryption key'        7 0 ''     7 32 200 0 0 \
+      'Search for'                          8 0 ''     8 32 200 0 0 \
+      '------------------------------'      9 0 ''     9  0   0 0 0 \
+      'Find in plain text'                 10 0 ''    10  0   0 0 0 \
+      'File word'                          11 0 ''    11 32 200 0 0 \
+      'Search for'                         12 0 ''    12 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    twofa_decrypt_key="${form_fields[0]}"
+    twofa_search="${form_fields[1]}"
+
+    enc_shortcut="${form_fields[2]}"
+    enc_decrypt_key="${form_fields[3]}"
+    enc_search="${form_fields[4]}"
+
+    plain_shortcut="${form_fields[5]}"
+    plain_search="${form_fields[6]}"
+    # Figure out which function user would like to use
+    if [ "$twofa_search" ]; then
+      invoke_app_command ".2 $twofa_decrypt_key $twofa_search" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$enc_search" ]; then
+      invoke_app_command ".a $enc_shortcut $enc_decrypt_key $enc_search" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$plain_search" ]; then
+      invoke_app_command ".g $plain_shortcut $plain_search" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_inst_template
+    fi
+  fi
+}
+
+################################################################################
+# Dialog - run command and inspect server status
+################################################################################
+dialog_cmd() {
+  dialog \
+       --backtitle "$BACKTITLE" \
+	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
+  	   --tailboxbg $connection_report_file $TAIL1SIZE \
+	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
+	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
+	   --and-widget --keep-window $DLGBEGIN   \
+	   --title "$(getArrayString "19" "${ACTIONS[@]}")" \
+	   --colors	\
+	   --mixedform "$(getArrayString "20" "${ACTIONS[@]}")" \
+  	   $DLGSIZE 9 \
+      'Select one of the following by entering Y' 1 0 ''     1  0   0 0 0 \
+      'Get the latest server info'                2 0 'y'    2 32 200 0 0 \
+      'Get the latest server log'                 3 0 ''     3 32 200 0 0 \
+      'Get the latest server warnings'            4 0 ''     4 32 200 0 0 \
+      'Server emergency lock (careful)'           5 0 ''     5 32 200 0 0 \
+      '------------------------------'            6 0 ''     6 0    0 0 0 \
+      'Run this app command'                      7 0 ''     7 32 200 0 0 \
+      \
+  2>"$form_submission_file" || return 0
+  readarray -t form_fields < "$form_submission_file"
+  if [ -s "$form_submission_file" ]; then
+    select_get_info="${form_fields[0]}"
+    select_get_log="${form_fields[1]}"
+    select_get_warn="${form_fields[2]}"
+    select_emer_lock="${form_fields[3]}"
+
+    run_app_cmd="${form_fields[4]}"
+    # Figure out which function user would like to use
+    # The "get latest info" field uses default value, hence check app command input first.
+    if [ "$run_app_cmd" ]; then
+      invoke_app_command "$run_app_cmd" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$select_get_info" ]; then
+      invoke_app_command ".einfo" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$select_get_log" ]; then
+      invoke_app_command ".elog" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$select_get_warn" ]; then
+      invoke_app_command ".ewarn" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    elif [ "$select_emer_lock" ]; then
+      invoke_app_command ".elock" &
+      local bg_pid=$!
+      while kill -0 "$bg_pid"; do
+        dialog_app_command_in_progress
+      done
+      dialog_app_command_done
+    else
+      dialog_simple_info_box "Please complete any section of the form to use that app."
+      dialog_inst_lemp
+    fi
+  fi
+}
+
 
 
 ################################################################################
@@ -330,65 +768,6 @@ loop_get_latest_conn_status() {
   done
 }
 
-################################################################################
-# Dialog - install Opencart
-################################################################################
-dialog_inst_oc() {
-
-#TAILBOXES
-  dialog \
-	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-    --title '🛠️ Configure opencart and more' \
-    --mixedform "The settings for your opencart server are saved to $conf_file" \
-	   $DLGSIZE 9 \
-      'What is your domain?' 1 0 "$mydomain"     1 32 200 0 0 \
-      '' 2 0 '' 2 0 0 0 0 \
-      'On which port does the server run... (leave empty if unused)' 3 0 '' 3 0 0 0 0 \
-      'HTTP port'                      4 0 "$port_httpd"       4 32 8 0 0 \
-      'HTTPS port'                     5 0 "$port_httpsd"      5 32 8 0 0 \
-      'DNS port'                       6 0 "$port_dnsd"        6 32 8 0 0 \
-      'SMTP port'                      7 0 "$port_smtpd"       7 32 8 0 0 \
-      'SNMP port'                      8 0 "$port_snmpd"       8 32 8 0 0 \
-      'Telnet - plain socket port'     9 0 "$port_plainsocket" 9 32 8 0 0 \
-      'Simple IP service - QOTD port' 10 0 "$port_qotd"       10 32 8 0 0 \
-      '' 11 0 '' 11 0 0 0 0 \
-      'In order to execute app commands on your opencart server...' 12 0 '' 12 0 0 0 0 \
-      'Command processor password'    13 0 "$app_cmd_pass"     13 32 200 0 0 \
-      'App command execution API URL' 14 0 "$app_cmd_endpoint" 14 32 200 0 0 \
-      '' 15 0 '' 15 0 0 0 0 \
-      'What is the community string for probing SNMP?' 16 0 '' 16 0 0 0 0 \
-      'Leave empty if unused'       17 0 "$snmp_community_string" 17 32 200 0 0 \
-      '' 18 0 '' 18 0 0 0 0 \
-      'Low bandwidth mode works better over satellite (reduce security)' 19 0 '' 19 0 0 0 0 \
-      'Use low bandwidth mode? (y/n)' 20 0 "$low_bandwidth_mode" 20 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  if [ -s "$form_submission_file" ]; then
-    readarray -t form_fields < "$form_submission_file"
-    cat << EOF > "$conf_file"
-mydomain="${form_fields[0]}"
-port_httpd="${form_fields[1]}"
-port_httpsd="${form_fields[2]}"
-port_dnsd="${form_fields[3]}"
-port_smtpd="${form_fields[4]}"
-port_snmpd="${form_fields[5]}"
-port_plainsocket="${form_fields[6]}"
-port_qotd="${form_fields[7]}"
-app_cmd_pass="${form_fields[8]}"
-app_cmd_endpoint="${form_fields[9]}"
-snmp_community_string="${form_fields[10]}"
-low_bandwidth_mode="${form_fields[11]}"
-EOF
-    # Re-execute this terminal program for background functions to pick up new configuration
-    clean_up_before_exit
-    exec "$self_exe"
-  fi
-}
 
 ################################################################################
 # Dialog - commands and related
@@ -402,7 +781,9 @@ dialog_app_command_in_progress() {
   dialog \
     --sleep 1 \
     --backtitle "$BACKTITLE" \
-    --begin 2 50 --title "Running command $bandwidth_mode" \
+    --begin 2 50 \
+	--title "Running command $bandwidth_mode" \
+	--colors	\
 	--infobox "Please wait, this may take couple of seconds." 10 45 || true
 }
 
@@ -413,7 +794,10 @@ dialog_app_command_done() {
   	   --tailboxbg $connection_report_file $TAIL1SIZE \
 	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
 	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-		--and-widget --keep-window --begin 2 50 --title 'Command result (scroll with Left/Right/Up/Down)' --textbox "$app_cmd_out_file" 21 70 || true
+		--and-widget --keep-window --begin 2 50 \
+		--title 'Command result (scroll with Left/Right/Up/Down)' \
+	    --colors	\
+		--textbox "$app_cmd_out_file" 21 70 || true
 }
 
 dialog_simple_info_box() {
@@ -422,376 +806,12 @@ dialog_simple_info_box() {
   dialog \
     --sleep 3 \
     --backtitle "$BACKTITLE" \
-    --begin 2 50 --title 'Notice' --infobox "$info_box_txt" 10 45 || true
+    --begin 2 50 \
+	--title 'Notice' \
+	--colors	\
+	--infobox "$info_box_txt" 10 45 || true
 }
 
-################################################################################
-# Dialog - reinstall Opencart
-################################################################################
-dialog_reinst_oc() {
-#       "${ACTIONS[1][1]}" '' '' \
-  dialog \
- 	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   --colors	\
-	   --title "$(getArrayString "6" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "7" "${ACTIONS[@]}")" \
-	  	 $DLGSIZE 9 \
-      'List tests'                       1 0 ''     1  0   0 0 0 \
-      'test account nick name'           2 0 ''     2 32 200 0 0 \
-      'Skip latest N tests'              3 0 '0'    3 32 200 0 0 \
-      'And then list N tests'            4 0 '10'   4 32 200 0 0 \
-      '------------------------------'    5 0 ''     5 0    0 0 0 \
-      'Read tests'                        6 0 ''     6  0   0 0 0 \
-      'test account nick name'           7 0 ''     7 32 200 0 0 \
-      'test message number'              8 0 ''     8 32 200 0 0 \
-      '------------------------------'    9 0 ''     9  0   0 0 0 \
-      'Send test'                       10 0 ''    10  0   0 0 0 \
-      'To address'                       11 0 ''    11 32 200 0 0 \
-      'Subject'                          12 0 ''    12 32 200 0 0 \
-      'Content'                          13 0 ''    13 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    list_acct_nick="${form_fields[0]}"
-    list_skip_count="${form_fields[1]}"
-    list_get_count="${form_fields[2]}"
-
-    read_acct_nick="${form_fields[3]}"
-    read_num="${form_fields[4]}"
-
-    send_to_addr="${form_fields[5]}"
-    send_subject="${form_fields[6]}"
-    send_content="${form_fields[7]}"
-    # Figure out which function user would like to use
-    if [ "$list_acct_nick" ]; then
-      invoke_app_command ".il $list_acct_nick $list_skip_count $list_get_count" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$read_acct_nick" ]; then
-      invoke_app_command ".ir $read_acct_nick $read_num" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$send_to_addr" ]; then
-      invoke_app_command ".m $send_to_addr \"$send_subject\" $send_content"
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_reinst_oc
-    fi
-  fi
-}
-
-################################################################################
-# Dialog - install LEMP
-################################################################################
-dialog_inst_lemp() {
-  dialog \
- 	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	   --title "$(getArrayString "9" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "10" "${ACTIONS[@]}")" \
-  	   $DLGSIZE 9 \
-      'Sample1' 1 0 ''     1  0   0 0 0 \
-      'Sample2'     2 0 ''     2 32 200 0 0 \
-      'message'                     3 0 ''     3 32 200 0 0 \
-      '------------------------------'    4 0 ''     4 0    0 0 0 \
-      'Send Sample1'                       5 0 ''     5  0   0 0 0 \
-      'To sample'             6 0 ''     6 32 200 0 0 \
-      'Text message'                      7 0 ''     7 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    dial_number="${form_fields[0]}"
-    speak_message="${form_fields[1]}"
-
-    send_to_number="${form_fields[2]}"
-    text_message="${form_fields[3]}"
-    # Figure out which function user would like to use
-    if [ "$dial_number" ]; then
-      invoke_app_command ".pc $dial_number $speak_message" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$send_to_number" ]; then
-      invoke_app_command ".pt $send_to_number $text_message" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_inst_lemp
-    fi
-  fi
-}
-
-################################################################################
-# Dialog - install ionCube Loader
-################################################################################
-dialog_inst_ioncube() {
-  dialog \
-     	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	   --title "$(getArrayString "12" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "13" "${ACTIONS[@]}")" \
-  	   $DLGSIZE 9 \
-      'Read latest inst_ioncubes from home timeline' 1 0 ''     1  0   0 0 0 \
-      'Skip latest N inst_ioncubes'                  2 0 '0'    2 32 200 0 0 \
-      'And then read N inst_ioncubes'                3 0 '10'   3 32 200 0 0 \
-      '------------------------------'        4 0 ''     4 0    0 0 0 \
-      'Post a inst_ioncube'                          5 0 ''     5  0   0 0 0 \
-      'Content'                               6 0 ''     6 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    skip_n_inst_ioncubes="${form_fields[0]}"
-    read_n_inst_ioncubes="${form_fields[1]}"
-
-    inst_ioncube_content="${form_fields[2]}"
-    # Figure out which function user would like to use
-    # The read inst_ioncube fields use default values, hence check posting of new inst_ioncube first.
-    if [ "$inst_ioncube_content" ]; then
-      invoke_app_command ".tp $inst_ioncube_content" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$read_n_inst_ioncubes" ]; then
-      invoke_app_command ".tg $skip_n_inst_ioncubes $read_n_inst_ioncubes" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_inst_ioncube
-    fi
-  fi
-}
-
-################################################################################
-# Dialog - install SSL and Certbot
-################################################################################
-dialog_inst_ssl() {
-  dialog \
-     	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	   --title "$(getArrayString "15" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "16" "${ACTIONS[@]}")" \
-  	   $DLGSIZE 9 \
-      'Get the latest ssl'        1 0 ''     1  0   0 0 0 \
-      'Skip latest ssl'         2 0 '0'    2 32 200 0 0 \
-      'And then read ssl'            3 0 '10'   3 32 200 0 0 \
-      '------------------------------'      4 0 ''     4 0    0 0 0 \
-      'Ask ssl'  5 0 ''     5  0   0 0 0 \
-      'Inquiry (in free form text)'            6 0 ''     6 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    skip_n_feeds="${form_fields[0]}"
-    read_n_feeds="${form_fields[1]}"
-
-    ssl_query="${form_fields[2]}"
-    # Figure out which function user would like to use
-    # The read  uses default values, hence check inquiry first.
-    if [ "$ssl_query" ]; then
-      invoke_app_command ".w $ssl_query" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$read_n_feeds" ]; then
-      invoke_app_command ".r $skip_n_feeds $read_n_feeds" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_inst_ssl
-    fi
-  fi
-}
-
-################################################################################
-# Dialog - install some useful Opencart template
-################################################################################
-dialog_inst_template() {
-  dialog \
-     	 --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	   --title "$(getArrayString "18" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "19" "${ACTIONS[@]}")" \
-  	   $DLGSIZE 9 \
-      'Get     authentication code'         1 0 ''     1  0   0 0 0 \
-      'The remaining decryption key'        2 0 ''     2 32 200 0 0 \
-      'Search for account'                  3 0 ''     3 32 200 0 0 \
-      '------------------------------'      4 0 ''     4  0   0 0 0 \
-      'Find in encrypted text'              5 0 ''     5  0   0 0 0 \
-      'File shortcut word'                  6 0 ''     6 32 200 0 0 \
-      'The remaining decryption key'        7 0 ''     7 32 200 0 0 \
-      'Search for'                          8 0 ''     8 32 200 0 0 \
-      '------------------------------'      9 0 ''     9  0   0 0 0 \
-      'Find in plain text'                 10 0 ''    10  0   0 0 0 \
-      'File word'                          11 0 ''    11 32 200 0 0 \
-      'Search for'                         12 0 ''    12 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    twofa_decrypt_key="${form_fields[0]}"
-    twofa_search="${form_fields[1]}"
-
-    enc_shortcut="${form_fields[2]}"
-    enc_decrypt_key="${form_fields[3]}"
-    enc_search="${form_fields[4]}"
-
-    plain_shortcut="${form_fields[5]}"
-    plain_search="${form_fields[6]}"
-    # Figure out which function user would like to use
-    if [ "$twofa_search" ]; then
-      invoke_app_command ".2 $twofa_decrypt_key $twofa_search" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$enc_search" ]; then
-      invoke_app_command ".a $enc_shortcut $enc_decrypt_key $enc_search" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$plain_search" ]; then
-      invoke_app_command ".g $plain_shortcut $plain_search" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_inst_template
-    fi
-  fi
-}
-
-################################################################################
-# Dialog - run command and inspect server status
-################################################################################
-dialog_cmd() {
-  dialog \
-       --backtitle "$BACKTITLE" \
-	   --keep-window $TAIL1BEGIN --title "$TAIL1TITLE" --colors	\
-  	   --tailboxbg $connection_report_file $TAIL1SIZE \
-	   --and-widget  $TAIL2BEGIN --title "$TAIL2TITLE" --colors	\
-	    --tailboxbg $last_reqresp_file $TAIL2SIZE \
-	   --and-widget --keep-window $DLGBEGIN   \
-	   --title "$(getArrayString "19" "${ACTIONS[@]}")" \
-	   --mixedform "$(getArrayString "20" "${ACTIONS[@]}")" \
-  	   $DLGSIZE 9 \
-      'Select one of the following by entering Y' 1 0 ''     1  0   0 0 0 \
-      'Get the latest server info'                2 0 'y'    2 32 200 0 0 \
-      'Get the latest server log'                 3 0 ''     3 32 200 0 0 \
-      'Get the latest server warnings'            4 0 ''     4 32 200 0 0 \
-      'Server emergency lock (careful)'           5 0 ''     5 32 200 0 0 \
-      '------------------------------'            6 0 ''     6 0    0 0 0 \
-      'Run this app command'                      7 0 ''     7 32 200 0 0 \
-      \
-  2>"$form_submission_file" || return 0
-  readarray -t form_fields < "$form_submission_file"
-  if [ -s "$form_submission_file" ]; then
-    select_get_info="${form_fields[0]}"
-    select_get_log="${form_fields[1]}"
-    select_get_warn="${form_fields[2]}"
-    select_emer_lock="${form_fields[3]}"
-
-    run_app_cmd="${form_fields[4]}"
-    # Figure out which function user would like to use
-    # The "get latest info" field uses default value, hence check app command input first.
-    if [ "$run_app_cmd" ]; then
-      invoke_app_command "$run_app_cmd" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$select_get_info" ]; then
-      invoke_app_command ".einfo" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$select_get_log" ]; then
-      invoke_app_command ".elog" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$select_get_warn" ]; then
-      invoke_app_command ".ewarn" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    elif [ "$select_emer_lock" ]; then
-      invoke_app_command ".elock" &
-      local bg_pid=$!
-      while kill -0 "$bg_pid"; do
-        dialog_app_command_in_progress
-      done
-      dialog_app_command_done
-    else
-      dialog_simple_info_box "Please complete any section of the form to use that app."
-      dialog_inst_lemp
-    fi
-  fi
-}
 ###############################################################################
 
 main() {
