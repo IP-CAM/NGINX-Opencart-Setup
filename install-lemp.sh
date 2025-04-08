@@ -47,7 +47,26 @@ installphp() {
   # php-json php-dom 
 
   
-  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
+  
+################################################
+#  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
+echo '# 👣 Running tune_php_ini.sh:\n' >> $HOME/log.txt
+printf "\n
+ 👣 Running tune_php_ini.sh:\n"	
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh'	
+scriptname="${scripturl##*/}"
+random=$scriptname."$(pwgen -1 -s 5)"
+
+curl -s $scripturl  -o $random
+chmod a+x ./$random
+echo "running $random ..."
+. ./$random $mydomain $2
+echo "exited $random !"
+rm -f $random
+printf "\nScript tune_php_ini.shh finished\n"
+echo '# \nScript tune_php_ini.sh finished\n' >> $HOME/log.txt
+################################################
+  
   echo "$(date "+%F - %T") - Installing PHP modules." | tee -a $HOME/log.txt
  }
 
