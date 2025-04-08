@@ -22,8 +22,8 @@ updateupgrade() {
   echo "$(date "+%F - %T") - Update the list of repositories..." | tee -a $HOME/log.txt
   sudo apt-get -y -qq update
   echo "$(date "+%F - %T") - Installing latest packages..." | tee -a $HOME/log.txt
-  DEBIAN_FRONTEND=noninteractive \
-  sudo apt-get \
+  sudo DEBIAN_FRONTEND=noninteractive \
+  apt-get \
   -o Dpkg::Options::=--force-confold \
   -o Dpkg::Options::=--force-confdef \
   -y -qq --allow-downgrades --allow-remove-essential --allow-change-held-packages upgrade
