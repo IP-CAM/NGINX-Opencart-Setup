@@ -22,7 +22,8 @@ fi
   printf "${ERR}Only --dry-run is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
  fi
  
-# Further accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
+# Further accordingly to
+#  https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
@@ -34,7 +35,8 @@ tar --exclude='/etc/nginx/backups'  -czf /etc/nginx/backups/$mydomain/nginx_all_
 rm -f ./sites-enabled/default
 
 printf "${INFO}Downloading nginx-opencart-setup.zip${NC}"
-curl -s -o nginx-opencart-setup.zip -fSL "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
+curl -s -o nginx-opencart-setup.zip -fSL \
+ "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
 sudo apt-get install unzip

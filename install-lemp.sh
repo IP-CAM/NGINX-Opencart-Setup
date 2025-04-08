@@ -128,7 +128,26 @@ installphp
 installconfigmariadb
 configfirewall
 finishcleanrestart
-curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
+################################################
+# curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
+echo '# 👣 Running setup.sh:\n' >> $HOME/log.txt
+printf "\n
+ 👣 Running setup.sh:\n"	
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh'	
+scriptname="${scripturl##*/}"
+random=$scriptname."$(pwgen -1 -s 5)"
+
+curl -s $scripturl  -o $random
+chmod a+x ./$random
+echo "running $random ..."
+source ./$random $mydomain $2
+echo "exited $random !"
+rm -f $random
+printf "\nScript setup.sh finished\n"
+echo '# \nScript setup.sh finished\n' >> $HOME/log.txt
+################################################
+
+
 
 echo -e '\n' >> $HOME/log.txt
 echo '# ============ MARIADB ROOT PASSWORD ============' >> $HOME/log.txt
