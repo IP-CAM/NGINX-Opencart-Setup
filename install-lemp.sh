@@ -1,5 +1,7 @@
 #!bin/sh
 
+ls -l `which sh`
+
 mydomain=$1
 
 OK=$(tput setaf 2)"\n 👌: " 	# green
@@ -128,6 +130,8 @@ installphp
 installconfigmariadb
 configfirewall
 finishcleanrestart
+
+sudo apt-get -qq install pwgen
 ################################################
 # curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
 echo '# 👣 Running setup.sh:\n' >> $HOME/log.txt
@@ -140,7 +144,7 @@ random=$scriptname."$(pwgen -1 -s 5)"
 curl -s $scripturl  -o $random
 chmod a+x ./$random
 echo "running $random ..."
-source ./$random $mydomain $2
+. ./$random $mydomain $2
 echo "exited $random !"
 rm -f $random
 printf "\nScript setup.sh finished\n"
