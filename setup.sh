@@ -3,7 +3,7 @@
 set -e
 
 mydomain=$1  # e.g.reallymydomain.site
- 
+printf "Starting in setup.sh with domain $mydomain and option=$2" 
 OK=$(tput setaf 2)"\n 👌: " 	# green
 ERR=$(tput setaf 1)"\n 💩: " 	# red
 WARN=$(tput setaf 3)"\n 👽: " 	# yellow
@@ -11,7 +11,7 @@ INFO=$(tput setaf 4)"\n 👣: " 	# blue
 NC=$(tput sgr0)"\n"  		    # unset
 BELL=$(tput bel)  				# play a bell
 
- 
+printf "Step1" 
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
 else 
@@ -28,10 +28,12 @@ fi
 # Navigate to your NGINX configuration directory on your server:
 cd /etc/nginx
 mkdir -p /etc/nginx/backups/$mydomain
+printf "Step2" 
 printf "${INFO}Creating a backup of your current NGINX configurations${NC}"
 # tar --exclude='nginx*.tar.gz'  -czf nginx_$(date +'%F_%H-%M-%S').tar.gz nginx.conf sites-available/ sites-enabled/ nginxconfig.io/ conf.d/ modules-available/ modules-enabled/ snippets/
 tar --exclude='/etc/nginx/backups'  -czf /etc/nginx/backups/$mydomain/nginx_all_$(date +'%F_%H-%M-%S').tar.gz /etc/nginx/
 
+printf "Step3" 
 rm -f ./sites-enabled/default
 
 printf "${INFO}Downloading nginx-opencart-setup.zip${NC}"
