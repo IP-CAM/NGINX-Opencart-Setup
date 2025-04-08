@@ -4,12 +4,25 @@ set -e
 
 mydomain=$1  # e.g.reallymydomain.site
 printf "Starting in setup.sh with domain $mydomain and option=$2" 
-OK=$(tput setaf 2)"\n 👌: " 	# green
-ERR=$(tput setaf 1)"\n 💩: " 	# red
-WARN=$(tput setaf 3)"\n 👽: " 	# yellow
-INFO=$(tput setaf 4)"\n 👣: " 	# blue
-NC=$(tput sgr0)"\n"  		    # unset
-BELL=$(tput bel)  				# play a bell
+
+if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+    # /dev/tty is available and usable
+ OK=$(tput setaf 2)"\n 👌: " 	# green
+ ERR=$(tput setaf 1)"\n 💩: " 	# red
+ WARN=$(tput setaf 3)"\n 👽: " 	# yellow
+ INFO=$(tput setaf 4)"\n 👣: " 	# blue
+ NC=$(tput sgr0)"\n"  		    # unset
+ BELL=$(tput bel)  				# play a bell
+else
+    # /dev/tty is not available
+ OK="\n 👌: "  
+ ERR="\n 💩: " 
+ WARN="\n 👽: " 	 
+ INFO="\n 👣: "  
+ NC="\n"  		    
+ BELL=""  			 
+fi
+ 
 
 printf "Step1" 
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
