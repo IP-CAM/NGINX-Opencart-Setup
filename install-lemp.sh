@@ -30,6 +30,7 @@ updateupgrade() {
   #sudo apt-get -y -qq upgrade
   echo "$(date "+%F - %T") - Installing pwgen password generator." | tee -a $HOME/log.txt
   sudo apt-get install -qq pwgen curl unattended-upgrades
+  sudo apt-get update -y -qq
 }
     
 # Install NGINX web server.
