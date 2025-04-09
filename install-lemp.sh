@@ -4,12 +4,23 @@ ls -l `which sh`
 
 mydomain=$1
 
-OK=$(tput setaf 2)"\n 👌: " 	# green
-ERR=$(tput setaf 1)"\n 💩: " 	# red
-WARN=$(tput setaf 3)"\n 👽: " 	# yellow
-INFO=$(tput setaf 4)"\n 👣: " 	# blue
-NC=$(tput sgr0)"\n"  			# unset
-BELL=$(tput bel)  				# play a bell
+if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+    # /dev/tty is available and usable
+ OK=$(tput setaf 2)"\n 👌: " 	# green
+ ERR=$(tput setaf 1)"\n 💩: " 	# red
+ WARN=$(tput setaf 3)"\n 👽: " 	# yellow
+ INFO=$(tput setaf 4)"\n 👣: " 	# blue
+ NC=$(tput sgr0)"\n"  		    # unset
+ BELL=$(tput bel)  				# play a bell
+else
+    # /dev/tty is not available
+ OK="\n 👌: "  
+ ERR="\n 💩: " 
+ WARN="\n 👽: " 	 
+ INFO="\n 👣: "  
+ NC="\n"  		    
+ BELL=""  			 
+fi
 
 startinstall() {
   echo -e "${INFO} * Starting installation... ${NC}"
@@ -56,18 +67,18 @@ installphp() {
   
 ################################################
 #  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
-echo '# 👣 Running tune_php_ini.sh:\n' >> $HOME/log.txt
+echo '# 👣👣👣👣👣👣 Running tune_php_ini.sh:\n' >> $HOME/log.txt
 printf "\n
- 👣 Running tune_php_ini.sh:\n"	
+ 👣👣👣👣👣👣 Running tune_php_ini.sh:\n"	
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh'	
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
-echo "running $random ..."
+echo "👣👣👣👣👣👣👣👣👣👣👣👣 running $random ..."
 . ./$random $mydomain $2
-echo "exited $random !"
+echo "👣👣👣👣👣👣👣👣👣👣👣👣 just exited $random "
 rm -f $random
 printf "\nScript tune_php_ini.shh finished\n"
 echo '# \nScript tune_php_ini.sh finished\n' >> $HOME/log.txt
