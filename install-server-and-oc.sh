@@ -1,8 +1,10 @@
 #!/bin/sh
 
 set -e
-: ${mydomain:?'You really need to set mydomain env variable! Exiting...'}
 iexit="Exiting..\n\n"
+: ${mydomain:?'You need to set mydomain env variable! Exiting...$iexit'}
+: ${sourceurl:?'You need to set sourceurl env variable! Exiting...'}
+: ${sourceroot:?'You need to set sourceroot env variable! Exiting...'}
 
 : "${SIG_NONE=0}"
 : "${SIG_HUP=1}"
@@ -31,7 +33,7 @@ else
  fi 
 fi 
 
-MYTMPDIR="$(mktemp -d)"
+if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
 #trap 'rm -rf -- "$MYTMPDIR"' EXIT
 trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
 
@@ -42,7 +44,7 @@ printf "\n👣 Running $thisscript with domain=$mydomain $dry_run:\n"
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-server4oc.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
-random="$(mktemp -p /tmp opencart-temp-script-XXXXX)"
+random="$(mktemp -p /tmp $scriptname-XXXXX)"
 #random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
@@ -56,16 +58,16 @@ rm -f $random
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
-random="$(mktemp -p /tmp opencart-temp-script-XXXXX)"
+random="$(mktemp -p /tmp $scriptname-XXXXX)"
 #random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
+unset scripturl scriptname
 echo "running $random with params $mydomain $dry_run  ..."
 . ./$random $mydomain $dry_run
 echo "exited $random !"
 rm -f $random
-##########
 ################################################ 
 printf "\nScript $thisscript finished\n"
 echo '# \nScript $thisscript finished\n' >> $HOME/log.txt

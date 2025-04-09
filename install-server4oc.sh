@@ -30,6 +30,10 @@ else
 fi 
 
 
+if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
+#trap 'rm -rf -- "$MYTMPDIR"' EXIT
+trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+
 thisscript='install-server4oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt
 printf "\n👣 Running $thisscript with domain=$mydomain $dry_run:\n"	
@@ -37,7 +41,8 @@ printf "\n👣 Running $thisscript with domain=$mydomain $dry_run:\n"
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-lemp.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
-random=$scriptname."$(pwgen -1 -s 5)"
+random="$(mktemp -p /tmp $scriptname-XXXXX)"
+# random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
