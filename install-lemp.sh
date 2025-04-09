@@ -39,7 +39,7 @@ startinstall() {
 # Update repository and install latest packages.
 updateupgrade() {
   echo "$(date "+%F - %T") - Update the list of repositories..." | tee -a $HOME/log.txt
-  sudo apt-get -y -qq update
+  sudo apt-get -y update -qq >/dev/null
   echo "$(date "+%F - %T") - Installing latest packages..." | tee -a $HOME/log.txt
   sudo DEBIAN_FRONTEND=noninteractive \
   apt-get \
@@ -48,8 +48,8 @@ updateupgrade() {
   -y -qq --allow-downgrades --allow-remove-essential --allow-change-held-packages upgrade
   #sudo apt-get -y -qq upgrade
   echo "$(date "+%F - %T") - Installing pwgen password generator." | tee -a $HOME/log.txt
-  sudo apt-get install -qq pwgen curl unattended-upgrades
-  sudo apt-get update -y -qq
+  sudo apt-get install pwgen curl unattended-upgrades -qq >/dev/null
+  sudo apt-get update -y -qq >/dev/null
 }
     
 # Install NGINX web server.
@@ -65,10 +65,10 @@ installphp() {
   
   # install php-fpm first to not install occidentally apache2 with php: 
   #  https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
-  sudo apt-get -qq install php-fpm
-  sudo apt-get -qq install php php-mysql \
+  sudo apt-get install php-fpm -qq >/dev/null
+  sudo apt-get install php php-mysql \
   php-common php-cli php-opcache php-readline \
-  php-mbstring php-gd php-zip php-curl php-xml
+  php-mbstring php-gd php-zip php-curl php-xml -qq >/dev/null
   # php-json php-dom 
 
   
@@ -100,7 +100,7 @@ echo '# \nScript tune_php_ini.sh finished\n' >> $HOME/log.txt
 installconfigmariadb() {
   DB_ROOT_NAME='root'
   echo "$(date "+%F - %T") - Installing MariaDB." | tee -a $HOME/log.txt
-  sudo apt-get install -qq mariadb-server
+  sudo apt-get install mariadb-server -qq >/dev/null
 
   echo "$(date "+%F - %T") - Generating root password for MariaDB." | tee -a $HOME/log.txt
   DB_ROOT_PASS="$(pwgen -1 -s 16)"
@@ -174,7 +174,7 @@ installconfigmariadb
 configfirewall
 #finishcleanrestart
 
-sudo apt-get -qq install pwgen
+sudo apt-get install pwgen -qq >/dev/null
 ################################################
 # curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
 echo '# 👣👣👣 Calling setup.sh with params "$1" , "$2" ("$@"):\n' >> $HOME/log.txt
