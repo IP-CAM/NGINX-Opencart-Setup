@@ -1,14 +1,9 @@
 #!/bin/sh
 
 set -e
-
 : ${mydomain:?'You really need to set mydomain env variable! Exiting...'}
-
-#randomname1="$(pwgen -1 -s 5)"  
-#declare MYDOMAIN${randomname1}=reallymydomain.site
-#printf "%s\n" "domain set to ${MYDOMAIN${randomnam1e}"
-
 iexit="Exiting..\n\n"
+
 if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "\n\nSet mydomain="reallymydomain.site" first. $iexit"  
  exit 1
@@ -29,12 +24,11 @@ else
  fi 
 fi 
 
-
-thisscript='install-server4oc.sh'
+thisscript='install-server-and-oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt
 printf "\n👣 Running $thisscript with domain=$mydomain $dry_run:\n"	
 ################################################
-scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-lemp.sh'	
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-server4oc.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
 random=$scriptname."$(pwgen -1 -s 5)"
@@ -46,8 +40,25 @@ echo "running $random with params $mydomain $dry_run  ..."
 . ./$random $mydomain $dry_run
 echo "exited $random !"
 rm -f $random
+##########
+scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'	
+scriptname="${scripturl##*/}"
+#todo: make temporal file with rm on all SIGN on exit:
+random=$scriptname."$(pwgen -1 -s 5)"
+
+curl -s $scripturl  -o $random
+chmod a+x ./$random
+echo "running $random with params $mydomain $dry_run  ..."
+. ./$random $mydomain $dry_run
+echo "exited $random !"
+rm -f $random
+##########
 ################################################ 
 printf "\nScript $thisscript finished\n"
 echo '# \nScript $thisscript finished\n' >> $HOME/log.txt
+
+ 
+
+ 
 
 # cat /var/log/cloud-init-output.log
