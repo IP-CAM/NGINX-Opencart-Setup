@@ -159,9 +159,9 @@ finishcleanrestart
 sudo apt-get -qq install pwgen
 ################################################
 # curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
-echo '# 👣 Running setup.sh:\n' >> $HOME/log.txt
+echo '# 👣 Running setup.sh with params "$1" , "$2" ("$@"):\n' >> $HOME/log.txt
 printf "\n
- 👣 Running setup.sh with domain=$mydomain and option $2:\n"	
+ 👣 Running setup.sh with domain=$1 and option $2:\n"	
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh'	
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
