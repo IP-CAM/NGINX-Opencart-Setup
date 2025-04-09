@@ -23,8 +23,7 @@ else
    find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
    rm -r ./keys
   else 
-   printf "\n\nSome cert keys already exist. Do nothing not to damage. $iexit" 
-   exit 1
+   printf "\n\nSome cert keys already exist. Do nothing with keys not to damage." 
   fi
  fi 
 fi 
