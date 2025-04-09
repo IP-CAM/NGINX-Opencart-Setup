@@ -30,7 +30,7 @@ printf "${INFO}To speed up snapd temporaly stoped${NC}"
 if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
  certbot certonly --webroot -d $mydomain --email info@$mydomain \
-   -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run
+   -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run --quiet
  mkdir -p  /etc/letsencrypt/live/$mydomain
 else
  printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
