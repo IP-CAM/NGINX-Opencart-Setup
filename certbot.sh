@@ -22,7 +22,7 @@ printf "${INFO}Starting your NGINX server to be able issue certificate
  (need to see http://$mydomain/.well-known/acme-challenge/  to validate domain)${NC}"
 sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
-sudo snap install --classic certbot
+sudo snap install  --color=always --classic certbot 
 printf "${INFO}Certbot installed over snap${NC}"
 sudo systemctl restart snapd
 printf "${INFO}To speed up snapd temporaly stoped${NC}"
@@ -48,7 +48,8 @@ sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-av
 
 printf "${INFO}Reloading NGINX server${NC}"
 
-sudo nginx -t && sudo systemctl reload nginx
+sudo nginx -t 
+sudo systemctl reload nginx
 
 printf "${INFO}Configuring Certbot to reload NGINX when it successfully renews certificates${NC}"
 echo -e '#!/bin/bash\nnginx -t && systemctl reload nginx' | sudo tee /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
