@@ -7,12 +7,9 @@ ls -l `which sh`
 echo "\nshell? $SHELL\n" 
 : ${mydomain:=$1}
 
-printf '%s\n' "👣👣👣👣👣👣 Starting in install-lemp.sh with params $*"
-printf "👣👣👣👣👣👣 Starting in install-lemp with domain '$mydomain' and option='$2' ...\n"
 
-
-
-printf "\n👣👣👣 We are now in install-lemp.sh with domain=$1 and option $2:\n"	
+printf "👣👣👣👣👣👣 We are now in install-lemp.sh with domain '$mydomain' and option='$2' ...\n"
+printf '%s\n' "👣👣👣👣👣👣 Starting to execute install-lemp.sh with params $*"
 
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
     # /dev/tty is available and usable
