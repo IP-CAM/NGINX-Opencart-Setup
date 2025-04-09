@@ -40,7 +40,7 @@ startinstall() {
 updateupgrade() {
   echo "$(date "+%F - %T") - Update the list of repositories..." | tee -a $HOME/log.txt
   sudo apt-get -y update -qq >/dev/null
-  echo "$(date "+%F - %T") - Installing latest packages. It takes about 3 mins..." | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - Installing latest packages. It takes about 2 mins..." | tee -a $HOME/log.txt
   sudo DEBIAN_FRONTEND=noninteractive \
   apt-get \
   -o Dpkg::Options::=--force-confold \

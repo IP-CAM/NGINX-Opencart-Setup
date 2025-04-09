@@ -58,10 +58,11 @@ random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 curl -s $scripturl  -o $random
 chmod a+x $random
 unset scripturl scriptname
-echo "running $random with params $mydomain $dry_run  ..."
+echo "running $random with params $mydomain $dry_run $sourceurl $sourceroot ..."
 . $random $mydomain $dry_run
 echo "exited $random !"
 rm -f $random
+unset random 
 ##########
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'	
 scriptname="${scripturl##*/}"
@@ -76,6 +77,7 @@ echo "running $random with params $mydomain $dry_run  ..."
 . $random $mydomain $dry_run
 echo "exited $random !"
 rm -f $random
+unset random 
 ################################################ 
 printf "\nScript $thisscript finished\n"
 echo '# \nScript $thisscript finished\n' >> $HOME/log.txt

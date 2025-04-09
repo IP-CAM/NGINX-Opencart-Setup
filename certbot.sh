@@ -25,7 +25,7 @@ sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 sudo snap install  --color=always --classic certbot 
 printf "${INFO}Certbot installed over snap${NC}"
 sudo systemctl restart snapd
-printf "${INFO}To speed up snapd temporaly stoped${NC}"
+printf "${INFO}To speed up snapd is restarted${NC}"
 # ‐‐dry‐run
 if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
