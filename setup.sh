@@ -2,7 +2,7 @@
 
 set -e
 
-mydomain=$1  # e.g.reallymydomain.site
+declare mydomain=$1  # e.g.reallymydomain.site
 printf "👣👣👣👣👣👣 Starting in setup.sh with params $@ ...\n" 
 printf "👣👣👣👣👣👣 Starting in setup.sh with domain $mydomain and option=$2 ...\n" 
 

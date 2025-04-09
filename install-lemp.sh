@@ -2,9 +2,8 @@
 
 ls -l `which sh`
 
-mydomain=$1
-printf "\n
- 👣👣👣 We are now in install-lemp.sh with domain=$1 and option $2:\n"	
+declare mydomain=$1
+printf "\n👣👣👣 We are now in install-lemp.sh with domain=$1 and option $2:\n"	
 
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
     # /dev/tty is available and usable
