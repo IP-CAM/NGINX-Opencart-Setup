@@ -18,7 +18,7 @@ else
   if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
    curl -Lo keys.zip $keyszipurl
    mkdir -p  /etc/letsencrypt/live/$mydomain
-   sudo apt-get install unzip --qq >/dev/null
+   sudo apt-get install unzip -qq >/dev/null
    unzip keys.zip  -d ./keys
    find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
    rm -r ./keys
