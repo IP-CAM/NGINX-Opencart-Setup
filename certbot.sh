@@ -23,6 +23,9 @@ printf "${INFO}Starting your NGINX server to be able issue certificate
 sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
 sudo snap install --classic certbot
+printf "${INFO}Certbot installed over snap${NC}"
+sudo systemctl stop snapd
+printf "${INFO}To speed up snapd temporaly stoped${NC}"
 # ‐‐dry‐run
 if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
