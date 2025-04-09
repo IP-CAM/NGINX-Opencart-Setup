@@ -3,8 +3,8 @@
 set -e
 iexit="Exiting..\n\n"
 : ${mydomain:?'You need to set mydomain env variable! Exiting...$iexit'}
-: ${sourceurl:?'You need to set sourceurl env variable! Exiting...'}
-: ${sourceroot:?'You need to set sourceroot env variable! Exiting...'}
+: ${sourceurl:?'You need to set sourceurl env variable! Exiting...$iexit'}
+: ${sourceroot:?'You need to set sourceroot env variable! Exiting...$iexit'}
 
 : "${SIG_NONE=0}"
 : "${SIG_HUP=1}"
@@ -32,9 +32,17 @@ else
  fi 
 fi 
 
-if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
-#trap 'rm -rf -- "$MYTMPDIR"' EXIT
-trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+
+
+if  [ -z ${MYTMPDIR+x} ]; then 
+ MYTMPDIR="$(mktemp -d)"; 
+ if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+  trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+ else
+  trap 'rm -rf -- "$MYTMPDIR"' EXIT
+ fi
+fi
+ 
 
 thisscript='install-server-and-oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt

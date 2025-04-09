@@ -29,9 +29,14 @@ else
 fi 
 
 
-if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
-#trap 'rm -rf -- "$MYTMPDIR"' EXIT
-trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+if  [ -z ${MYTMPDIR+x} ]; then 
+ MYTMPDIR="$(mktemp -d)"; 
+ if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+  trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+ else
+  trap 'rm -rf -- "$MYTMPDIR"' EXIT
+ fi
+fi
 
 thisscript='install-server4oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt
