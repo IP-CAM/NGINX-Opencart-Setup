@@ -26,11 +26,13 @@ sudo snap install --classic certbot
 # ‐‐dry‐run
 if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
- certbot certonly --webroot -d $mydomain --email info@$mydomain -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run >/dev/null
+ certbot certonly --webroot -d $mydomain --email info@$mydomain \
+   -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run >/dev/null
  mkdir -p  /etc/letsencrypt/live/$mydomain
 else
  printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
- certbot certonly --webroot -d $mydomain --email info@$mydomain -w /var/www/_letsencrypt -n --agree-tos --force-renewal  >/dev/null
+ certbot certonly --webroot -d $mydomain --email info@$mydomain \
+   -w /var/www/_letsencrypt -n --agree-tos --force-renewal  >/dev/null
 # --pre-hook "service nginx stop" --post-hook "service nginx start"
 fi
  
