@@ -2,8 +2,14 @@
 
 set -e
  
+ls -l `which sh`
+# mydomain=$1    # e.g.reallymydomain.site
+: ${mydomain:=$1}
+: ${sourceurl:=$2}
+: ${sourceroot:=$2}
 
-mydomain=$1    # e.g.reallymydomain.site
+
+
 if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
  printf "${ERR}You need to set YOUR own domain as first argument. Exiting..${NC}" && exit 1 
 fi

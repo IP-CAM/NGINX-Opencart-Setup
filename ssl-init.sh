@@ -2,7 +2,11 @@
  
 set -e 
    
-mydomain=$1  # e.g.reallymydomain.site
+#mydomain=$1  # e.g.reallymydomain.site
+ls -l `which sh`
+
+: ${mydomain:=$1}
+
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
