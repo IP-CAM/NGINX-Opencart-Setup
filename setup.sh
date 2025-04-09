@@ -66,7 +66,7 @@ sudo apt-get install unzip
 echo "mydomain is set to $mydomain"
 unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' \
 | sed 's/^[ ]*//;s/[ ]*$//' \
-| xargs -d$'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
+| xargs -d'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
 
 (cd ./nginx-opencart-setup-main && tar c .) | (cd . && tar xf -)
 
