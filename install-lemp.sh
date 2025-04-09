@@ -45,7 +45,9 @@ updateupgrade() {
   apt-get \
   -o Dpkg::Options::=--force-confold \
   -o Dpkg::Options::=--force-confdef \
-  -y -qq --allow-downgrades --allow-remove-essential --allow-change-held-packages upgrade
+  --allow-downgrades \
+  --allow-remove-essential \
+  --allow-change-held-packages upgrade -y -qq >/dev/null
   #sudo apt-get -y -qq upgrade
   echo "$(date "+%F - %T") - Installing pwgen password generator." | tee -a $HOME/log.txt
   sudo apt-get install pwgen curl unattended-upgrades -qq >/dev/null
