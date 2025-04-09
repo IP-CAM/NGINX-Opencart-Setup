@@ -11,7 +11,7 @@ echo "\nshell? $SHELL\n"
 
 printf "👣👣👣👣👣👣 We are now in install-lemp.sh with domain '$mydomain' and option='$dry_run' ...\n"
 printf '%s\n' "👣👣👣👣👣👣 Starting to execute install-lemp.sh with params $*"
-
+  
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
     # /dev/tty is available and usable
  OK=$(tput setaf 2)"\n 👌: " 	# green

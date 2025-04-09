@@ -15,6 +15,6 @@ set +e
 # Propagate all my arguments to runner script:
 source ./runner.sh "$@"
 set -e
-
+ 
 cd ..
 rm -r $randomtmp

@@ -1,7 +1,7 @@
 #!/bin/sh
-
+ 
 set -e
-
+ 
   
 # ionCube loader based on https://wetopi.com/install-ioncube-loader/  :
 iontar=ioncube_loaders_lin_x86-64.tar.gz

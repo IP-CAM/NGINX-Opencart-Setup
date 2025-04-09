@@ -1,7 +1,7 @@
 #!bin/sh
  
 set -e 
-
+ 
 ls -l `which sh`
 # mydomain=$1    # e.g.reallymydomain.site
 : ${mydomain:=$1}

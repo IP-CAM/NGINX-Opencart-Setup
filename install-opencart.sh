@@ -70,7 +70,7 @@ chmod 0777 $webroot/admin/config.php
 chmod 0777 /var/www/$mydomain
 #chmod -R g+w /var/www/$mydomain
 chown -R www-data:www-data  /var/www/$mydomain
-
+ 
 # mkdir -p /var/www/$mydomain/storage && chmod 0777 /var/www/$mydomain/storage
 #mkdir -p /var/www/$mydomain/storage/logs && chmod 0777 /var/www/$mydomain/storage/logs
 #mkdir -p /var/www/$mydomain/storage/cache && chmod 0777 /var/www/$mydomain/storage/cache

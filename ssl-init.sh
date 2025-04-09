@@ -1,7 +1,7 @@
 #!/bin/bash
  
 set -e 
-   
+  
 #mydomain=$1  # e.g.reallymydomain.site
 ls -l `which sh`
 

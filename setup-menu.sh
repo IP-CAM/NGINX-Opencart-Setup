@@ -126,7 +126,7 @@ dialog                         --begin 2 2 --yesno "" 0 0 \
 					--output-separator '-------string2-----' \
     --and-widget               --begin 6 6  "" 0 0
 }
-
+ 
  
 # Note that dialog is not universally available on all Linux systems(thought on Ubuntu is available)
 # Script might not be compatible across different systems/releases/distributions. 

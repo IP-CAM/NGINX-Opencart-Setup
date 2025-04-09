@@ -90,5 +90,4 @@ rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
 rm -r ./nginx-opencart-setup-main
 rm nginx-opencart-setup.zip
  
-
 printf "${OK} All Setup scripts ended without errors${NC}"

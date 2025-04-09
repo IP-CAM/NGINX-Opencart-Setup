@@ -10,7 +10,6 @@ ls -l `which sh`
 # accordingly to 
 #  https://stackoverflow.com/questions/67252779/check-if-nginx-config-test-is-sucessfull-as-condition-for-bash-if 
 
-
 if out=$(sudo nginx -t 2>&1); then
     printf "${OK} Configuration was successful${NC}" | sudo systemctl reload nginx
 else
