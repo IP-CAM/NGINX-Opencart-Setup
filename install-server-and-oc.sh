@@ -18,7 +18,7 @@ if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then
  exit 1
 else   
  if [ ! -z ${dry_run+x} ]; then 
-  if [ ! -z ${keyszipurl+x} ]; then printf "\n\nUrl for keys zip need by dry-run. $iexit";exit 1; fi
+  if [ -z ${keyszipurl+x} ]; then printf "\n\nUrl for keys zip need by dry-run. $iexit";exit 1; fi
   if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
    curl -Lo keys.zip $keyszipurl
    mkdir -p  /etc/letsencrypt/live/$mydomain
