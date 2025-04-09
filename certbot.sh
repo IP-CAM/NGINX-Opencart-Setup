@@ -15,7 +15,7 @@ printf "${INFO}Commenting out SSL related directives in the configuration
 printf "${WARN}This may cause NGINX to emit several warnings below, which are safe to ignore.${NC}"
 printf "${INFO}The directive 'ssl off;' will be removed once Certbot is configured.${NC}"
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/$mydomain.conf
-# cat /etc/nginx/sites-available/$mydomain.com.conf
+# cat /etc/nginx/sites-available/$mydomain.conf
 
 
 printf "${INFO}Starting your NGINX server to be able issue certificate
@@ -37,7 +37,7 @@ fi
 printf "${INFO}Uncommenting SSL related directives in the configuration back${NC}"
 
 #sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/example.com.conf
-sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/$mydomain.com.conf
+sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/$mydomain.conf
 
 
 
