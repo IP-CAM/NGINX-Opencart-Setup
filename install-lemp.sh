@@ -67,9 +67,8 @@ installphp() {
   
 ################################################
 #  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
-echo '# 👣👣👣👣👣👣 Running tune_php_ini.sh:\n' >> $HOME/log.txt
-printf "\n
- 👣👣👣👣👣👣 Running tune_php_ini.sh:\n"	
+echo '#👣👣👣👣👣👣 Running tune_php_ini.sh:\n' >> $HOME/log.txt
+printf "\n👣👣👣👣👣👣 Running tune_php_ini.sh:\n"	
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh'	
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
@@ -170,18 +169,18 @@ finishcleanrestart
 sudo apt-get -qq install pwgen
 ################################################
 # curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh | bash -s -- $mydomain  $2
-echo '# 👣 Running setup.sh with params "$1" , "$2" ("$@"):\n' >> $HOME/log.txt
+echo '# 👣👣👣 Calling setup.sh with params "$1" , "$2" ("$@"):\n' >> $HOME/log.txt
 printf "\n
- 👣 Running setup.sh with domain=$1 and option $2:\n"	
+ 👣👣👣 Calling setup.sh with domain=$1 and option $2:\n"	
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/setup.sh'	
 scriptname="${scripturl##*/}"
 random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
 chmod a+x ./$random
-echo "running $random ..."
+echo "👣👣👣👣👣👣 running $random ..."
 . ./$random "$mydomain" "$2"
-echo "exited $random !"
+echo "👣👣👣👣👣👣 just exited $random !"
 rm -f $random
 printf "\nScript setup.sh finished\n"
 echo '# \nScript setup.sh finished\n' >> $HOME/log.txt

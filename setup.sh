@@ -3,8 +3,8 @@
 set -e
 
 mydomain=$1  # e.g.reallymydomain.site
-printf "👣👣👣👣👣👣 Starting in setup.sh with params $@ ..." 
-printf "👣👣👣👣👣👣 Starting in setup.sh with domain $mydomain and option=$2 ..." 
+printf "👣👣👣👣👣👣 Starting in setup.sh with params $@ ...\n" 
+printf "👣👣👣👣👣👣 Starting in setup.sh with domain $mydomain and option=$2 ...\n" 
 
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
     # /dev/tty is available and usable
