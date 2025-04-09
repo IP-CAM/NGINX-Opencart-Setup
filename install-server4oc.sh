@@ -2,7 +2,9 @@
 
 set -e
 
-: ${mydomain:?'You really need to set mydomain env variable! Exiting...'}
+iexit="Exiting.."
+: ${mydomain:?"You really need to set mydomain. $iexit"}
+
  
 #randomname1="$(pwgen -1 -s 5)"  
 #declare MYDOMAIN${randomname1}=reallymydomain.site

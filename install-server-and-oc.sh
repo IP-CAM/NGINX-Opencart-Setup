@@ -1,10 +1,11 @@
 #!/bin/sh
 
 set -e
-iexit="Exiting..\n\n"
-: ${mydomain:?'You need to set mydomain env variable! Exiting...$iexit'}
-: ${sourceurl:?'You need to set sourceurl env variable! Exiting...$iexit'}
-: ${sourceroot:?'You need to set sourceroot env variable! Exiting...$iexit'}
+
+iexit="Exiting.."
+: ${mydomain:?"You really need to set mydomain. $iexit"}
+: ${sourceurl:?"You need to set sourceurl env variable! $iexit"}
+: ${sourceroot:?"You need to set sourceroot env variable! $iexit"}
 
 : "${SIG_NONE=0}"
 : "${SIG_HUP=1}"
