@@ -33,8 +33,8 @@ else
 fi 
 
 if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
-trap 'rm -rf -- "$MYTMPDIR"' EXIT
-#trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+#trap 'rm -rf -- "$MYTMPDIR"' EXIT
+trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
 
 thisscript='install-server-and-oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt
