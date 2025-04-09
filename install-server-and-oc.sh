@@ -34,8 +34,8 @@ else
 fi 
 
 if  [ -z ${MYTMPDIR+x} ]; then MYTMPDIR="$(mktemp -d)"; fi
-#trap 'rm -rf -- "$MYTMPDIR"' EXIT
-trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+trap 'rm -rf -- "$MYTMPDIR"' EXIT
+#trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
 
 thisscript='install-server-and-oc.sh'
 echo '# 👣 Running $thisscript with domain=$mydomain $dry_run:\n' >> $HOME/log.txt
@@ -44,7 +44,7 @@ printf "\n👣 Running $thisscript with domain=$mydomain $dry_run:\n"
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-server4oc.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
-random="$(mktemp -p /tmp $scriptname-XXXXX)"
+random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 #random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
@@ -58,7 +58,7 @@ rm -f $random
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'	
 scriptname="${scripturl##*/}"
 #todo: make temporal file with rm on all SIGN on exit:
-random="$(mktemp -p /tmp $scriptname-XXXXX)"
+random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 #random=$scriptname."$(pwgen -1 -s 5)"
 
 curl -s $scripturl  -o $random
