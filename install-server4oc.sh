@@ -2,27 +2,28 @@
 
 set -e
 
-: ${mydomain:?You really need to set mydomain env variable! Exiting...}
+: ${mydomain:?'You really need to set mydomain env variable! Exiting...'}
 
 #randomname1="$(pwgen -1 -s 5)"  
 #declare MYDOMAIN${randomname1}=reallymydomain.site
 #printf "%s\n" "domain set to ${MYDOMAIN${randomnam1e}"
 
-
+iexit="Exiting..\n\n"
 if  [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then 
- printf "\n\nSet mydomain="reallymydomain.site" first. Do nothing..\n\n"  
+ printf "\n\nSet mydomain="reallymydomain.site" first. $iexit"  
  exit 1
 else   
- if [ ! -z ${dry_run+x} ]; then
+ if [ ! -z ${dry_run+x} ]; then 
+  if [ ! -z ${keyszipurl+x} ]; then printf "\n\nUrl for keys zip need by dry-run. $iexit";exit 1; fi
   if [ ! -f /etc/letsencrypt/live/$mydomain/fullchain.pem ]; then 
-   curl -Lo keys.zip $gistkeyszip
+   curl -Lo keys.zip $keyszipurl
    mkdir -p  /etc/letsencrypt/live/$mydomain
    sudo apt-get install unzip --qq >/dev/null
    unzip keys.zip  -d ./keys
    find  ./keys -name "*.pem" -type f -exec cp {} /etc/letsencrypt/live/$mydomain/  \;
    rm -r ./keys
   else 
-   printf "\n\nSome cert keys already exist. Do nothing not to damage\n\n" 
+   printf "\n\nSome cert keys already exist. Do nothing not to damage. $iexit" 
    exit 1
   fi
  fi 
