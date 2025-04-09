@@ -6,9 +6,10 @@ ls -l `which sh`
 
 echo "\nshell? $SHELL\n" 
 : ${mydomain:=$1}
+: ${dry_run:=$2}
 
 
-printf "👣👣👣👣👣👣 We are now in install-lemp.sh with domain '$mydomain' and option='$2' ...\n"
+printf "👣👣👣👣👣👣 We are now in install-lemp.sh with domain '$mydomain' and option='$dry_run' ...\n"
 printf '%s\n' "👣👣👣👣👣👣 Starting to execute install-lemp.sh with params $*"
 
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
@@ -186,7 +187,7 @@ random=$scriptname."$(pwgen -1 -s 5)"
 curl -s $scripturl  -o $random
 chmod a+x ./$random
 echo "👣👣👣👣👣👣 running $random ..."
-. ./$random "$mydomain" "$2"
+. ./$random "$mydomain" "$dry_run"
 echo "👣👣👣👣👣👣 just exited $random !"
 rm -f $random
 printf "\nScript setup.sh finished\n"

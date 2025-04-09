@@ -2,7 +2,9 @@
 
 set -e
    
-mydomain=$1  # e.g.reallymydomain.site
+#mydomain=$1  # e.g.reallymydomain.site
+: ${mydomain:=$1}
+: ${dry_run:=$2}
 
 
 # accordingly to https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
@@ -22,7 +24,7 @@ sudo nginx -t && sudo systemctl stop nginx && sudo systemctl start nginx
 
 sudo snap install --classic certbot
 # ‐‐dry‐run
-if  [ "$2" = "--dry-run" ] ; then 
+if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
  certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run
  mkdir -p  /etc/letsencrypt/live/$mydomain

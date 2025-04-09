@@ -6,6 +6,7 @@ ls -l `which sh`
 
 echo "\nshell? $SHELL\n" 
 : ${mydomain:=$1}
+: ${dry_run:=$2}
 
 printf '%s\n' "👣👣👣👣👣👣 Starting in setup.sh with params $*"
 printf "👣👣👣👣👣👣 Starting in setup.sh with domain '$mydomain' and option='$2' ...\n"
@@ -36,7 +37,7 @@ else
   printf "${OK}Domain is set to '$mydomain'${NC}"
 fi
  
- if  [ $# -gt 1 ] && [ "$2" !=  "--dry-run" ] ; then 
+ if  [ $# -gt 1 ] && [ "$dry_run" !=  "--dry-run" ] ; then 
   printf "${ERR}Only --dry-run is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
  fi
  
@@ -65,7 +66,7 @@ sudo apt-get install unzip
 echo "mydomain is set to $mydomain"
 unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //' \
 | sed 's/^[ ]*//;s/[ ]*$//' \
-| xargs -d '\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
+| xargs -d$'\n' sh -c 'for arg do chmod 0644 "./$arg"; sed -i "s/example.com/'$mydomain'/g" "./$arg"; done' _
 
 (cd ./nginx-opencart-setup-main && tar c .) | (cd . && tar xf -)
 
