@@ -60,7 +60,7 @@ curl -s -o nginx-opencart-setup.zip -fSL \
  "https://github.com/radiocab/nginx-opencart-setup/archive/refs/heads/main.zip"  
 # unzip nginx-opencart-setup.zip | xargs -I {} -0 chmod 0644 {}
 # sed "s|\$ROOT|${HOME}|g" abc.sh
-sudo apt-get install unzip
+sudo apt-get install unzip -qq >/dev/null
 
 # unzip -o nginx-opencart-setup.zip | grep 'inflating:' | sed 's/^.*: //'
 echo "mydomain is set to $mydomain"
