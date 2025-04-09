@@ -55,7 +55,7 @@ updateupgrade() {
 # Install NGINX web server.
 installnginx() {
   echo "$(date "+%F - %T") - Installing NGINX." | tee -a $HOME/log.txt
-  sudo apt-get -qq install nginx
+  sudo apt-get install nginx -qq >/dev/null
 }
 
 # Install PHP modules.
@@ -65,10 +65,10 @@ installphp() {
   
   # install php-fpm first to not install occidentally apache2 with php: 
   #  https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
-  sudo apt-get install php-fpm -qq >/dev/null
+  sudo apt-get install php-fpm -qq >/dev/null 2>/dev/null
   sudo apt-get install php php-mysql \
   php-common php-cli php-opcache php-readline \
-  php-mbstring php-gd php-zip php-curl php-xml -qq >/dev/null
+  php-mbstring php-gd php-zip php-curl php-xml -qq 2>/dev/null >/dev/null
   # php-json php-dom 
 
   
