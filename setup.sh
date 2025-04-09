@@ -75,9 +75,12 @@ ln -sf ../sites-available/$mydomain.conf ./sites-enabled/$mydomain.conf
 #  RENAMED mv ./conf.d/opencart.example.com.conf ./conf.d/opencart.$mydomain.conf
 
 printf "${INFO}Running all steps${NC}" 
-chmod a+x ./ssl-init.sh && source ./ssl-init.sh
-chmod a+x ./certbot.sh && source ./certbot.sh
-chmod a+x ./check-conf.sh && source ./check-conf.sh
+#chmod a+x ./ssl-init.sh && source ./ssl-init.sh
+#chmod a+x ./certbot.sh && source ./certbot.sh
+#chmod a+x ./check-conf.sh && source ./check-conf.sh
+chmod a+x ./ssl-init.sh && . ./ssl-init.sh
+chmod a+x ./certbot.sh && . ./certbot.sh
+chmod a+x ./check-conf.sh && . ./check-conf.sh
 
 printf "${INFO}Cleaning after all${NC}" 
 rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh

@@ -174,7 +174,7 @@ installnginx
 installphp
 installconfigmariadb
 configfirewall
-finishcleanrestart
+#finishcleanrestart
 
 sudo apt-get -qq install pwgen
 ################################################
@@ -196,7 +196,7 @@ printf "\nScript setup.sh finished\n"
 echo '# \nScript setup.sh finished\n' >> $HOME/log.txt
 ################################################
 
-
+finishcleanrestart
 
 echo -e '\n' >> $HOME/log.txt
 echo '# ============ MARIADB ROOT PASSWORD ============' >> $HOME/log.txt
