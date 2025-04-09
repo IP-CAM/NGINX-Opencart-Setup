@@ -58,7 +58,7 @@ random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 curl -s $scripturl  -o $random
 chmod a+x $random
 unset scripturl scriptname
-echo "running $random with params $mydomain $dry_run $sourceurl $sourceroot ..."
+echo "running $random with params $mydomain $dry_run ..."
 . $random $mydomain $dry_run
 echo "exited $random !"
 rm -f $random
@@ -73,8 +73,8 @@ random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 curl -s $scripturl  -o $random
 chmod a+x $random
 unset scripturl scriptname
-echo "running $random with params $mydomain $dry_run  ..."
-. $random $mydomain $dry_run
+echo "running $random with params $mydomain $sourceurl $sourceroot  ..."
+. $random $mydomain $sourceurl $sourceroot 
 echo "exited $random !"
 rm -f $random
 unset random 
