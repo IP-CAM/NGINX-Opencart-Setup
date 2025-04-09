@@ -2,7 +2,7 @@
  
 set -e 
 
-source ./includes.sh # also sets colors and print header message here by include
+. ./includes.sh # also sets colors and print header message here by include
 
 scriptname='reinstall-opencart.sh'
 

@@ -6,7 +6,7 @@ ls -l `which sh`
 # mydomain=$1    # e.g.reallymydomain.site
 : ${mydomain:=$1}
 : ${sourceurl:=$2}
-: ${sourceroot:=$2}
+: ${sourceroot:=$3}
 
 
 

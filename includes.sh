@@ -2,6 +2,12 @@
  
 set -e 
 
+ls -l `which sh`
+# mydomain=$1    # e.g.reallymydomain.site
+: ${mydomain:=$1}
+: ${sourceurl:=$2}
+: ${sourceroot:=$3}
+
 help_actions() {
       printf "
 	  Available arguments:
