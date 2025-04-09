@@ -2,9 +2,13 @@
 
 set -e
 
-declare mydomain=$1  # e.g.reallymydomain.site
-printf "👣👣👣👣👣👣 Starting in setup.sh with params $@ ...\n" 
-printf "👣👣👣👣👣👣 Starting in setup.sh with domain $mydomain and option=$2 ...\n" 
+ls -l `which sh`
+
+echo "\nshell? $SHELL\n" 
+: ${mydomain:=$1}
+
+printf '%s\n' "👣👣👣👣👣👣 Starting in setup.sh with params $*"
+printf "👣👣👣👣👣👣 Starting in setup.sh with domain '$mydomain' and option='$2' ...\n"
 
 if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
     # /dev/tty is available and usable
