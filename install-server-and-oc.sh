@@ -66,6 +66,8 @@ unset random
 ##########
 scripturl='https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/install-opencart.sh'	
 scriptname="${scripturl##*/}"
+echo "scripturl=$scripturl"
+echo "scriptname=$scriptname"
 #todo: make temporal file with rm on all SIGN on exit:
 random="$(mktemp -p $MYTMPDIR $scriptname-XXXXX)"
 #random="./"$scriptname."$(pwgen -1 -s 5)"
