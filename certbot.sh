@@ -26,17 +26,20 @@ sudo snap install --classic certbot
 # ‐‐dry‐run
 if  [ "$dry_run" = "--dry-run" ] ; then 
  printf "${INFO}Dry-run for certbot SSL certificates from Let's Encrypt using Certbot${NC}"
- certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run
+ certbot certonly --webroot -d example.com --email info@$mydomain -w /var/www/_letsencrypt -n --agree-tos --force-renewal --dry-run
  mkdir -p  /etc/letsencrypt/live/$mydomain
 else
  printf "${INFO}Obtaining SSL certificates from Let's Encrypt using Certbot${NC}"
- certbot certonly --webroot -d example.com --email info@example.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
+ certbot certonly --webroot -d example.com --email info@$mydomain -w /var/www/_letsencrypt -n --agree-tos --force-renewal 
 # --pre-hook "service nginx stop" --post-hook "service nginx start"
 fi
  
 printf "${INFO}Uncommenting SSL related directives in the configuration back${NC}"
 
-sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/example.com.conf
+#sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/example.com.conf
+sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/$mydomain.com.conf
+
+
 
 printf "${INFO}Reloading NGINX server${NC}"
 
