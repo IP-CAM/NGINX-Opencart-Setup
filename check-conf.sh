@@ -2,7 +2,10 @@
 
 set -e
   
-mydomain=$1  # e.g.reallymydomain.site
+#mydomain=$1  # e.g.reallymydomain.site
+ls -l `which sh`
+
+: ${mydomain:=$1}
 
 # accordingly to 
 #  https://stackoverflow.com/questions/67252779/check-if-nginx-config-test-is-sucessfull-as-condition-for-bash-if 
