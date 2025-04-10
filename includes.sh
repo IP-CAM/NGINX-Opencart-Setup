@@ -3,10 +3,35 @@
 set -e 
  
 ls -l `which sh`
+echo "\nshell? : $SHELL\n" 
+
 # mydomain=$1    # e.g.reallymydomain.site
 : ${mydomain:=$1}
 : ${sourceurl:=$2}
 : ${sourceroot:=$3}
+
+: ${MYREPOURL:="https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/"}
+: ${currentscript:"includes.sh"}
+echo '# 👣 Running $currentscript in cloud-init:\n' >> $HOME/log.txt
+printf "\n 👣 Running $currentscript in cloud-init:\n"
+
+# MYTMPDIR="$(mktemp -d)"
+: ${MYTMPDIR:="$(mktemp -d)"}
+printf "\n Using temporal directory $MYTMPDIR\n"
+
+if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+: "${SIG_NONE=0}"
+: "${SIG_HUP=1}"
+: "${SIG_INT=2}"
+: "${SIG_QUIT=3}"
+: "${SIG_KILL=9}"
+: "${SIG_TERM=15}"
+ trap 'rm -rf -- "$MYTMPDIR"' 0 $SIG_NONE $SIG_HUP $SIG_INT $SIG_QUIT $SIG_TERM
+else
+ trap 'rm -rf -- "$MYTMPDIR"' EXIT
+fi
+
+
 
 help_actions() {
       printf "
@@ -33,6 +58,32 @@ help_actions() {
 		--cli or -c  : runs OC install automatically with cli_install, any not null value allowed e.g. yes  
         --help or -h : shows this help		  
 	  "  
+}
+
+downloadnrun() {
+ unset scripturl scriptname
+ scripturl="$MYREPOURL""$1"	
+ scriptname="${scripturl##*/}"
+ printf '..%s\n' "scripturl=$scripturl scriptname=$scriptname"
+
+ random="$(mktemp -p "$MYTMPDIR" "$scriptname"-XXXXX)"
+ printf '..%s\n' "random=$random"
+ #random=$scriptname."$(pwgen -1 -s 5)"
+
+ curl -s $scripturl  -o $random
+ chmod a+x $random
+ echo "👣👣👣 running $random ..."
+
+ first_arg="$1"
+ shift
+ echo First argument: "$first_arg"
+ echo 👣 with arguments: "$@"
+# for bash just use # "${@:2}" instead of above
+ . $random  "$@"
+# echo "$mydomain $dry_run" | . $random
+ echo "👣👣👣 just exited from $random !"
+ rm -f $random
+################################################ 
 }
 
 read_args_by_name() {
