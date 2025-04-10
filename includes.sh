@@ -3,12 +3,12 @@
 set -e 
  
 ls -l $(which sh)
-echo "\nshell? : $SHELL\n" 
+echo "\nWhat shell? : $SHELL\n" 
 
 # mydomain=$1    # e.g.reallymydomain.site
-: ${mydomain:=$1}
-: ${sourceurl:=$2}
-: ${sourceroot:=$3}
+#: ${mydomain:=$1}
+#: ${sourceurl:=$2}
+#: ${sourceroot:=$3}
 
 : ${MYREPOURL:="https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/"}
 : ${currentscript:="includes.sh"}
