@@ -2,7 +2,9 @@
  
 set -e 
 
+ if [ -z ${INCLUDESARELOADED+x} ]; then  
 . ./includes.sh # also sets colors and print header message here by include
+fi
 
 scriptname='reinstall-opencart.sh'
 

@@ -189,7 +189,7 @@ random=$scriptname."$(pwgen -1 -s 5)"
 curl -s $scripturl  -o $random
 chmod a+x ./$random
 echo "👣👣👣👣👣👣 running $random ..."
-. ./$random "$mydomain" "$dry_run"
+. ./$random "$mydomain" $dry_run
 echo "👣👣👣👣👣👣 just exited $random !"
 rm -f $random
 printf "\nScript setup.sh finished\n"
