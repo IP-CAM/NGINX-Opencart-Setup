@@ -6,7 +6,7 @@ ls -l `which sh`
 
 echo "\nshell? $SHELL\n" 
 : ${mydomain:=$1}
-: ${dry_run:=$2}
+######: ${dry_run:=$2}
 
 printf '%s\n' "👣👣👣👣👣👣 Starting in setup.sh with params $*"
 printf "👣👣👣👣👣👣 Starting in setup.sh with domain '$mydomain' and option='$2' ...\n"
@@ -36,11 +36,11 @@ if [ -z ${mydomain+x} ] || [ "$mydomain" = "reallymydomain.site" ] ; then
 else 
   printf "${OK}Domain is set to '$mydomain'${NC}"
 fi
- 
- if  [ $# -gt 1 ] && [ [ ! -z ${dry_run+x} ] && [ "$dry_run" !=  "--dry-run" ] ] ; then 
-  printf "${ERR}Only --dry-run is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
- fi
- 
+
+ ## if  [ $# -gt 1 ] && [ "$dry_run" !=  "--dry-run" ] ; then 
+ ##  printf "${ERR}Only --dry-run is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
+ ## fi
+
 # Further accordingly to
 #  https://www.digitalocean.com/community/tools/nginx?global.security.securityTxt=true&global.logging.errorLogEnabled=true&global.logging.logNotFound=true
 
