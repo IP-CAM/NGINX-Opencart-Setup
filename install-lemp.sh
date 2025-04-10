@@ -86,7 +86,7 @@ random=$scriptname."$(pwgen -1 -s 5)"
 curl -s $scripturl  -o $random
 chmod a+x ./$random
 echo "👣👣👣👣👣👣👣👣👣👣👣👣 running $random ..."
-. ./$random $mydomain $2
+. ./$random $mydomain $dry_run
 echo "👣👣👣👣👣👣👣👣👣👣👣👣 just exited $random "
 rm -f $random
 printf "\nScript tune_php_ini.shh finished\n"
