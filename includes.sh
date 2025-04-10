@@ -5,6 +5,8 @@ set -e
 ls -l $(which sh)
 echo "\nWhat shell? : $SHELL\n" 
 
+INCLUDESARELOADED=1
+
 # mydomain=$1    # e.g.reallymydomain.site
 #: ${mydomain:=$1}
 #: ${sourceurl:=$2}
