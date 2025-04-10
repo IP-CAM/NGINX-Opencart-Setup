@@ -89,7 +89,7 @@ echo "👣👣👣👣👣👣👣👣👣👣👣👣 running $random ..."
 . ./$random $mydomain $dry_run
 echo "👣👣👣👣👣👣👣👣👣👣👣👣 just exited $random "
 rm -f $random
-printf "\nScript tune_php_ini.shh finished\n"
+printf "\nScript tune_php_ini.sh finished\n"
 echo '# \nScript tune_php_ini.sh finished\n' >> $HOME/log.txt
 ################################################
   
