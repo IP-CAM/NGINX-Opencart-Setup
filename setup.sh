@@ -37,7 +37,7 @@ else
   printf "${OK}Domain is set to '$mydomain'${NC}"
 fi
  
- if  [ $# -gt 1 ] && [ "$dry_run" !=  "--dry-run" ] ; then 
+ if  [ $# -gt 1 ] && [ [ ! -z ${dry_run+x} ] && [ "$dry_run" !=  "--dry-run" ] ] ; then 
   printf "${ERR}Only --dry-run is allowed as second argument (not $2). Exiting..${NC}" && exit 1 
  fi
  
