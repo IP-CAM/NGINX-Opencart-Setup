@@ -2,7 +2,7 @@
  
 set -e 
  
-ls -l `which sh`
+ls -l $(which sh)
 echo "\nshell? : $SHELL\n" 
 
 # mydomain=$1    # e.g.reallymydomain.site
@@ -11,7 +11,7 @@ echo "\nshell? : $SHELL\n"
 : ${sourceroot:=$3}
 
 : ${MYREPOURL:="https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/"}
-: ${currentscript:"includes.sh"}
+: ${currentscript:="includes.sh"}
 echo '# 👣 Running $currentscript in cloud-init:\n' >> $HOME/log.txt
 printf "\n 👣 Running $currentscript in cloud-init:\n"
 
