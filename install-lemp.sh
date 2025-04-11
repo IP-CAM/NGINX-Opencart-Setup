@@ -65,7 +65,7 @@ installphp() {
   echo "$(date "+%F - %T") - Installing PHP" | tee -a $HOME/log.txt
    if [ ! -z ${phpvers+x} ] ; then 
      sudo apt update -y 
-	 sudo add-apt-repository ppa:ondrej/php -y
+	 sudo add-apt-repository ppa:ondrej/php  ppa:ondrej/nginx -y
 	 sudo apt update -y
    fi
   # Opencart requirement : Please make sure the PHP extensions listed below are installed:
@@ -76,12 +76,15 @@ installphp() {
   echo "$(date "+%F - %T") - Installing PHP-FPM module" | tee -a $HOME/log.txt
   sudo apt-get install php$phpvers-fpm -qq >/dev/null 2>/dev/null
     
-  echo "$(date "+%F - %T") - Installing PHP and modules" | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - Installing PHP and needed modules" | tee -a $HOME/log.txt
   
   sudo apt-get install php$phpvers php$phpvers-mysql \
   php$phpvers-common php$phpvers-cli php$phpvers-opcache php$phpvers-readline \
-  php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml \
-  php$phpvers-json php$phpvers-dom
+  php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml 
+  # php$phpvers-dom php$phpvers-json
+  # Note, selecting 'php7.4-xml' instead of 'php7.4-dom'
+  # php7.4-json is already the newest version (1:7.4.33-18+ubuntu24.04.1+deb.sury.org+1).
+  # php7.4-json set to manually installed.
   # -qq 2>/dev/null >/dev/null
   # php-json php-dom 
   
