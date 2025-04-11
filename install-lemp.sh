@@ -66,6 +66,7 @@ installphp() {
    if [ ! -z ${phpvers+x} ] ; then 
      sudo apt update -y 
 	 sudo add-apt-repository ppa:ondrej/php  ppa:ondrej/nginx -y
+	 #  or ppa:ondrej/nginx-mainline  ??
 	 sudo apt update -y
    fi
   # Opencart requirement : Please make sure the PHP extensions listed below are installed:
@@ -80,7 +81,8 @@ installphp() {
   
   sudo apt-get install php$phpvers php$phpvers-mysql \
   php$phpvers-common php$phpvers-cli php$phpvers-opcache php$phpvers-readline \
-  php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml 
+  php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml \
+  -y 
   # php$phpvers-dom php$phpvers-json
   # Note, selecting 'php7.4-xml' instead of 'php7.4-dom'
   # php7.4-json is already the newest version (1:7.4.33-18+ubuntu24.04.1+deb.sury.org+1).
