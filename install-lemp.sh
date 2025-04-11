@@ -56,13 +56,14 @@ updateupgrade() {
     
 # Install NGINX web server.
 installnginx() {
-  echo "$(date "+%F - %T") - Installing NGINX." | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - Installing NGINX" | tee -a $HOME/log.txt
   sudo apt-get install nginx -qq >/dev/null
 }
 
 # Install PHP modules.
 installphp() {
-   if [ ! -z ${$phpvers+x} ] ; then 
+  echo "$(date "+%F - %T") - Installing PHP" | tee -a $HOME/log.txt
+   if [ ! -z ${phpvers+x} ] ; then 
      sudo apt update -y 
 	 sudo add-apt-repository ppa:ondrej/php -y
 	 sudo apt update -y
