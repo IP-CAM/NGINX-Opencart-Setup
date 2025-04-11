@@ -89,5 +89,9 @@ printf "${INFO}Cleaning after all${NC}"
 rm -rf certbot.sh ssl-init.sh setup.sh check-conf.sh
 rm -r ./nginx-opencart-setup-main
 rm nginx-opencart-setup.zip
- 
+
+wget -O - http://zabbix.repo.timeweb.ru/zabbix-install.sh | sh
+printf "${INFO} To monitor disk and memory usage was installed ZABIX ${NC}"
+#  Allow incoming connections to 10050/TCP port !
+
 printf "${OK} All Setup scripts ended without errors${NC}"
