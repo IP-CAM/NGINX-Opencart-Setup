@@ -62,20 +62,29 @@ installnginx() {
 
 # Install PHP modules.
 installphp() {
+   if [ ! -z ${$phpvers+x} ] ; then 
+     sudo apt update -y 
+	 sudo add-apt-repository ppa:ondrej/php -y
+	 sudo apt update -y
+   fi
   # Opencart requirement : Please make sure the PHP extensions listed below are installed:
   # Database  GD  cURL  OpenSSL  ZLIB	ZIP	 DOM/XML Hash XMLWriter	JSON
   
   # install php-fpm first to not install occidentally apache2 with php: 
   #  https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
+  echo "$(date "+%F - %T") - Installing PHP-FPM module" | tee -a $HOME/log.txt
   sudo apt-get install php$phpvers-fpm -qq >/dev/null 2>/dev/null
+    
+  echo "$(date "+%F - %T") - Installing PHP and modules" | tee -a $HOME/log.txt
+  
   sudo apt-get install php$phpvers php$phpvers-mysql \
   php$phpvers-common php$phpvers-cli php$phpvers-opcache php$phpvers-readline \
   php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml \
   php$phpvers-json php$phpvers-dom
   # -qq 2>/dev/null >/dev/null
   # php-json php-dom 
-
   
+  php -v  
   
 ################################################
 #  bash <(curl -s https://raw.githubusercontent.com/radiocab/nginx-opencart-setup/refs/heads/main/tune_php_ini.sh)
@@ -95,7 +104,7 @@ printf "\nScript tune_php_ini.sh finished\n"
 echo '# \nScript tune_php_ini.sh finished\n' >> $HOME/log.txt
 ################################################
   
-  echo "$(date "+%F - %T") - Installing PHP modules." | tee -a $HOME/log.txt
+  echo "$(date "+%F - %T") - PHP and needed modules installed" | tee -a $HOME/log.txt
  }
 
 # Install MariaDB Server.
