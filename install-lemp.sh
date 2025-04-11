@@ -67,10 +67,12 @@ installphp() {
   
   # install php-fpm first to not install occidentally apache2 with php: 
   #  https://serverfault.com/questions/1009961/why-does-the-command-apt-install-php-try-to-install-apache
-  sudo apt-get install php-fpm -qq >/dev/null 2>/dev/null
-  sudo apt-get install php php-mysql \
-  php-common php-cli php-opcache php-readline \
-  php-mbstring php-gd php-zip php-curl php-xml -qq 2>/dev/null >/dev/null
+  sudo apt-get install php$phpvers-fpm -qq >/dev/null 2>/dev/null
+  sudo apt-get install php$phpvers php$phpvers-mysql \
+  php$phpvers-common php$phpvers-cli php$phpvers-opcache php$phpvers-readline \
+  php$phpvers-mbstring php$phpvers-gd php$phpvers-zip php$phpvers-curl php$phpvers-xml \
+  php$phpvers-json php$phpvers-dom
+  # -qq 2>/dev/null >/dev/null
   # php-json php-dom 
 
   
