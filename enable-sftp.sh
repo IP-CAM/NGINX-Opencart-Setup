@@ -32,8 +32,7 @@ sudo apt install openssh-server -y
 # grep example '/etc/ssh/sshd_config'
 # Replace all  \n by \\n
  echo "Configuring SSH for SFTPd"
- sshdcfgfile='test2.txt'
- #'/etc/ssh/sshd_config'
+ sshdcfgfile='/etc/ssh/sshd_config'
  tuneconfigfile "$sshdcfgfile"  'Subsystem       sftp    /usr/lib/openssh/sftp-server'
  
  echo "Lets create a specific SFTP group and user for SFTP access only, without SSH access." 
